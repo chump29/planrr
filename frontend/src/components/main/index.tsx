@@ -1,7 +1,5 @@
 import { useEffect } from "react"
 
-const api_url = import.meta.env.VITE_API_URL || ""
-
 export default function Main() {
   // TODO
 
@@ -9,5 +7,9 @@ export default function Main() {
     // TODO
   }, [])
 
-  return <>TODO</>
+  return (
+    <>
+      <div className="text-center mt-10">TODO</div>
+    </>
+  )
 }

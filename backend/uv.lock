@@ -385,6 +385,34 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/f7/e8/bcb143f21668de2c285ce3d73041ba035b2340fb44bdd95ee04b3e313d09/pip-review-1.3.0.tar.gz", hash = "sha256:886fc48503a6ec99851036f30a6be07ce7e4610d1491786affecb7a364eddeda", size = 6644, upload-time = "2022-11-29T16:45:35.122Z" }
 
 [[package]]
+name = "planrr-backend"
+version = "1.0.0"
+source = { editable = "." }
+dependencies = [
+    { name = "fastapi", extra = ["standard-no-fastapi-cloud-cli"] },
+    { name = "peewee" },
+    { name = "pydantic" },
+]
+
+[package.optional-dependencies]
+dev = [
+    { name = "behave" },
+    { name = "pip-review" },
+    { name = "pylint" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "behave", marker = "extra == 'dev'", specifier = ">=1.3.3" },
+    { name = "fastapi", extras = ["standard-no-fastapi-cloud-cli"], specifier = ">=0.127.0" },
+    { name = "peewee", specifier = ">=3.18.3" },
+    { name = "pip-review", marker = "extra == 'dev'", specifier = ">=1.3.0" },
+    { name = "pydantic", specifier = ">=2.12.5" },
+    { name = "pylint", marker = "extra == 'dev'", specifier = ">=4.0.4" },
+]
+provides-extras = ["dev"]
+
+[[package]]
 name = "platformdirs"
 version = "4.5.1"
 source = { registry = "https://pypi.org/simple" }
@@ -571,34 +599,6 @@ sdist = { url = "https://files.pythonhosted.org/packages/97/09/3f9b8d9daaf235195
 wheels = [
     { url = "https://files.pythonhosted.org/packages/7f/7b/15e55fa8a76d0d41bf34d965af78acdaf80a315907adb30de8b63c272694/rich_toolkit-0.17.1-py3-none-any.whl", hash = "sha256:96d24bb921ecd225ffce7c526a9149e74006410c05e6d405bd74ffd54d5631ed", size = 31412, upload-time = "2025-12-17T10:49:21.793Z" },
 ]
-
-[[package]]
-name = "planrr-backend"
-version = "1.2.0"
-source = { editable = "." }
-dependencies = [
-    { name = "fastapi", extra = ["standard-no-fastapi-cloud-cli"] },
-    { name = "peewee" },
-    { name = "pydantic" },
-]
-
-[package.optional-dependencies]
-dev = [
-    { name = "behave" },
-    { name = "pip-review" },
-    { name = "pylint" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "behave", marker = "extra == 'dev'", specifier = ">=1.3.3" },
-    { name = "fastapi", extras = ["standard-no-fastapi-cloud-cli"], specifier = ">=0.127.0" },
-    { name = "peewee", specifier = ">=3.18.3" },
-    { name = "pip-review", marker = "extra == 'dev'", specifier = ">=1.3.0" },
-    { name = "pydantic", specifier = ">=2.12.5" },
-    { name = "pylint", marker = "extra == 'dev'", specifier = ">=4.0.4" },
-]
-provides-extras = ["dev"]
 
 [[package]]
 name = "shellingham"

@@ -6,7 +6,7 @@ services:
     depends_on:
       - planrr-backend
     ports:
-      - "90:80"
+      - "91:80"
     environment:
       - TZ=America/Chicago
     labels:

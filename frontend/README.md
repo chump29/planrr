@@ -8,10 +8,8 @@ main(src/main.tsx)
 display(src/components/display/index.tsx)
 meds(src/components/meds/index.tsx)
 index-->main-->display-->meds
-
 port@{shape: brace, label: "&nbsp; Nginx exposes port 80"}
-
-````
+```
 
 ---
 
@@ -21,7 +19,7 @@ port@{shape: brace, label: "&nbsp; Nginx exposes port 80"}
 
 ```bash
 corepack enable pnpm
-````
+```
 
 ### To update PNPM:
 
