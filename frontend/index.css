@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900");
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900");
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+bg #632222 deep espresso
+sec #6f4e37 warm chestnut
+acc #b3541e burnt orange
+txt #f5f2f2 off-white/cream
+
+titles playfair display serif
+body source sans pro (source sans 3) san-serif
+*/

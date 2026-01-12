@@ -1,0 +1,13 @@
+{
+  "arrowParens": "always",
+  "bracketSameLine": true,
+  "htmlWhitespaceSensitivity": "ignore",
+  "jsonRecursiveSort": true,
+  "plugins": [
+    "@awmottaz/prettier-plugin-void-html",
+    "prettier-plugin-organize-imports",
+    "prettier-plugin-sort-json"
+  ],
+  "semi": false,
+  "trailingComma": "none"
+}

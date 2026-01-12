@@ -1,0 +1,64 @@
+{
+  "name": "planrr-frontend",
+  "version": "1.0.0",
+  "description": "Weekly meal planner (Frontend)",
+  "homepage": "https://github.com/chump29/planrr",
+  "license": "GPL-3.0-only",
+  "author": "Chris Post",
+  "keywords": [
+    "weekly",
+    "meal",
+    "planner"
+  ],
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "build:dev": "vite",
+    "clean": "rimraf dist node_modules",
+    "lint": "pnpm run lint:eslint && pnpm run lint:pretty",
+    "lint:eslint": "eslint ./src --fix",
+    "lint:pretty": "prettier . --write",
+    "test": "vitest run",
+    "test:dev": "vitest"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.2.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-hook-form": "^7.71.0",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "@awmottaz/prettier-plugin-void-html": "^2.0.0",
+    "@eslint/js": "^9.39.1",
+    "@tailwindcss/vite": "^4.1.18",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.5.0",
+    "jest-environment-jsdom": "^30.2.0",
+    "jiti": "^2.6.1",
+    "prettier": "^3.7.4",
+    "prettier-plugin-organize-imports": "^4.3.0",
+    "prettier-plugin-sort-json": "^4.1.1",
+    "rimraf": "^6.1.2",
+    "sharp": "^0.34.5",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.4",
+    "vite": "^7.2.4",
+    "vite-plugin-package-version": "^1.1.0",
+    "vitest": "^4.0.16"
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": "~25",
+    "pnpm": "~10"
+  },
+  "packageManager": "pnpm@10.28.0+sha512.05df71d1421f21399e053fde567cea34d446fa02c76571441bfc1c7956e98e363088982d940465fd34480d4d90a0668bc12362f8aa88000a64e83d0b0e47be48"
+}

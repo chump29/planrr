@@ -1,0 +1,35 @@
+services:
+  planrr-frontend:
+    container_name: planrr-frontend
+    image: planrr-frontend
+    restart: unless-stopped
+    depends_on:
+      - planrr-backend
+    ports:
+      - "90:80"
+    environment:
+      - TZ=America/Chicago
+    labels:
+      - wud.watch=false
+      - dockge.imageupdates.check=false
+      - homepage.group=Personal
+      - homepage.name=Planrr
+      - homepage.icon=https://plan.postfmly.com/planrr.png
+      - homepage.href=https://plan.postfmly.com/
+      - homepage.description=plan.postfmly.com
+
+  planrr-backend:
+    container_name: planrr-backend
+    image: planrr-backend
+    restart: unless-stopped
+    ports:
+      - "5557:5557"
+    labels:
+      - wud.watch=false
+      - dockge.imageupdates.check=false
+    stop_signal: SIGINT
+networks: {}
+
+x-dockge:
+  urls:
+    - https://plan.postfmly.com

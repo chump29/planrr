@@ -1,0 +1,7 @@
+{
+  "conventionalCommits.scopes": ["API", "UI"],
+  "css.lint.unknownAtRules": "ignore",
+  "python.analysis.typeCheckingMode": "basic",
+  "python.defaultInterpreterPath": "${workspaceFolder}/backend/.venv/bin/python",
+  "python.terminal.activateEnvironment": true
+}
