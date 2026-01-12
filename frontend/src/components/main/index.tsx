@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 
+import { PlusCircleIcon, XCircleIcon } from "@heroicons/react/24/outline"
 import { generate } from "random-words"
 import DataTable, {
   type TableColumn,
@@ -25,7 +26,8 @@ interface IMeal {
 
 export default function Main() {
   const [showWeek, setShowWeek] = useState(false)
-  const [showAdd, setShowAdd] = useState(false)
+  const [showAdd, setShowAdd] = useState(true)
+  const [showCancel, setShowCancel] = useState(false)
 
   const cols: TableColumn<IMeal>[] = [
     {
@@ -51,7 +53,7 @@ export default function Main() {
     } as IMeal)
   })
 
-  // @ts-ignore: data
+  // @ts-expect-error: explicit any
   const expanded = ({ data }) => <span>{data.description}</span>
 
   const customStyles: TableStyles = {
@@ -85,11 +87,20 @@ export default function Main() {
     }
   }
 
+  function handleClick() {
+    if (showAdd) {
+      setShowAdd(false)
+      setShowCancel(true)
+    } else {
+      setShowAdd(true)
+      setShowCancel(false)
+    }
+  }
+
   useEffect(() => {
     // TODO
     setShowWeek(true)
-    setShowAdd(true)
-  }, [showWeek, showAdd])
+  }, [showWeek, showAdd, showCancel])
 
   return (
     <>
@@ -108,7 +119,33 @@ export default function Main() {
           />
         </div>
       ) : null}
-      {showAdd ? <div className="text-center mt-10">TODO: Add/Edit Meal(s)</div> : null}
+      {showAdd ? (
+        <div className="text-center mt-10">
+          <button
+            type="button"
+            onClick={handleClick}
+            title="Add Meal"
+            className="cursor-pointer border-1 rounded-md border-yellow px-2 py-1 text-yellow2">
+            <PlusCircleIcon className="size-5 inline mr-1 text-yellow" />
+            Add Meal
+          </button>
+        </div>
+      ) : null}
+      {showCancel ? (
+        <>
+          <div className="text-center mt-10">
+            <button
+              type="button"
+              onClick={handleClick}
+              title="Cancel"
+              className="cursor-pointer border-1 rounded-md border-yellow px-2 py-1 text-yellow2">
+              <XCircleIcon className="size-5 inline mr-1 text-red" />
+              Cancel
+            </button>
+          </div>
+          <div className="text-center mt-5 border-1 w-200 mx-auto">TODO</div>
+        </>
+      ) : null}
     </>
   )
 }
