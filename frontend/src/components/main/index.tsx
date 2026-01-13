@@ -10,6 +10,7 @@ import DataTable, {
   type TableColumn,
   type TableStyles
 } from "react-data-table-component"
+import { type ExpandableRowsComponent } from "react-data-table-component/dist/DataTable/types"
 import { useForm, type SubmitHandler } from "react-hook-form"
 import { titleCase } from "title-case"
 
@@ -51,7 +52,7 @@ export default function Main() {
     reset
   } = useForm<IMeal>()
 
-  const onSubmit: SubmitHandler<IMeal> = (data: IMeal) => {
+  const onSubmit: SubmitHandler<IMeal> = (_: IMeal) => {
     handleClick()
   }
 
@@ -66,8 +67,9 @@ export default function Main() {
     }
   ]
 
-  // @ts-expect-error: explicit any
-  const expanded = ({ data }) => <span>{(data as IMeal).description}</span>
+  const expanded: ExpandableRowsComponent<IMeal> = ({ data }) => (
+    <span>{data.description}</span>
+  )
 
   const customStyles: TableStyles = {
     expanderButton: {
