@@ -1,7 +1,7 @@
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 
-import Main from "./components/main"
+import Display from "./components/display"
 
 const api_url = import.meta.env.VITE_API_URL || ""
 
@@ -36,11 +36,11 @@ fetch(api_url + "/api/version", {
   })
 
 if (import.meta.env.DEV) {
-  createRoot(document.getElementById("root")!).render(<Main />)
+  createRoot(document.getElementById("root")!).render(<Display />)
 } else {
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
-      <Main />
+      <Display />
     </StrictMode>
   )
 }

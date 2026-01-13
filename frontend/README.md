@@ -1,14 +1,11 @@
 # Planrr frontend flowchart
 
-<!-- TODO -->
-
 ```mermaid
 flowchart
 index(index.html)
 main(src/main.tsx)
 display(src/components/display/index.tsx)
-meds(src/components/meds/index.tsx)
-index-->main-->display-->meds
+index-->main-->display
 port@{shape: brace, label: "&nbsp; Nginx exposes port 80"}
 ```
 

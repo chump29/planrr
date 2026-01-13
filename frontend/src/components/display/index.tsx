@@ -40,7 +40,7 @@ days.forEach((day) => {
   } as IMeal)
 })
 
-export default function Main() {
+export default function Display() {
   const [showWeek, setShowWeek] = useState(false)
   const [showAdd, setShowAdd] = useState(true)
   const [showCancel, setShowCancel] = useState(false)
