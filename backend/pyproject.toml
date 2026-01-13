@@ -1,5 +1,5 @@
 [build-system]
-requires = ["uv_build"]
+requires = ["uv_build >= 0.9, < 0.10"]
 build-backend = "uv_build"
 
 [project]
@@ -46,3 +46,11 @@ python-downloads = "manual"
 
 [tool.uv.build-backend]
 namespace = true
+source-exclude = [
+    ".dockerignore",
+    ".python-version",
+    "*.sh",
+    "Dockerfile",
+    "README.md",
+    "uv.lock"
+]
