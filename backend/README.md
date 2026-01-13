@@ -4,15 +4,7 @@
 ```mermaid
 flowchart
 api@{shape: rect, label: "/api"}
-add[["`/add`"]]
-delete[["`/delete/*[pk]*`"]]
-get[["`/get`"]]
-update[["`/update`"]]
 version[["`/version`"]]
-api-->add
-api-->delete
-api-->get
-api-->update
 api-->version
 port@{shape: brace, label: "&nbsp; Uvicorn exposes port 5557"}
 ```
@@ -86,6 +78,12 @@ uv remove [package] # dependencies
 uv tree
 # or
 uv pip list
+
+# Find package dependencies
+uv tree --package [package]
+
+# Find parent package for dependency
+uv tree --package [package] --invert
 
 # Clean cache
 uv cache clean

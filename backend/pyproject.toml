@@ -1,6 +1,6 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["uv_build"]
+build-backend = "uv_build"
 
 [project]
 name = "planrr-backend"
@@ -44,5 +44,5 @@ dev = [
 [tool.uv]
 python-downloads = "manual"
 
-[tool.hatch.build.targets.wheel]
-packages = ["planrr-backend"]
+[tool.uv.build-backend]
+namespace = true
