@@ -10,7 +10,7 @@ import DataTable, {
   type TableColumn,
   type TableStyles
 } from "react-data-table-component"
-import { type ExpandableRowsComponent } from "react-data-table-component/dist/DataTable/types"
+import type { ExpandableRowsComponent } from "react-data-table-component/dist/DataTable/types"
 import { useForm, type SubmitHandler } from "react-hook-form"
 import { titleCase } from "title-case"
 
