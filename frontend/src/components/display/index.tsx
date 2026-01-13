@@ -52,8 +52,10 @@ export default function Display() {
     reset
   } = useForm<IMeal>()
 
-  const onSubmit: SubmitHandler<IMeal> = (_: IMeal) => {
+  const onSubmit: SubmitHandler<IMeal> = (meal: IMeal) => {
     handleClick()
+    // TODO
+    console.log(meal)
   }
 
   const cols: TableColumn<IMeal>[] = [
@@ -161,7 +163,7 @@ export default function Display() {
           </div>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="text-center mt-5 border-1 border-brown2 size-fit mx-auto p-3">
+            className="text-center border-1 border-brown2 size-fit mx-auto px-3 pt-3 my-5">
             <select
               {...register("day", { required: true })}
               className="border-1 text-yellow2 border-yellow rounded-md px-3 py-1.5 mr-3 mb-3"
