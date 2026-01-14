@@ -24,8 +24,8 @@ importers:
         specifier: ^19.2.3
         version: 19.2.3(react@19.2.3)
       react-hook-form:
-        specifier: ^7.71.0
-        version: 7.71.0(react@19.2.3)
+        specifier: ^7.71.1
+        version: 7.71.1(react@19.2.3)
       styled-components:
         specifier: ^6.3.6
         version: 6.3.6(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -85,8 +85,8 @@ importers:
         specifier: ^4.3.0
         version: 4.3.0(prettier@3.7.4)(typescript@5.9.3)
       prettier-plugin-sort-json:
-        specifier: ^4.1.1
-        version: 4.1.1(prettier@3.7.4)
+        specifier: ^4.2.0
+        version: 4.2.0(prettier@3.7.4)
       rimraf:
         specifier: ^6.1.2
         version: 6.1.2
@@ -2034,8 +2034,8 @@ packages:
       vue-tsc:
         optional: true
 
-  prettier-plugin-sort-json@4.1.1:
-    resolution: {integrity: sha512-uJ49wCzwJ/foKKV4tIPxqi4jFFvwUzw4oACMRG2dcmDhBKrxBv0L2wSKkAqHCmxKCvj0xcCZS4jO2kSJO/tRJw==}
+  prettier-plugin-sort-json@4.2.0:
+    resolution: {integrity: sha512-jK1w3/7otTvHtv1eoLji2U9mEoOGeyl7QQQ/afLnjht1YtRLSUUk8o0rIIC/HUVXhoGPCFe4SVZbRGYjjUVgvA==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       prettier: ^3.0.0
@@ -2074,8 +2074,8 @@ packages:
     peerDependencies:
       react: ^19.2.3
 
-  react-hook-form@7.71.0:
-    resolution: {integrity: sha512-oFDt/iIFMV9ZfV52waONXzg4xuSlbwKUPvXVH2jumL1me5qFhBMc4knZxuXiZ2+j6h546sYe3ZKJcg/900/iHw==}
+  react-hook-form@7.71.1:
+    resolution: {integrity: sha512-9SUJKCGKo8HUSsCO+y0CtqkqI5nNuaDqTxyqPsZPqIwudpj4rCrAz/jZV+jn57bx5gtZKOh3neQu94DXMc+w5w==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18 || ^19
@@ -4513,7 +4513,7 @@ snapshots:
       prettier: 3.7.4
       typescript: 5.9.3
 
-  prettier-plugin-sort-json@4.1.1(prettier@3.7.4):
+  prettier-plugin-sort-json@4.2.0(prettier@3.7.4):
     dependencies:
       prettier: 3.7.4
 
@@ -4554,7 +4554,7 @@ snapshots:
       react: 19.2.3
       scheduler: 0.27.0
 
-  react-hook-form@7.71.0(react@19.2.3):
+  react-hook-form@7.71.1(react@19.2.3):
     dependencies:
       react: 19.2.3
 
