@@ -3,7 +3,7 @@
 ###
 
 @rnd_id = {{$randomInt 10000 20000}}
-@rnd_day = {{$randomInt 0 6}}
+@rnd_day = {{$randomInt 0 7}}
 
 ###
 
