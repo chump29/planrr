@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, type MouseEvent } from "react"
 
 import {
+  MinusIcon,
   PlayCircleIcon,
   PlusCircleIcon,
+  PlusIcon,
   XCircleIcon
 } from "@heroicons/react/24/outline"
 import DataTable, {
@@ -23,18 +25,21 @@ const days = [
 ]
 
 interface IMeal {
-  id: number
   day: number
-  title: string
   description: string
+  disabled: boolean
+  expanded: boolean
+  id: number
+  title: string
 }
 
 const API_URL = import.meta.env.VITE_API_URL || ""
 
 export default function Display() {
+  const [data, setData] = useState<IMeal[]>([])
+  const [expandAll, setExpandAll] = useState(false)
   const [showAdd, setShowAdd] = useState(true)
   const [showCancel, setShowCancel] = useState(false)
-  const [data, setData] = useState<IMeal[]>([])
 
   const {
     formState: { errors },
@@ -52,7 +57,7 @@ export default function Display() {
   const cols: TableColumn<IMeal>[] = [
     {
       selector: (col: IMeal) => days[col.day],
-      width: "100px"
+      width: "120px"
     },
     {
       selector: (col: IMeal) => col.title,
@@ -65,9 +70,18 @@ export default function Display() {
   )
 
   const customStyles: TableStyles = {
+    table: {
+      style: {
+        border: "1px solid #c4751c" /* border-yellow */,
+        borderRadius: "6px" /* rounded-md */
+      }
+    },
     expanderButton: {
       style: {
-        color: "#c4751c" /* text-yellow */
+        color: "#c4751c" /* text-yellow */,
+        "&:disabled": {
+          display: "none"
+        }
       }
     },
     expanderRow: {
@@ -114,6 +128,15 @@ export default function Display() {
     }
   }
 
+  function handleExpand(e: MouseEvent<HTMLButtonElement>) {
+    const obj = e.target as HTMLButtonElement
+    setExpandAll(!expandAll)
+    obj.title = obj.innerText = expandAll ? "Expand All" : "Collapse All"
+    data.forEach(
+      (meal) => (meal.expanded = !meal.disabled ? !expandAll : false)
+    )
+  }
+
   useEffect(() => {
     fetch(API_URL + "/api/get")
       .then((response: Response) => {
@@ -123,6 +146,11 @@ export default function Display() {
         return response.json()
       })
       .then((menus: IMeal[]) => {
+        menus.forEach((menu: IMeal) => {
+          if (menu.description.length === 0) {
+            menu.disabled = true
+          }
+        })
         setData(menus)
       })
       .catch((e: Error) => {
@@ -134,18 +162,40 @@ export default function Display() {
   return (
     <>
       <div className="text-center mt-10 size-fit mx-auto px-1">
+        <span className="float-end mb-1 mr-1 text-yellow2">
+          {expandAll ? (
+            <MinusIcon
+              className="size-3 inline mr-1 text-yellow2 cursor-pointer"
+              title="Collapse All"
+            />
+          ) : (
+            <PlusIcon
+              className="size-3 inline mr-1 text-yellow2 cursor-pointer"
+              title="Expand All"
+            />
+          )}
+          <button
+            type="button"
+            onClick={handleExpand}
+            className="text-xs cursor-pointer"
+            title="Expand All">
+            Expand All
+          </button>
+        </span>
         <DataTable
+          ariaLabel="dtMenu"
           columns={cols}
           customStyles={customStyles}
           data={data}
+          expandableRowDisabled={(row) => row.disabled}
+          expandableRowExpanded={(row) => row.expanded}
           expandableRows
           expandableRowsComponent={expanded}
           expandOnRowClicked
+          noDataComponent={<div>There are no meals to display</div>}
           noTableHead
           pointerOnHover
           striped
-          ariaLabel="dtMenu"
-          noDataComponent={<div>There are no meals to display</div>}
         />
       </div>
       {showAdd ? (
@@ -179,9 +229,8 @@ export default function Display() {
               {...register("day", { required: true })}
               className="border-1 text-yellow2 border-yellow rounded-md px-3 py-1.5 mr-3 mb-3"
               style={
-                errors.day && { border: "3px double #932c04" }
-              } /* text-red */
-            >
+                errors.day && { border: "3px double #932c04" /* text-red */ }
+              }>
               <option key="0" value="">
                 Choose a day...
               </option>
@@ -197,8 +246,8 @@ export default function Display() {
               id="txtTitle"
               placeholder="Enter meal title..."
               style={
-                errors.title && { border: "3px double #932c04" }
-              } /* text-red */
+                errors.title && { border: "3px double #932c04" /* text-red */ }
+              }
               title="Enter meal title..."
               type="text"
             />
