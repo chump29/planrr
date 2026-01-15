@@ -17,7 +17,7 @@ DB_FILE = "planrr.db"
 DEBUG = False
 
 
-class MenuDTO(BaseModel):
+class MealDTO(BaseModel):
     """Menu data model"""
 
     id: int | None = None
@@ -30,7 +30,7 @@ class Menu(Model):
     """Planrr DB model"""
 
     id = AutoField()
-    day = IntegerField()
+    day = IntegerField(unique=True)
     title = CharField()
     description = CharField(null=True)
 
@@ -64,8 +64,8 @@ def get_version() -> str | None:
         return None
 
 
-@api.get("/api/get", response_model=list[MenuDTO])
-def get() -> list[MenuDTO] | None:
+@api.get("/api/get", response_model=list[MealDTO])
+def get() -> list[MealDTO] | None:
     """Get all menus"""
     try:
         if DEBUG:
@@ -76,8 +76,8 @@ def get() -> list[MenuDTO] | None:
         return None
 
 
-@api.get("/api/get/{pk}", response_model=MenuDTO | None)
-def get_one(pk: int) -> MenuDTO | None:
+@api.get("/api/get/{pk}", response_model=MealDTO | None)
+def get_one(pk: int) -> MealDTO | None:
     """Get menu by ID"""
     try:
         if DEBUG:
@@ -88,8 +88,8 @@ def get_one(pk: int) -> MenuDTO | None:
         return None
 
 
-@api.post("/api/add", response_model=MenuDTO | None)
-def add(menu: MenuDTO) -> MenuDTO | None:
+@api.post("/api/add", response_model=MealDTO | None)
+def add(menu: MealDTO) -> MealDTO | None:
     """Add menu"""
     try:
         if DEBUG:
@@ -105,8 +105,8 @@ def add(menu: MenuDTO) -> MenuDTO | None:
         return None
 
 
-@api.put("/api/update/{pk}", response_model=MenuDTO | None)
-def update(pk: int, menu: MenuDTO) -> MenuDTO | None:
+@api.put("/api/update/{pk}", response_model=MealDTO | None)
+def update(pk: int, menu: MealDTO) -> MealDTO | None:
     """Update menu by ID"""
     try:
         if DEBUG:
