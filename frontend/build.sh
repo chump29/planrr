@@ -13,7 +13,7 @@ _done="✔️ "
 
 clear
 
-echo -e "${_title} ${_red}Planrr FRONTEND${_nc} ${_title}\n\n"
+echo -e "${_title} ${_red}Planrr FRONTEND${_nc} ${_title}\n"
 
 echo -e "${_task} ${_green}Installing dependencies${_nc}:\n"
 pnpm install --frozen-lockfile
@@ -21,9 +21,8 @@ pnpm install --frozen-lockfile
 echo -e "\n${_lint} ${_green}Linting${_nc}:"
 pnpm run lint
 
-# TODO
-#echo -e "\n${_test} ${_green}Testing${_nc}:"
-#pnpm run test
+echo -e "\n${_test} ${_green}Testing${_nc}:"
+pnpm run test
 
 echo -e "${_image} ${_green}Creating image${_nc}:\n"
 docker build --tag=planrr-frontend .

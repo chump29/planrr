@@ -24,14 +24,12 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
-    "random-words": "^2.0.1",
     "react": "^19.2.3",
     "react-data-table-component": "^7.7.0",
     "react-dom": "^19.2.3",
     "react-hook-form": "^7.71.1",
     "styled-components": "^6.3.6",
-    "tailwindcss": "^4.1.18",
-    "title-case": "^4.3.2"
+    "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
     "@awmottaz/prettier-plugin-void-html": "^2.0.0",

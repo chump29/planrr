@@ -5,45 +5,35 @@ import {
   PlusCircleIcon,
   XCircleIcon
 } from "@heroicons/react/24/outline"
-import { generate } from "random-words"
 import DataTable, {
   type TableColumn,
   type TableStyles
 } from "react-data-table-component"
 import type { ExpandableRowsComponent } from "react-data-table-component/dist/DataTable/types"
 import { useForm, type SubmitHandler } from "react-hook-form"
-import { titleCase } from "title-case"
-
-import type IMeal from "../../interfaces/IMeal"
 
 const days = [
-  "Sunday",
   "Monday",
   "Tuesday",
+  "Wednesday",
   "Thursday",
   "Friday",
   "Saturday",
   "Sunday"
 ]
 
-// TODO
-const data: IMeal[] = []
-days.forEach((day) => {
-  data.push({
-    day: day,
-    title: (generate({ min: 2, max: 7 }) as string[])
-      .map((s) => titleCase(s))
-      .join(" "),
-    description: (generate({ min: 10, max: 20 }) as string[])
-      .map((s) => titleCase(s))
-      .join(" ")
-  } as IMeal)
-})
+interface IMeal {
+  day: number
+  title: string
+  description: string
+}
+
+const API_URL = import.meta.env.VITE_API_URL || ""
 
 export default function Display() {
-  const [showWeek, setShowWeek] = useState(false)
   const [showAdd, setShowAdd] = useState(true)
   const [showCancel, setShowCancel] = useState(false)
+  const [data, setData] = useState<IMeal[]>([])
 
   const {
     formState: { errors },
@@ -60,7 +50,7 @@ export default function Display() {
 
   const cols: TableColumn<IMeal>[] = [
     {
-      selector: (col: IMeal) => col.day,
+      selector: (col: IMeal) => days[col.day],
       width: "100px"
     },
     {
@@ -115,28 +105,38 @@ export default function Display() {
   }
 
   useEffect(() => {
-    // TODO
-    setShowWeek(true)
+    fetch(API_URL + "/api/get")
+      .then((response: Response) => {
+        if (!response.ok) {
+          throw new Error(`Status: ${response.status}`)
+        }
+        return response.json()
+      })
+      .then((menus: IMeal[]) => {
+        setData(menus)
+      })
+      .catch((e: Error) => {
+        console.error(e)
+      })
     reset()
-  }, [showWeek, showAdd, showCancel])
+  }, [])
 
   return (
     <>
-      {showWeek ? (
-        <div className="text-center mt-10 size-fit mx-auto px-1">
-          <DataTable
-            columns={cols}
-            customStyles={customStyles}
-            data={data}
-            expandableRows
-            expandableRowsComponent={expanded}
-            expandOnRowClicked
-            noTableHead
-            pointerOnHover
-            striped
-          />
-        </div>
-      ) : null}
+      <div className="text-center mt-10 size-fit mx-auto px-1">
+        <DataTable
+          columns={cols}
+          customStyles={customStyles}
+          data={data}
+          expandableRows
+          expandableRowsComponent={expanded}
+          expandOnRowClicked
+          noTableHead
+          pointerOnHover
+          striped
+          ariaLabel="dtMenu"
+        />
+      </div>
       {showAdd ? (
         <div className="text-center mt-10">
           <button

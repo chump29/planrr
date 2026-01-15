@@ -15,7 +15,7 @@ _done="✔️ "
 
 clear
 
-echo -e "${_title} ${_red}Planrr BACKEND${_nc} ${_title}\n\n"
+echo -e "${_title} ${_red}Planrr BACKEND${_nc} ${_title}\n"
 
 echo -e "${_start} ${_green}Activating virtual environment${_nc}\n"
 source .venv/bin/activate
@@ -26,9 +26,8 @@ uv sync --extra dev --quiet
 echo -e "${_lint} ${_green}Linting${_nc}:"
 ./lint.sh
 
-# TODO
-#echo -e "\n${_test} ${_green}Testing${_nc}:\n"
-#./test.sh
+echo -e "${_test} ${_green}Testing${_nc}:\n"
+./test.sh
 
 echo -e "\n${_stop} ${_green}Deactivating virtual environment${_nc}\n"
 deactivate

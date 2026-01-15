@@ -70,7 +70,7 @@ def get() -> list[MenuDTO] | None:
     try:
         if DEBUG:
             print(f"Getting rows: {Menu.select().count(None)}")
-        return list(Menu.select().dicts())
+        return list(Menu.select().order_by(Menu.day.asc()).dicts())
     except Exception as e:  # pylint: disable=broad-exception-caught
         print(e)
         return None
