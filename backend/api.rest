@@ -1,0 +1,84 @@
+@host = http://localhost:5557/api/
+
+###
+
+@rnd_id = {{$randomInt 10000 20000}}
+@rnd_day = {{$randomInt 0 6}}
+
+###
+
+// Get API version
+
+GET {{host}}version
+
+###
+
+// Get all menus
+
+GET {{host}}get
+
+###
+
+// Get menu by ID
+// NOTE: menu ID does not exist
+
+GET {{host}}get/{{rnd_id}}
+
+###
+
+// Get menu by ID
+
+GET {{host}}get/1
+
+###
+
+// Add menu
+
+POST {{host}}add
+Content-Type: application/json
+
+{
+    "day": {{rnd_day}},
+    "title": "TEST {{rnd_id}}",
+    "description": "TEST ME {{rnd_id}}"
+}
+
+###
+
+// Update menu by ID
+// NOTE: menu ID does not exist
+
+PUT {{host}}update/{{rnd_id}}
+Content-Type: application/json
+
+{
+    "day": {{rnd_day}},
+    "title": "NOGO"
+}
+
+###
+
+// Update menu by ID
+
+PUT {{host}}update/1
+Content-Type: application/json
+
+// NOTE: pass exisisting data elements
+{
+    "day": {{rnd_day}},
+    "title": "MODIFIED {{rnd_id}}",
+    "description": "MODIFIED {{rnd_id}}"
+}
+
+###
+
+// Delete menu by ID
+// Error: menu does not exist
+
+DELETE {{host}}delete/{{rnd_id}}
+
+###
+
+// Delete menu by ID
+
+DELETE {{host}}delete/1

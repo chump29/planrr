@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "humao.rest-client",
+    "ms-python.black-formatter",
+    "ms-python.pylint"
+  ]
+}
