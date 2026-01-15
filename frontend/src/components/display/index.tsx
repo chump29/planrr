@@ -23,6 +23,7 @@ const days = [
 ]
 
 interface IMeal {
+  id: number
   day: number
   title: string
   description: string
@@ -91,6 +92,15 @@ export default function Display() {
         backgroundColor: "#5d1902" /* bg-red2 */,
         color: "#eddfc5" /* text-yellow2 */
       }
+    },
+    noData: {
+      style: {
+        backgroundColor: "#932c04" /* bg-red */,
+        color: "#eddfc5" /* text-yellow2 */,
+        fontSize: "14px",
+        fontWeight: "bold",
+        padding: "24px"
+      }
     }
   }
 
@@ -135,6 +145,7 @@ export default function Display() {
           pointerOnHover
           striped
           ariaLabel="dtMenu"
+          noDataComponent={<div>There are no meals to display</div>}
         />
       </div>
       {showAdd ? (
