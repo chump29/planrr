@@ -162,26 +162,28 @@ export default function Display() {
   return (
     <>
       <div className="text-center mt-10 size-fit mx-auto px-1">
-        <span className="float-end mb-1 mr-1 text-yellow2">
-          {expandAll ? (
-            <MinusIcon
-              className="size-3 inline mr-1 text-yellow2 cursor-pointer"
-              title="Collapse All"
-            />
-          ) : (
-            <PlusIcon
-              className="size-3 inline mr-1 text-yellow2 cursor-pointer"
-              title="Expand All"
-            />
-          )}
-          <button
-            type="button"
-            onClick={handleExpand}
-            className="text-xs cursor-pointer"
-            title="Expand All">
-            Expand All
-          </button>
-        </span>
+        {data.length > 0 ? (
+          <span className="float-end mb-1 mr-1 text-yellow2">
+            {expandAll ? (
+              <MinusIcon
+                className="size-3 inline mr-1 text-yellow2 cursor-pointer"
+                title="Collapse All"
+              />
+            ) : (
+              <PlusIcon
+                className="size-3 inline mr-1 text-yellow2 cursor-pointer"
+                title="Expand All"
+              />
+            )}
+            <button
+              type="button"
+              onClick={handleExpand}
+              className="text-xs cursor-pointer"
+              title="Expand All">
+              Expand All
+            </button>
+          </span>
+        ) : null}
         <DataTable
           ariaLabel="dtMenu"
           columns={cols}
