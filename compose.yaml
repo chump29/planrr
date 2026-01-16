@@ -4,7 +4,8 @@ services:
     image: planrr-frontend
     restart: unless-stopped
     depends_on:
-      - planrr-backend
+      planrr-backend:
+        condition: service_healthy
     ports:
       - "91:80"
     environment:
