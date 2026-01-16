@@ -26,11 +26,14 @@ services:
     ports:
       - "5557:5557"
     volumes:
-      - ./db:/backend/db
+      - db:/backend/db
     labels:
       - wud.watch=false
       - dockge.imageupdates.check=false
     stop_signal: SIGINT
+
+volumes:
+  db:
 
 networks: {}
 

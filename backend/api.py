@@ -12,7 +12,7 @@ from peewee import AutoField, CharField, IntegerField, Model, SqliteDatabase
 from pydantic import BaseModel
 from uvicorn import run
 
-DB_DIR = "./db/"
+DB_PATH = "./db/"
 DB_FILE = "planrr.db"
 
 DEBUG = False
@@ -39,15 +39,15 @@ class Menu(Model):
     class Meta:
         """Metadata"""
 
-        database = SqliteDatabase(DB_DIR + DB_FILE, pragmas={"journal_mode": "wal"})
+        database = SqliteDatabase(DB_PATH + DB_FILE, pragmas={"journal_mode": "wal"})
 
 
-if not path.exists(DB_DIR):
+if not path.exists(DB_PATH):
     if DEBUG:
-        print(f"Creating path: {DB_DIR}")
-    makedirs(DB_DIR)
+        print(f"Creating path: {DB_PATH}")
+    makedirs(DB_PATH)
 
-if not path.exists(DB_FILE):
+if not path.exists(DB_PATH + DB_FILE):
     if DEBUG:
         print(f"Creating database: {DB_FILE}")
     Menu.create_table()
