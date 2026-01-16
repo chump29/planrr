@@ -1,10 +1,19 @@
 # Planrr backend flowchart
 
-<!-- TODO -->
 ```mermaid
 flowchart
 api@{shape: rect, label: "/api"}
+add[["`/add`"]]
+delete[["`/delete/*[pk]*`"]]
+get[["`/get`"]]
+get_one[["`/get/*[pk]*`"]]
+update[["`/update/*[pk]*`"]]
 version[["`/version`"]]
+api-->add
+api-->delete
+api-->get
+api-->get_one
+api-->update
 api-->version
 port@{shape: brace, label: "&nbsp; Uvicorn exposes port 5557"}
 ```
