@@ -4,7 +4,7 @@
 
 from calendar import day_name as days
 from dataclasses import dataclass
-from os import environ, getenv, path
+from os import environ, getenv, makedirs, path
 from tomllib import load
 
 from fastapi import FastAPI
@@ -12,6 +12,7 @@ from peewee import AutoField, CharField, IntegerField, Model, SqliteDatabase
 from pydantic import BaseModel
 from uvicorn import run
 
+DB_DIR = "./db/"
 DB_FILE = "planrr.db"
 
 DEBUG = False
@@ -38,12 +39,17 @@ class Menu(Model):
     class Meta:
         """Metadata"""
 
-        database = SqliteDatabase(DB_FILE, pragmas={"journal_mode": "wal"})
+        database = SqliteDatabase(DB_DIR + DB_FILE, pragmas={"journal_mode": "wal"})
 
+
+if not path.exists(DB_DIR):
+    if DEBUG:
+        print(f"Creating path: {DB_DIR}")
+    makedirs(DB_DIR)
 
 if not path.exists(DB_FILE):
     if DEBUG:
-        print("Creating database")
+        print(f"Creating database: {DB_FILE}")
     Menu.create_table()
 
 api = FastAPI()

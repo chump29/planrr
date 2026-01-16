@@ -27,6 +27,8 @@ WORKDIR /backend
 
 COPY --from=build /backend .
 
+RUN mkdir ./db
+
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PATH="/backend/.venv/bin:$PATH"

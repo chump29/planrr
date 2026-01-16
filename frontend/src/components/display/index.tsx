@@ -1,4 +1,4 @@
-import { useEffect, useState, type MouseEvent } from "react"
+import { useEffect, useState, type ChangeEvent, type MouseEvent } from "react"
 
 import {
   MinusIcon,
@@ -14,17 +14,21 @@ import DataTable, {
   type TableStyles
 } from "react-data-table-component"
 import type { ExpandableRowsComponent } from "react-data-table-component/dist/DataTable/types"
-import { useForm, type SubmitHandler } from "react-hook-form"
+import { useForm } from "react-hook-form"
 
-const days = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday"
-]
+interface Days {
+  [key: number]: string
+}
+
+const days: Days = {
+  0: "Monday",
+  1: "Tuesday",
+  2: "Wednesday",
+  3: "Thursday",
+  4: "Friday",
+  5: "Saturday",
+  6: "Sunday"
+}
 
 interface IMeal {
   day: number
@@ -38,11 +42,13 @@ interface IMeal {
 const API_URL = import.meta.env.VITE_API_URL || ""
 
 export default function Display() {
-  const [data, setData] = useState<IMeal[]>([])
+  const [meals, setMeals] = useState<IMeal[]>([])
   const [expandAll, setExpandAll] = useState(false)
   const [showAdd, setShowAdd] = useState(true)
   const [showCancel, setShowCancel] = useState(false)
   const [editing, setEditing] = useState<IMeal | null>(null)
+  const [selectedDay, setSelectedDay] = useState(-1)
+  const [pending, setPending] = useState(true)
 
   const {
     formState: { errors },
@@ -51,10 +57,22 @@ export default function Display() {
     reset
   } = useForm<IMeal>()
 
-  const onSubmit: SubmitHandler<IMeal> = (meal: IMeal) => {
+  async function onSubmit(meal: IMeal) {
     if (editing) {
-      fetch(API_URL + "/api/update/" + meal.id, {
+      if (
+        meal.day == editing.day && // string(?) == number
+        meal.title === editing.title &&
+        meal.description === editing.description
+      ) {
+        cancel()
+        return
+      }
+      meal.id = editing.id
+      await fetch(API_URL + "/api/update/" + meal.id, {
         body: JSON.stringify(meal),
+        headers: {
+          "Content-Type": "application/json"
+        },
         method: "PUT"
       })
         .then((response: Response) => {
@@ -65,16 +83,19 @@ export default function Display() {
         })
         .then((meal: IMeal) => {
           if (!meal) {
-            throw new Error(`Error editing meal: ${meal}`)
+            console.error(editing)
+            throw new Error("Error editing meal")
           }
-          location.reload()
+          getMeals()
         })
-        .catch((e: Error) => {
-          console.error(e)
-        })
+        .catch(console.error)
     } else {
-      fetch(API_URL + "/api/add/", {
+      meal.day = selectedDay
+      await fetch(API_URL + "/api/add/", {
         body: JSON.stringify(meal),
+        headers: {
+          "Content-Type": "application/json"
+        },
         method: "POST"
       })
         .then((response: Response) => {
@@ -85,19 +106,25 @@ export default function Display() {
         })
         .then((meal: IMeal) => {
           if (!meal) {
-            throw new Error(`Error adding meal: ${meal}`)
+            console.error(meal)
+            throw new Error("Error adding meal")
           }
-          location.reload()
+          getMeals()
         })
-        .catch((e: Error) => {
-          console.error(e)
-        })
+        .catch(console.error)
     }
   }
 
-  function handleEdit(e: MouseEvent<SVGSVGElement>) {
+  async function handleEdit(e: MouseEvent<SVGSVGElement>) {
     const id = (e.target as SVGElement).dataset.id
-    fetch(API_URL + "/api/get/" + id)
+    if (!id) {
+      alert(
+        "ID not found.\n\nThis shouldn't happen, but it does sometimes.\n\nI'm working on it.\n\nPlease try again."
+      )
+      console.error(e)
+      throw new Error("ID not found for edit")
+    }
+    await fetch(API_URL + "/api/get/" + id)
       .then((response: Response) => {
         if (!response.ok) {
           throw new Error(`Status: ${response.status}`)
@@ -108,18 +135,23 @@ export default function Display() {
         if (!meal) {
           throw new Error(`Error getting id: ${id}`)
         }
+        show()
+        setSelectedDay(meal.day)
         setEditing(meal)
-        setShowAdd(false)
-        setShowCancel(true)
       })
-      .catch((e: Error) => {
-        console.error(e)
-      })
+      .catch(console.error)
   }
 
-  function handleTrash(e: MouseEvent<SVGSVGElement>) {
+  async function handleTrash(e: MouseEvent<SVGSVGElement>) {
     const id = (e.target as SVGElement).dataset.id
-    fetch(API_URL + "/api/delete/" + id, {
+    if (!id) {
+      alert(
+        "ID not found.\n\nThis shouldn't happen, but it does sometimes.\n\nI'm working on it.\n\nPlease try again."
+      )
+      console.error(e)
+      throw new Error("ID not found for delete")
+    }
+    await fetch(API_URL + "/api/delete/" + id, {
       method: "DELETE"
     })
       .then((response: Response) => {
@@ -132,11 +164,9 @@ export default function Display() {
         if (!result) {
           throw new Error(`Error deleting id: ${id}`)
         }
-        location.reload()
+        getMeals()
       })
-      .catch((e: Error) => {
-        console.error(e)
-      })
+      .catch(console.error)
   }
 
   const cols: TableColumn<IMeal>[] = [
@@ -181,12 +211,6 @@ export default function Display() {
   )
 
   const customStyles: TableStyles = {
-    table: {
-      style: {
-        border: "1px solid #c4751c" /* border-yellow */,
-        borderRadius: "6px" /* rounded-md */
-      }
-    },
     expanderButton: {
       style: {
         color: "#c4751c" /* text-yellow */,
@@ -205,6 +229,22 @@ export default function Display() {
         textAlign: "left"
       }
     },
+    noData: {
+      style: {
+        backgroundColor: "#932c04" /* bg-red */,
+        color: "#eddfc5" /* text-yellow2 */,
+        fontSize: "14px",
+        fontWeight: "bold",
+        padding: "24px"
+      }
+    },
+    progress: {
+      style: {
+        backgroundColor: "#932c04" /* bg-red */,
+        border: "1px solid #c4751c" /* border-yellow */,
+        borderRadius: "6px" /* rounded-md */
+      }
+    },
     rows: {
       style: {
         backgroundColor: "#932c04" /* bg-red */,
@@ -217,41 +257,47 @@ export default function Display() {
         backgroundColor: "#5d1902" /* bg-red2 */,
         color: "#eddfc5" /* text-yellow2 */
       }
-    },
-    noData: {
-      style: {
-        backgroundColor: "#932c04" /* bg-red */,
-        color: "#eddfc5" /* text-yellow2 */,
-        fontSize: "14px",
-        fontWeight: "bold",
-        padding: "24px"
-      }
     }
   }
 
-  function handleClick() {
+  async function show() {
+    setShowAdd(false)
+    setShowCancel(true)
+    reset()
+  }
+
+  async function cancel() {
+    setShowAdd(true)
+    setShowCancel(false)
+    reset()
+    setSelectedDay(-1)
+    setEditing(null)
+  }
+
+  async function handleClick() {
     if (showAdd) {
-      setShowAdd(false)
-      setShowCancel(true)
+      show()
     } else {
-      setShowAdd(true)
-      setShowCancel(false)
-      setEditing(null)
-      reset()
+      cancel()
     }
   }
 
-  function handleExpand(e: MouseEvent<HTMLButtonElement>) {
+  async function handleExpand(e: MouseEvent<HTMLButtonElement>) {
     const obj = e.target as HTMLButtonElement
     setExpandAll(!expandAll)
     obj.title = obj.innerText = expandAll ? "Expand All" : "Collapse All"
-    data.forEach(
+    meals.forEach(
       (meal) => (meal.expanded = !meal.disabled ? !expandAll : false)
     )
   }
 
-  useEffect(() => {
-    fetch(API_URL + "/api/get")
+  async function handleChange(e: ChangeEvent<HTMLSelectElement>) {
+    setSelectedDay(parseInt((e.target as HTMLSelectElement).value))
+  }
+
+  async function getMeals() {
+    cancel()
+    await fetch(API_URL + "/api/get")
       .then((response: Response) => {
         if (!response.ok) {
           throw new Error(`Status: ${response.status}`)
@@ -260,22 +306,24 @@ export default function Display() {
       })
       .then((meals: IMeal[]) => {
         meals.forEach((meal: IMeal) => {
-          if (meal.description.length === 0) {
+          if (!meal.description.length) {
             meal.disabled = true
           }
         })
-        setData(meals)
+        setMeals(meals)
+        setPending(false)
       })
-      .catch((e: Error) => {
-        console.error(e)
-      })
-    reset()
+      .catch(console.error)
+  }
+
+  useEffect(() => {
+    getMeals()
   }, [])
 
   return (
     <>
       <div className="text-center mt-10 mx-auto px-1 max-w-lg">
-        {data.length > 0 ? (
+        {meals.length ? (
           <span className="float-end mb-1 mr-1 text-yellow2">
             {expandAll ? (
               <MinusIcon
@@ -299,9 +347,10 @@ export default function Display() {
         ) : null}
         <DataTable
           ariaLabel="dtMenu"
+          className="border-yellow rounded-md"
           columns={cols}
           customStyles={customStyles}
-          data={data}
+          data={meals}
           expandableRowDisabled={(row) => row.disabled}
           expandableRowExpanded={(row) => row.expanded}
           expandableRows
@@ -310,6 +359,7 @@ export default function Display() {
           noDataComponent={<div>There are no meals to display</div>}
           noTableHead
           pointerOnHover
+          progressPending={pending}
           striped
         />
       </div>
@@ -341,24 +391,34 @@ export default function Display() {
             onSubmit={handleSubmit(onSubmit)}
             className="text-center border-1 border-brown2 size-fit mx-auto px-3 pt-3 my-5">
             <select
-              {...register("day", { required: true })}
+              {...register("day", {
+                required: true,
+                validate: {
+                  validateValue: async (day: number) => {
+                    return day > -1
+                  }
+                }
+              })}
               className="border-1 text-yellow2 border-yellow rounded-md px-3 py-1.5 mr-3 mb-3"
+              onChange={handleChange}
               style={
                 errors.day && { border: "3px double #932c04" /* text-red */ }
               }
-              value={editing ? days[editing.day] : ""}>
-              <option key="0" value="" className="bg-red2 font-bold">
+              value={selectedDay}>
+              <option key="0" value="-1" className="bg-red2 font-bold">
                 Choose a day...
               </option>
-              {days
-                .filter((day: string) => {
-                  return editing && days[editing.day] === day
-                    ? day
-                    : !data.find((meal: IMeal) => days[meal.day] === day)
+              {Object.keys(days)
+                .filter((i: string) => {
+                  return editing && editing.day === parseInt(i)
+                    ? i
+                    : !meals.find((meal) => meal.day === parseInt(i))
+                      ? i
+                      : null
                 })
-                .map((day: string, i: number) => (
-                  <option className="bg-red2" key={i} value={day}>
-                    {day}
+                .map((i: string) => (
+                  <option className="bg-red2" key={i} value={i}>
+                    {days[parseInt(i)]}
                   </option>
                 ))}
             </select>
