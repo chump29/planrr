@@ -4,6 +4,7 @@
 
 from calendar import day_name as days
 from dataclasses import dataclass
+from html import escape
 from os import environ, getenv, makedirs, path
 from tomllib import load
 
@@ -64,7 +65,7 @@ def get_version() -> str | None:
             with open(file="pyproject.toml", mode="rb") as pyproject:
                 version = load(pyproject)["project"]["version"]
                 environ["BACKEND_VERSION"] = version
-        return version
+        return escape(str(version))
     except Exception as e:  # pylint: disable=broad-exception-caught
         print(e)
         return None
