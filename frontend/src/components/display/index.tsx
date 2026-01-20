@@ -142,7 +142,7 @@ export default function Display() {
       .catch(console.error)
   }
 
-  async function handleTrash(e: MouseEvent<SVGSVGElement>) {
+  async function handleDelete(e: MouseEvent<SVGSVGElement>) {
     const id = (e.target as SVGElement).dataset.id
     if (!id) {
       alert(
@@ -197,7 +197,7 @@ export default function Display() {
         <TrashIcon
           className="size-4 text-yellow cursor-pointer"
           data-id={meal.id}
-          onClick={handleTrash}
+          onClick={handleDelete}
           title="Remove"
         />
       ),
@@ -312,6 +312,9 @@ export default function Display() {
         })
         setMeals(meals)
         setPending(false)
+        if (!meals.length) {
+          setExpandAll(false)
+        }
       })
       .catch(console.error)
   }
