@@ -1,5 +1,6 @@
 {
   "recommendations": [
+    "bierner.markdown-mermaid",
     "esbenp.prettier-vscode",
     "humao.rest-client",
     "ms-python.black-formatter",
