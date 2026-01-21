@@ -15,6 +15,7 @@ import DataTable, {
 } from "react-data-table-component"
 import type { ExpandableRowsComponent } from "react-data-table-component/dist/DataTable/types"
 import { useForm } from "react-hook-form"
+import { ToastContainer, toast } from "react-toastify"
 
 interface Days {
   [key: number]: string
@@ -115,12 +116,19 @@ export default function Display() {
     }
   }
 
+  async function showError() {
+    toast.error(
+      "ID not found. This shouldn't happen, but it does sometimes. I'm working on it. Please try again.",
+      {
+        toastId: "notFoundError"
+      }
+    )
+  }
+
   async function handleEdit(e: MouseEvent<SVGSVGElement>) {
     const id = (e.target as SVGElement).dataset.id
     if (!id) {
-      alert(
-        "ID not found.\n\nThis shouldn't happen, but it does sometimes.\n\nI'm working on it.\n\nPlease try again."
-      )
+      await showError()
       console.error(e)
       throw new Error("ID not found for edit")
     }
@@ -145,9 +153,7 @@ export default function Display() {
   async function handleDelete(e: MouseEvent<SVGSVGElement>) {
     const id = (e.target as SVGElement).dataset.id
     if (!id) {
-      alert(
-        "ID not found.\n\nThis shouldn't happen, but it does sometimes.\n\nI'm working on it.\n\nPlease try again."
-      )
+      await showError()
       console.error(e)
       throw new Error("ID not found for delete")
     }
@@ -456,6 +462,13 @@ export default function Display() {
           </form>
         </>
       ) : null}
+      <ToastContainer
+        closeButton={false}
+        closeOnClick
+        pauseOnHover={false}
+        position="top-center"
+        theme="dark"
+      />
     </>
   )
 }
