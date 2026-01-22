@@ -19,7 +19,8 @@ FROM nginx:alpine
 
 WORKDIR /usr/share/nginx/html
 
-RUN apk add --no-cache tzdata && \
+RUN apk -U upgrade && \
+    apk add --no-cache tzdata && \
     rm -rf /usr/share/nginx/html/*
 
 COPY --from=build /app/dist .
