@@ -28,7 +28,7 @@ FROM python:${PYTHON_VERSION}-alpine
 
 WORKDIR /backend
 
-RUN apk -U upgrade
+RUN apk --update-cache upgrade
 
 COPY --from=build /backend .
 

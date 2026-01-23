@@ -19,7 +19,7 @@ FROM nginx:alpine
 
 WORKDIR /usr/share/nginx/html
 
-RUN apk -U upgrade && \
+RUN apk --update-cache upgrade && \
     apk add --no-cache tzdata && \
     rm -rf /usr/share/nginx/html/*
 
