@@ -1,7 +1,7 @@
 services:
   planrr-frontend:
     container_name: planrr-frontend
-    image: planrr-frontend
+    image: git.postfmly.com/admin/planrr-frontend
     restart: unless-stopped
     depends_on:
       - planrr-backend
@@ -10,8 +10,7 @@ services:
     environment:
       - TZ=America/Chicago
     labels:
-      - wud.watch=false
-      - dockge.imageupdates.check=false
+      - wud.display.name=Planrr (Frontend)
       - homepage.group=Personal
       - homepage.name=Planrr
       - homepage.icon=https://plan.postfmly.com/planrr.png
@@ -20,15 +19,14 @@ services:
 
   planrr-backend:
     container_name: planrr-backend
-    image: planrr-backend
+    image: git.postfmly.com/admin/planrr-backend
     restart: unless-stopped
     ports:
       - "5557:5557"
     volumes:
       - db:/backend/db
     labels:
-      - wud.watch=false
-      - dockge.imageupdates.check=false
+      - wud.display.name=Planrr (Backend)
     stop_signal: SIGINT
 
 volumes:

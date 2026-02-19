@@ -1,8 +1,9 @@
-.prettier*
+.htmlignore
+.stylelint*
+*.md
 *.sh
+biome.json
 dist/
-eslint.config.js
 node_modules/
-README.md
 
 !healthcheck.sh

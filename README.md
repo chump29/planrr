@@ -1,14 +1,16 @@
-# <img src="./frontend/public/planrr.png" alt="Planrr logo" title="Planrr" width="64" height="64"> Planrr
+# <img src="./frontend/public/planrr.png" title="NFLd" alt="NFLd logo" width="64" height="64"> Planrr
 
-- Weekly meal planner
+> - Weekly meal planner
 
-# Compose flowchart
+---
+
+### Docker Compose Flow: <!-- markdownlint-disable-line MD001 -->
 
 ```mermaid
 flowchart LR
-frontend@{shape: rounded, label: "frontend"}
+frontend@{shape: rounded, label: "nfld-frontend:80"}
 frontendPort@{shape: rounded, label: "http://localhost:91"}
-backend@{shape: rounded, label: "backend (direct)"}
+backend@{shape: rounded, label: "nfld-backend:5557"}
 backendPort@{shape: rounded, label: "http://localhost:5557"}
 frontend-->frontendPort
 backend-->backendPort
@@ -16,36 +18,15 @@ backend-->backendPort
 
 ---
 
-# Development stuff
-
-### Backend:
+### To build all images:
 
 ```bash
-cd backend
-pip-compile --extra dev
-pip-sync
-python api.py &
-```
-
-### Frontend:
-
-```bash
-cd frontend
-pnpm i
-pnpm run build:dev
-```
-
-# Docker stuff
-
-### To build images:
-
-```bash
-# All
 ./build.sh
-
-# Backend
-cd backend && ./build.sh
-
-# Frontend
-cd frontend && ./build.sh
 ```
+
+---
+
+### Additional documentation available:
+
+- [Frontend](./backend/README.md "Frontend")
+- [Backend](./frontend/README.md "Backend")

@@ -1,4 +1,10 @@
-import { useEffect, useState, type ChangeEvent, type MouseEvent } from "react"
+import {
+  type ChangeEvent,
+  type JSX,
+  type MouseEvent,
+  useEffect,
+  useState
+} from "react"
 
 import {
   MinusIcon,
@@ -13,7 +19,6 @@ import DataTable, {
   type TableColumn,
   type TableStyles
 } from "react-data-table-component"
-import type { ExpandableRowsComponent } from "react-data-table-component/dist/DataTable/types"
 import { useForm } from "react-hook-form"
 import { ToastContainer, toast } from "react-toastify"
 
@@ -40,16 +45,16 @@ interface IMeal {
   title: string
 }
 
-const API_URL = import.meta.env.VITE_API_URL || ""
+const API_URL: string = import.meta.env.VITE_API_URL || ""
 
-export default function Display() {
+export default function Display(): JSX.Element {
   const [meals, setMeals] = useState<IMeal[]>([])
-  const [expandAll, setExpandAll] = useState(false)
-  const [showAdd, setShowAdd] = useState(true)
-  const [showCancel, setShowCancel] = useState(false)
+  const [expandAll, setExpandAll] = useState<boolean>(false)
+  const [showAdd, setShowAdd] = useState<boolean>(true)
+  const [showCancel, setShowCancel] = useState<boolean>(false)
   const [editing, setEditing] = useState<IMeal | null>(null)
-  const [selectedDay, setSelectedDay] = useState(-1)
-  const [pending, setPending] = useState(true)
+  const [selectedDay, setSelectedDay] = useState<number>(-1)
+  const [pending, setPending] = useState<boolean>(true)
 
   const {
     formState: { errors },
@@ -58,7 +63,7 @@ export default function Display() {
     reset
   } = useForm<IMeal>()
 
-  async function onSubmit(meal: IMeal) {
+  const onSubmit = async (meal: IMeal): Promise<void> => {
     if (editing) {
       if (
         meal.day == editing.day && // string(?) == number
@@ -71,10 +76,10 @@ export default function Display() {
       meal.id = editing.id
       await fetch(API_URL + "/api/update/" + meal.id, {
         body: JSON.stringify(meal),
+        method: "PUT",
         headers: {
           "Content-Type": "application/json"
-        },
-        method: "PUT"
+        }
       })
         .then((response: Response) => {
           if (!response.ok) {
@@ -94,10 +99,10 @@ export default function Display() {
       meal.day = selectedDay
       await fetch(API_URL + "/api/add/", {
         body: JSON.stringify(meal),
+        method: "POST",
         headers: {
           "Content-Type": "application/json"
-        },
-        method: "POST"
+        }
       })
         .then((response: Response) => {
           if (!response.ok) {
@@ -116,7 +121,7 @@ export default function Display() {
     }
   }
 
-  async function showError() {
+  const showError = async (): Promise<void> => {
     toast.error(
       "ID not found. This shouldn't happen, but it does sometimes. I'm working on it. Please try again.",
       {
@@ -125,8 +130,8 @@ export default function Display() {
     )
   }
 
-  async function handleEdit(e: MouseEvent<SVGSVGElement>) {
-    const id = (e.target as SVGElement).dataset.id
+  const handleEdit = async (e: MouseEvent<SVGSVGElement>): Promise<void> => {
+    const id: string | undefined = (e.target as SVGElement).dataset.id
     if (!id) {
       await showError()
       console.error(e)
@@ -150,8 +155,8 @@ export default function Display() {
       .catch(console.error)
   }
 
-  async function handleDelete(e: MouseEvent<SVGSVGElement>) {
-    const id = (e.target as SVGElement).dataset.id
+  const handleDelete = async (e: MouseEvent<SVGSVGElement>): Promise<void> => {
+    const id: string | undefined = (e.target as SVGElement).dataset.id
     if (!id) {
       await showError()
       console.error(e)
@@ -177,15 +182,17 @@ export default function Display() {
 
   const cols: TableColumn<IMeal>[] = [
     {
-      selector: (meal: IMeal) => days[meal.day],
-      width: "120px"
+      width: "120px",
+      selector: (meal: IMeal) => days[meal.day]
     },
     {
-      selector: (meal: IMeal) => meal.title,
-      wrap: true
+      wrap: true,
+      selector: (meal: IMeal) => meal.title
     },
     {
       button: true,
+      ignoreRowClick: true,
+      width: "30px",
       cell: (meal: IMeal) => (
         <PencilIcon
           className="size-4 text-yellow cursor-pointer"
@@ -193,12 +200,12 @@ export default function Display() {
           onClick={handleEdit}
           title="Edit"
         />
-      ),
-      ignoreRowClick: true,
-      width: "30px"
+      )
     },
     {
       button: true,
+      ignoreRowClick: true,
+      width: "30px",
       cell: (meal: IMeal) => (
         <TrashIcon
           className="size-4 text-yellow cursor-pointer"
@@ -206,12 +213,11 @@ export default function Display() {
           onClick={handleDelete}
           title="Remove"
         />
-      ),
-      ignoreRowClick: true,
-      width: "30px"
+      )
     }
   ]
 
+  // biome-ignore lint/nursery/useExplicitType: T is IMeal
   const expanded: ExpandableRowsComponent<IMeal> = ({ data }) => (
     <span>{data.description}</span>
   )
@@ -252,27 +258,27 @@ export default function Display() {
       }
     },
     rows: {
+      stripedStyle: {
+        backgroundColor: "#5d1902" /* bg-red2 */,
+        color: "#eddfc5" /* text-yellow2 */
+      },
       style: {
         backgroundColor: "#932c04" /* bg-red */,
         color: "#eddfc5" /* text-yellow2 */,
         fontSize: "14px",
         fontWeight: "bold",
         textAlign: "left"
-      },
-      stripedStyle: {
-        backgroundColor: "#5d1902" /* bg-red2 */,
-        color: "#eddfc5" /* text-yellow2 */
       }
     }
   }
 
-  async function show() {
+  const show = async (): Promise<void> => {
     setShowAdd(false)
     setShowCancel(true)
     reset()
   }
 
-  async function cancel() {
+  const cancel = async (): Promise<void> => {
     setShowAdd(true)
     setShowCancel(false)
     reset()
@@ -280,7 +286,7 @@ export default function Display() {
     setEditing(null)
   }
 
-  async function handleClick() {
+  const handleClick = async (): Promise<void> => {
     if (showAdd) {
       show()
     } else {
@@ -288,7 +294,9 @@ export default function Display() {
     }
   }
 
-  async function handleExpand(e: MouseEvent<HTMLButtonElement>) {
+  const handleExpand = async (
+    e: MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
     const obj = e.target as HTMLButtonElement
     setExpandAll(!expandAll)
     obj.title = obj.innerText = expandAll ? "Expand All" : "Collapse All"
@@ -297,11 +305,13 @@ export default function Display() {
     )
   }
 
-  async function handleChange(e: ChangeEvent<HTMLSelectElement>) {
+  const handleChange = async (
+    e: ChangeEvent<HTMLSelectElement>
+  ): Promise<void> => {
     setSelectedDay(parseInt((e.target as HTMLSelectElement).value))
   }
 
-  async function getMeals() {
+  const getMeals = async (): Promise<void> => {
     cancel()
     await fetch(API_URL + "/api/get")
       .then((response: Response) => {
@@ -325,6 +335,7 @@ export default function Display() {
       .catch(console.error)
   }
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies(getMeals): not a dependency
   useEffect(() => {
     getMeals()
   }, [])
@@ -346,10 +357,11 @@ export default function Display() {
               />
             )}
             <button
-              type="button"
-              onClick={handleExpand}
               className="text-xs cursor-pointer"
-              title="Expand All">
+              onClick={handleExpand}
+              title="Expand All"
+              type="button"
+            >
               Expand All
             </button>
           </span>
@@ -360,8 +372,8 @@ export default function Display() {
           columns={cols}
           customStyles={customStyles}
           data={meals}
-          expandableRowDisabled={(row) => row.disabled}
-          expandableRowExpanded={(row) => row.expanded}
+          expandableRowDisabled={(row: IMeal): boolean => row.disabled}
+          expandableRowExpanded={(row: IMeal): boolean => row.expanded}
           expandableRows
           expandableRowsComponent={expanded}
           expandOnRowClicked
@@ -378,7 +390,8 @@ export default function Display() {
             className="cursor-pointer border-1 rounded-md border-yellow px-2 py-1 text-yellow2"
             onClick={handleClick}
             title="Add Meal"
-            type="button">
+            type="button"
+          >
             <PlusCircleIcon className="size-5 inline mr-1 text-yellow" />
             Add Meal
           </button>
@@ -391,14 +404,16 @@ export default function Display() {
               className="cursor-pointer border-1 rounded-md border-yellow px-2 py-1 text-yellow2"
               onClick={handleClick}
               title="Cancel"
-              type="button">
+              type="button"
+            >
               <XCircleIcon className="size-5 inline mr-1 text-red" />
               Cancel
             </button>
           </div>
           <form
+            className="text-center border-1 border-brown2 size-fit mx-auto px-3 pt-3 my-5"
             onSubmit={handleSubmit(onSubmit)}
-            className="text-center border-1 border-brown2 size-fit mx-auto px-3 pt-3 my-5">
+          >
             <select
               {...register("day", {
                 required: true,
@@ -413,8 +428,9 @@ export default function Display() {
               style={
                 errors.day && { border: "3px double #932c04" /* text-red */ }
               }
-              value={selectedDay}>
-              <option key="0" value="-1" className="bg-red2 font-bold">
+              value={selectedDay}
+            >
+              <option className="bg-red2 font-bold" key="0" value="-1">
                 Choose a day...
               </option>
               {Object.keys(days)
@@ -434,7 +450,6 @@ export default function Display() {
             <input
               {...register("title", { required: true })}
               className="rounded-md px-3 py-1.5 text-yellow2 border-1 border-yellow placeholder:text-yellow inline mr-3 mb-3"
-              id="txtTitle"
               placeholder="Enter meal title..."
               style={
                 errors.title && { border: "3px double #932c04" /* text-red */ }
@@ -455,7 +470,8 @@ export default function Display() {
             <button
               className="cursor-pointer border-1 rounded-md border-yellow px-2 py-1 text-yellow2 inline mb-3"
               title="Submit"
-              type="submit">
+              type="submit"
+            >
               <PlayCircleIcon className="size-5 inline mr-1 text-yellow" />
               Submit
             </button>

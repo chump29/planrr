@@ -9,12 +9,12 @@ export default defineConfig({
   plugins: [
     react(),
     simpleHtml({
+      minify: true,
       inject: {
         data: {
           title: "Planrr"
         }
-      },
-      minify: true
+      }
     }),
     tailwindcss(),
     webFontDownload(

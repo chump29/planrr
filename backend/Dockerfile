@@ -28,8 +28,6 @@ FROM python:${PYTHON_VERSION}-alpine
 
 WORKDIR /backend
 
-RUN apk --update-cache upgrade
-
 COPY --from=build /backend .
 
 ENV PYTHONDONTWRITEBYTECODE=1
