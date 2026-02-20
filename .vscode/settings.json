@@ -1,6 +1,26 @@
 {
+  "biome.lsp.bin": "./frontend/node_modules/@biomejs/biome/bin/biome",
+  "biome.suggestInstallingGlobally": false,
+  "css.lint.unknownAtRules": "ignore",
+  "editor.detectIndentation": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "git.autofetch": true,
+  "python.analysis.typeCheckingMode": "basic",
+  "python.defaultInterpreterPath": "${workspaceFolder}/backend/.venv/bin/python",
+  "python.terminal.activateEnvironment": true,
+  "shellcheck.customArgs": [
+    "-x"
+  ],
+  "terminal.integrated.scrollback": 10000,
   "[css][dockercompose][javacript][javascriptreact][json][typescript][typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[dockercompose]": {
+    "editor.defaultFormatter": "SashaBusinaro.yaml-compose-sorter"
   },
   "[dockerfile]": {
     "editor.defaultFormatter": "ms-azuretools.vscode-containers"
@@ -10,6 +30,9 @@
   },
   "[html]": {
     "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
   },
   "[markdown]": {
     "editor.defaultFormatter": "darkriszty.markdown-table-prettify"
@@ -23,18 +46,10 @@
   "[sh]": {
     "editor.defaultFormatter": "timonwong.shellcheck"
   },
-  "css.lint.unknownAtRules": "ignore",
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
     "source.formatDocument": "explicit"
   },
-  "editor.detectIndentation": true,
-  "editor.formatOnPaste": true,
-  "editor.formatOnSave": true,
-  "editor.tabSize": 2,
-  "files.insertFinalNewline": true,
-  "files.trimTrailingWhitespace": true,
-  "git.autofetch": true,
   "markdownlint.config": {
     "MD013": {
       "line_length": 120
@@ -47,8 +62,5 @@
         "img"
       ]
     }
-  },
-  "python.analysis.typeCheckingMode": "basic",
-  "python.defaultInterpreterPath": "${workspaceFolder}/backend/.venv/bin/python",
-  "python.terminal.activateEnvironment": true
+  }
 }
