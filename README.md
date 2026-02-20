@@ -18,7 +18,7 @@ backend-->backendPort
 
 ---
 
-### To build all images:
+### To build all images
 
 ```bash
 ./build.sh
@@ -26,7 +26,7 @@ backend-->backendPort
 
 ---
 
-### Additional documentation available:
+### Additional documentation available
 
 - [Frontend](./backend/README.md "Frontend")
 - [Backend](./frontend/README.md "Backend")

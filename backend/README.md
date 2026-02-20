@@ -6,7 +6,7 @@
 
 ### 🏗️ Architecture <!-- markdownlint-disable-line MD001 -->
 
-#### API Structure:
+#### API Structure
 
 ```mermaid
 flowchart TD
@@ -30,7 +30,7 @@ port@{shape: brace, label: "&nbsp; FastAPI exposes port 5557"}
 
 ### 🛠️ Environment Management
 
-#### Python ([uv](https://github.com/astral-sh/uv "uv") manager):
+#### Python ([uv](https://github.com/astral-sh/uv "uv") manager)
 
 |        📋 Task         |           🔧 Command            |
 |:----------------------:|:-------------------------------:|
@@ -45,7 +45,7 @@ port@{shape: brace, label: "&nbsp; FastAPI exposes port 5557"}
 
 ### 📦 Dependency Management
 
-#### Installation & Removal:
+#### Installation & Removal
 
 |        📋 Task        |               🔧 Command               |
 |:---------------------:|:--------------------------------------:|
@@ -54,7 +54,7 @@ port@{shape: brace, label: "&nbsp; FastAPI exposes port 5557"}
 |   Remove Dependency   |         `uv remove [package]`          |
 | Remove env Dependency | `uv remove --optional [env] [package]` |
 
-#### Maintenance & Quality:
+#### Maintenance & Quality
 
 |     📋 Task      |               🔧 Command               |
 |:----------------:|:--------------------------------------:|
@@ -68,28 +68,28 @@ port@{shape: brace, label: "&nbsp; FastAPI exposes port 5557"}
 
 ### 🧪 Development
 
-#### Scripts:
+#### Scripts
 
 | 📜 Script |       🔧 Command       |
 |:---------:|:----------------------:|
 |   Lint    | `uv run pylint api.py` |
 |   Test    | `uv run behave --stop` |
 
-#### API Deployment:
+#### API Deployment
 
 | 📋 Task |            🔧 Command (Full)            | 🔧 Command (Short) |
 |:-------:|:---------------------------------------:|:------------------:|
 |   DEV   | `uv run fastapi dev api.py --port 5557` |     `./api.py`     |
 |  PROD   | `uv run fastapi run api.py --port 5557` |      &mdash;       |
 
-#### Docker Deployment:
+#### Docker Deployment
 
 |   📋 Task   |  🔧 Command   |
 |:-----------:|:-------------:|
 |    Full     | `./build.sh`  |
 | Docker Only | `./docker.sh` |
 
-#### Virtual Environment:
+#### Virtual Environment
 
 |    📜 Script    |         🔧 Command          |
 |:---------------:|:---------------------------:|

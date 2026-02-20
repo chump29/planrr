@@ -87,7 +87,6 @@ port@{shape: brace, label: "&nbsp; Nginx exposes port 80"}
 |       Lint Biome       | `pnpm run lint:biome` |
 |        Lint CSS        |  `pnpm run lint:css`  |
 |       Lint HTML        | `pnpm run lint:html`  |
-|     Lint Markdown      |  `pnpm run lint:md`   |
 | Run Tests (Hot Reload) |  `pnpm run test:dev`  |
 |     Run Tests (CI)     |    `pnpm run test`    |
 |       Build DEV        | `pnpm run build:dev`  |
