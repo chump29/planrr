@@ -1,7 +1,7 @@
 services:
   planrr-frontend:
     container_name: planrr-frontend
-    image: git.postfmly.com/admin/planrr-frontend
+    image: git.postfmly.com/admin/planrr-frontend:arm64
     restart: unless-stopped
     depends_on:
       - planrr-backend
@@ -19,7 +19,7 @@ services:
 
   planrr-backend:
     container_name: planrr-backend
-    image: git.postfmly.com/admin/planrr-backend
+    image: git.postfmly.com/admin/planrr-backend:arm64
     restart: unless-stopped
     ports:
       - "5557:5557"
