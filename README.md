@@ -1,4 +1,4 @@
-# <img src="./frontend/public/planrr.png" title="NFLd" alt="NFLd logo" width="64" height="64"> Planrr
+# <img src="./frontend/public/planrr.png" title="Planrr" alt="Planrr logo" width="64" height="64"> Planrr
 
 > - Weekly meal planner
 
@@ -8,9 +8,9 @@
 
 ```mermaid
 flowchart LR
-frontend@{shape: rounded, label: "nfld-frontend:80"}
+frontend@{shape: rounded, label: "planrr-frontend:80"}
 frontendPort@{shape: rounded, label: "http://localhost:91"}
-backend@{shape: rounded, label: "nfld-backend:5557"}
+backend@{shape: rounded, label: "planrr-backend:5557"}
 backendPort@{shape: rounded, label: "http://localhost:5557"}
 frontend-->frontendPort
 backend-->backendPort
