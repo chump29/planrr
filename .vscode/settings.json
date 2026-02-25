@@ -16,7 +16,7 @@
     "-x"
   ],
   "terminal.integrated.scrollback": 10000,
-  "[css][dockercompose][javacript][javascriptreact][json][typescript][typescriptreact]": {
+  "[css][dockercompose][javacript][javascriptreact][json][jsonc][typescript][typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
   "[dockercompose]": {
@@ -30,9 +30,6 @@
   },
   "[html]": {
     "editor.defaultFormatter": "vscode.html-language-features"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
   },
   "[markdown]": {
     "editor.defaultFormatter": "darkriszty.markdown-table-prettify"
