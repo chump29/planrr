@@ -28,5 +28,5 @@ backend-->backendPort
 
 ### Additional documentation available
 
-- [Frontend](./backend/README.md "Frontend")
-- [Backend](./frontend/README.md "Backend")
+- [Frontend](./frontend/README.md "Frontend")
+- [Backend](./backend/README.md "Backend")

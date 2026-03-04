@@ -82,6 +82,13 @@ port@{shape: brace, label: "&nbsp; FastAPI exposes port 5557"}
 |   DEV   | `uv run fastapi dev api.py --port 5557` |     `./api.py`     |
 |  PROD   | `uv run fastapi run api.py --port 5557` |      &mdash;       |
 
+#### API Documentation:
+
+|  📄 UI  |    🌐 URL    |
+|:-------:|:------------:|
+| Swagger | `/api/docs`  |
+|  Redoc  | `/api/redoc` |
+
 #### Docker Deployment:
 
 |   📋 Task   |  🔧 Command   |

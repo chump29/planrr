@@ -53,7 +53,9 @@ if not path.exists(DB_PATH + DB_FILE):
         print(f"Creating database: {DB_FILE}")
     Menu.create_table()
 
-api = FastAPI()
+api = FastAPI(
+    docs_url="/api/docs", openapi_url="/api/openapi.json", redoc_url="/api/redoc"
+)
 
 
 @api.get("/api/version")
