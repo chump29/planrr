@@ -70,10 +70,10 @@ port@{shape: brace, label: "&nbsp; FastAPI exposes port 5557"}
 
 #### Scripts:
 
-| 📜 Script |       🔧 Command       |
-|:---------:|:----------------------:|
-|   Lint    | `uv run pylint api.py` |
-|   Test    | `uv run behave --stop` |
+ | 📜 Script |   🔧 Command (Full)    | 🔧 Command (Short) |
+ |:---------:|:----------------------:|:------------------:|
+ |   Lint    | `uv run pylint api.py` |    `./lint.sh`     |
+ |   Test    | `uv run behave --stop` |    `./test.sh`     |
 
 #### API Deployment:
 
