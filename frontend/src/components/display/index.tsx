@@ -38,7 +38,7 @@ interface IMeal {
 
 const API_URL: string = import.meta.env.VITE_API_URL || ""
 
-export default function Display(): JSX.Element {
+const Display = (): JSX.Element => {
   const [meals, setMeals] = useState<IMeal[]>([])
   const [expandAll, setExpandAll] = useState<boolean>(false)
   const [showAdd, setShowAdd] = useState<boolean>(true)
@@ -351,7 +351,7 @@ export default function Display(): JSX.Element {
       {showAdd ? (
         <div className="text-center mt-10">
           <button
-            className="cursor-pointer border-1 rounded-md border-yellow px-2 py-1 text-yellow2"
+            className="cursor-pointer border rounded-md border-yellow px-2 py-1 text-yellow2"
             onClick={handleClick}
             title="Add Meal"
             type="button">
@@ -364,7 +364,7 @@ export default function Display(): JSX.Element {
         <>
           <div className="text-center mt-10">
             <button
-              className="cursor-pointer border-1 rounded-md border-yellow px-2 py-1 text-yellow2"
+              className="cursor-pointer border rounded-md border-yellow px-2 py-1 text-yellow2"
               onClick={handleClick}
               title="Cancel"
               type="button">
@@ -373,7 +373,7 @@ export default function Display(): JSX.Element {
             </button>
           </div>
           <form
-            className="text-center border-1 border-brown2 size-fit mx-auto px-3 pt-3 my-5"
+            className="text-center border border-brown2 size-fit mx-auto px-3 pt-3 my-5"
             onSubmit={handleSubmit(onSubmit)}>
             <select
               {...register("day", {
@@ -384,7 +384,7 @@ export default function Display(): JSX.Element {
                   }
                 }
               })}
-              className="border-1 text-yellow2 border-yellow rounded-md px-3 py-1.5 mr-3 mb-3"
+              className="border text-yellow2 border-yellow rounded-md px-3 py-1.5 mr-3 mb-3"
               onChange={handleChange}
               style={
                 errors.day && {
@@ -413,7 +413,7 @@ export default function Display(): JSX.Element {
               {...register("title", {
                 required: true
               })}
-              className="rounded-md px-3 py-1.5 text-yellow2 border-1 border-yellow placeholder:text-yellow inline mr-3 mb-3"
+              className="rounded-md px-3 py-1.5 text-yellow2 border border-yellow placeholder:text-yellow inline mr-3 mb-3"
               placeholder="Enter meal title..."
               style={
                 errors.title && {
@@ -426,7 +426,7 @@ export default function Display(): JSX.Element {
             />
             <textarea
               {...register("description")}
-              className="resize-none rounded-md px-3 py-1.5 text-yellow2 border-1 border-yellow placeholder:text-yellow inline mr-3 align-middle mb-3"
+              className="resize-none rounded-md px-3 py-1.5 text-yellow2 border border-yellow placeholder:text-yellow inline mr-3 align-middle mb-3"
               cols={20}
               placeholder="Enter meal description..."
               rows={2}
@@ -434,7 +434,7 @@ export default function Display(): JSX.Element {
               value={editing?.description}
             />
             <button
-              className="cursor-pointer border-1 rounded-md border-yellow px-2 py-1 text-yellow2 inline mb-3"
+              className="cursor-pointer border rounded-md border-yellow px-2 py-1 text-yellow2 inline mb-3"
               title="Submit"
               type="submit">
               <PlayCircleIcon className="size-5 inline mr-1 text-yellow" />
@@ -447,3 +447,5 @@ export default function Display(): JSX.Element {
     </>
   )
 }
+
+export default Display
