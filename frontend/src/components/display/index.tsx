@@ -1,10 +1,4 @@
-import {
-  type ChangeEvent,
-  type JSX,
-  type MouseEvent,
-  useEffect,
-  useState
-} from "react"
+import { type ChangeEvent, type JSX, type MouseEvent, useEffect, useState } from "react"
 
 import {
   MinusIcon,
@@ -15,10 +9,7 @@ import {
   TrashIcon,
   XCircleIcon
 } from "@heroicons/react/24/outline"
-import DataTable, {
-  type TableColumn,
-  type TableStyles
-} from "react-data-table-component"
+import DataTable, { type TableColumn, type TableStyles } from "react-data-table-component"
 import { useForm } from "react-hook-form"
 import { ToastContainer, toast } from "react-toastify"
 
@@ -122,12 +113,9 @@ export default function Display(): JSX.Element {
   }
 
   const showError = async (): Promise<void> => {
-    toast.error(
-      "ID not found. This shouldn't happen, but it does sometimes. I'm working on it. Please try again.",
-      {
-        toastId: "notFoundError"
-      }
-    )
+    toast.error("ID not found. This shouldn't happen, but it does sometimes. I'm working on it. Please try again.", {
+      toastId: "notFoundError"
+    })
   }
 
   const handleEdit = async (e: MouseEvent<SVGSVGElement>): Promise<void> => {
@@ -194,12 +182,7 @@ export default function Display(): JSX.Element {
       ignoreRowClick: true,
       width: "30px",
       cell: (meal: IMeal) => (
-        <PencilIcon
-          className="size-4 text-yellow cursor-pointer"
-          data-id={meal.id}
-          onClick={handleEdit}
-          title="Edit"
-        />
+        <PencilIcon className="size-4 text-yellow cursor-pointer" data-id={meal.id} onClick={handleEdit} title="Edit" />
       )
     },
     {
@@ -218,9 +201,7 @@ export default function Display(): JSX.Element {
   ]
 
   // biome-ignore lint/nursery/useExplicitType: T is IMeal
-  const expanded: ExpandableRowsComponent<IMeal> = ({ data }) => (
-    <span>{data.description}</span>
-  )
+  const expanded: ExpandableRowsComponent<IMeal> = ({ data }) => <span>{data.description}</span>
 
   const customStyles: TableStyles = {
     expanderButton: {
@@ -294,20 +275,14 @@ export default function Display(): JSX.Element {
     }
   }
 
-  const handleExpand = async (
-    e: MouseEvent<HTMLButtonElement>
-  ): Promise<void> => {
+  const handleExpand = async (e: MouseEvent<HTMLButtonElement>): Promise<void> => {
     const obj = e.target as HTMLButtonElement
     setExpandAll(!expandAll)
     obj.title = obj.innerText = expandAll ? "Expand All" : "Collapse All"
-    meals.forEach(
-      (meal) => (meal.expanded = !meal.disabled ? !expandAll : false)
-    )
+    meals.forEach((meal) => (meal.expanded = !meal.disabled ? !expandAll : false))
   }
 
-  const handleChange = async (
-    e: ChangeEvent<HTMLSelectElement>
-  ): Promise<void> => {
+  const handleChange = async (e: ChangeEvent<HTMLSelectElement>): Promise<void> => {
     setSelectedDay(parseInt((e.target as HTMLSelectElement).value))
   }
 
@@ -346,22 +321,11 @@ export default function Display(): JSX.Element {
         {meals.length ? (
           <span className="float-end mb-1 mr-1 text-yellow2">
             {expandAll ? (
-              <MinusIcon
-                className="size-3 inline mr-1 text-yellow2 cursor-pointer"
-                title="Collapse All"
-              />
+              <MinusIcon className="size-3 inline mr-1 text-yellow2 cursor-pointer" title="Collapse All" />
             ) : (
-              <PlusIcon
-                className="size-3 inline mr-1 text-yellow2 cursor-pointer"
-                title="Expand All"
-              />
+              <PlusIcon className="size-3 inline mr-1 text-yellow2 cursor-pointer" title="Expand All" />
             )}
-            <button
-              className="text-xs cursor-pointer"
-              onClick={handleExpand}
-              title="Expand All"
-              type="button"
-            >
+            <button className="text-xs cursor-pointer" onClick={handleExpand} title="Expand All" type="button">
               Expand All
             </button>
           </span>
@@ -390,8 +354,7 @@ export default function Display(): JSX.Element {
             className="cursor-pointer border-1 rounded-md border-yellow px-2 py-1 text-yellow2"
             onClick={handleClick}
             title="Add Meal"
-            type="button"
-          >
+            type="button">
             <PlusCircleIcon className="size-5 inline mr-1 text-yellow" />
             Add Meal
           </button>
@@ -404,16 +367,14 @@ export default function Display(): JSX.Element {
               className="cursor-pointer border-1 rounded-md border-yellow px-2 py-1 text-yellow2"
               onClick={handleClick}
               title="Cancel"
-              type="button"
-            >
+              type="button">
               <XCircleIcon className="size-5 inline mr-1 text-red" />
               Cancel
             </button>
           </div>
           <form
             className="text-center border-1 border-brown2 size-fit mx-auto px-3 pt-3 my-5"
-            onSubmit={handleSubmit(onSubmit)}
-          >
+            onSubmit={handleSubmit(onSubmit)}>
             <select
               {...register("day", {
                 required: true,
@@ -426,10 +387,11 @@ export default function Display(): JSX.Element {
               className="border-1 text-yellow2 border-yellow rounded-md px-3 py-1.5 mr-3 mb-3"
               onChange={handleChange}
               style={
-                errors.day && { border: "3px double #932c04" /* text-red */ }
+                errors.day && {
+                  border: "3px double #932c04" /* text-red */
+                }
               }
-              value={selectedDay}
-            >
+              value={selectedDay}>
               <option className="bg-red2 font-bold" key="0" value="-1">
                 Choose a day...
               </option>
@@ -448,11 +410,15 @@ export default function Display(): JSX.Element {
                 ))}
             </select>
             <input
-              {...register("title", { required: true })}
+              {...register("title", {
+                required: true
+              })}
               className="rounded-md px-3 py-1.5 text-yellow2 border-1 border-yellow placeholder:text-yellow inline mr-3 mb-3"
               placeholder="Enter meal title..."
               style={
-                errors.title && { border: "3px double #932c04" /* text-red */ }
+                errors.title && {
+                  border: "3px double #932c04" /* text-red */
+                }
               }
               title="Enter meal title..."
               type="text"
@@ -470,21 +436,14 @@ export default function Display(): JSX.Element {
             <button
               className="cursor-pointer border-1 rounded-md border-yellow px-2 py-1 text-yellow2 inline mb-3"
               title="Submit"
-              type="submit"
-            >
+              type="submit">
               <PlayCircleIcon className="size-5 inline mr-1 text-yellow" />
               Submit
             </button>
           </form>
         </>
       ) : null}
-      <ToastContainer
-        closeButton={false}
-        closeOnClick
-        pauseOnHover={false}
-        position="top-center"
-        theme="dark"
-      />
+      <ToastContainer closeButton={false} closeOnClick pauseOnHover={false} position="top-center" theme="dark" />
     </>
   )
 }

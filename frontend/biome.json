@@ -52,12 +52,12 @@
     "bracketSameLine": false,
     "bracketSpacing": true,
     "enabled": true,
-    "expand": "auto",
+    "expand": "always",
     "formatWithErrors": false,
     "indentStyle": "space",
     "indentWidth": 2,
     "lineEnding": "lf",
-    "lineWidth": 80,
+    "lineWidth": 120,
     "trailingNewline": true,
     "useEditorconfig": true
   },
@@ -65,7 +65,7 @@
     "formatter": {
       "arrowParentheses": "always",
       "attributePosition": "auto",
-      "bracketSameLine": false,
+      "bracketSameLine": true,
       "bracketSpacing": true,
       "jsxQuoteStyle": "double",
       "quoteProperties": "asNeeded",
@@ -214,10 +214,13 @@
       "complexity": {
         "noBannedTypes": "error",
         "noUselessThisAlias": "error",
-        "noUselessTypeConstraint": "error"
+        "noUselessTypeConstraint": "error",
+        "useArrowFunction": "error",
+        "useOptionalChain": "error"
       },
       "correctness": {
         "noChildrenProp": "error",
+        "noUnusedFunctionParameters": "error",
         "noUnusedVariables": "error",
         "useJsxKeyInIterable": "error",
         "useUniqueElementIds": "off"
@@ -234,7 +237,8 @@
         "noNamespace": "error",
         "useArrayLiterals": "error",
         "useAsConstAssertion": "error",
-        "useBlockStatements": "off"
+        "useBlockStatements": "off",
+        "useConst": "error"
       },
       "suspicious": {
         "noCommentText": "error",
@@ -251,7 +255,9 @@
   },
   "overrides": [
     {
-      "includes": ["**/*.{js,ts,tsx}"],
+      "includes": [
+        "**/*.{js,ts,tsx}"
+      ],
       "linter": {
         "rules": {
           "complexity": {
@@ -292,7 +298,9 @@
             "noInferrableTypes": "off",
             "useImportType": {
               "level": "error",
-              "options": { "style": "inlineType" }
+              "options": {
+                "style": "inlineType"
+              }
             }
           },
           "suspicious": {
@@ -326,7 +334,11 @@
             "useGetterReturn": "error",
             "noConsole": {
               "level": "error",
-              "options": { "allow": ["error"] }
+              "options": {
+                "allow": [
+                  "error"
+                ]
+              }
             }
           }
         }

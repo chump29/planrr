@@ -10,9 +10,7 @@ const getVersion = (version: string): string => {
   return version.length ? `v${version}` : "N/A"
 }
 
-document.getElementById("frontend")!.innerText = getVersion(
-  import.meta.env.PACKAGE_VERSION
-)
+document.getElementById("frontend")!.innerText = getVersion(import.meta.env.PACKAGE_VERSION)
 
 const obj: HTMLElement | null = document.getElementById("backend")
 fetch(api_url + "/api/version", {

@@ -22,16 +22,28 @@ export default defineConfig({
         "https://fonts.googleapis.com/css2?family=Montserrat&display=swap",
         "https://fonts.googleapis.com/css2?family=Yellowtail&display=swap"
       ],
-      { assetsSubfolder: "fonts", injectAsStyleTag: false }
+      {
+        assetsSubfolder: "fonts",
+        injectAsStyleTag: false
+      }
     ),
     version()
   ],
   test: {
     environment: "jsdom",
     globals: true,
-    include: ["./src/**/*.test.tsx"],
-    reporters: [["verbose", { summary: true }]],
     setupFiles: "./src/setup.ts",
-    silent: true
+    silent: true,
+    include: [
+      "./src/**/*.test.tsx"
+    ],
+    reporters: [
+      [
+        "verbose",
+        {
+          summary: true
+        }
+      ]
+    ]
   }
 })
