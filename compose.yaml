@@ -25,12 +25,15 @@ services:
       - "5557:5557"
     volumes:
       - db:/backend/db
+    environment:
+      - TZ=America/Chicago
     labels:
       - wud.display.name=Planrr (Backend)
     stop_signal: SIGINT
 
 volumes:
   db:
+
 
 networks: {}
 

@@ -26,6 +26,15 @@ RUN rm uv.lock
 
 FROM python:${PYTHON_VERSION}-alpine
 
+LABEL org.opencontainers.image.authors="admin@postfmly.com" \
+    org.opencontainers.image.description="Weekly meal planner (Backend)" \
+    org.opencontainers.image.licenses="GPL-3.0-only" \
+    org.opencontainers.image.title="Planrr (Backend)" \
+    org.opencontainers.image.url="https://github.com/chump29/planrr"
+
+# hadolint ignore=DL3018
+RUN apk add --no-cache tzdata
+
 WORKDIR /backend
 
 COPY --from=build /backend .
