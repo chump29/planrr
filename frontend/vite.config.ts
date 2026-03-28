@@ -36,6 +36,7 @@ export default defineConfig({
       }
     }),
     tailwindcss(),
+    version(),
     webFontDownload(
       [
         "https://fonts.googleapis.com/css2?family=Montserrat&display=swap",
@@ -46,8 +47,7 @@ export default defineConfig({
         assetsSubfolder: "fonts",
         injectAsStyleTag: false
       }
-    ),
-    version()
+    )
   ],
   test: {
     disableConsoleIntercept: false, // for debug

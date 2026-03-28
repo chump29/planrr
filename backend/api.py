@@ -25,7 +25,7 @@ from playhouse.shortcuts import model_to_dict
 from pydantic import BaseModel, ConfigDict, Field, PositiveInt, StrictInt, StrictStr
 from rich.console import Console
 from rich.traceback import install as catch_exceptions
-from semantic_version import validate
+from semver import Version
 from uvicorn import run
 
 DEBUG: Final[bool] = False
@@ -106,8 +106,8 @@ def get_version() -> str | None:
 
     try:
         with Path("pyproject.toml").open("rb") as pyproject:
-            version: str = str(Box(load(pyproject)).project.version)
-            if not validate(version):
+            version: str = str(Box(load(pyproject)).project.version).strip('"')
+            if not Version.is_valid(version):
                 invalid_version(version)
             if DEBUG:
                 log("Got version:", version)

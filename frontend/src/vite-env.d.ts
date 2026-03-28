@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/correctness/noUnusedVariables: for Vite environment variables */
+// biome-ignore-all lint/correctness/noUnusedVariables: for Vite environment variables
 
 interface ViteTypeOptions {
   strictImportMetaEnv: unknown
