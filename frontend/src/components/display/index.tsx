@@ -1,51 +1,35 @@
-import { type ChangeEvent, type JSX, type MouseEvent, useEffect, useState } from "react"
+import { type ChangeEvent, type JSX, useEffect, useState } from "react"
 
-import {
-  MinusIcon,
-  PencilIcon,
-  PlayCircleIcon,
-  PlusCircleIcon,
-  PlusIcon,
-  TrashIcon,
-  XCircleIcon
-} from "@heroicons/react/24/outline"
-import DataTable, { type TableColumn, type TableStyles } from "react-data-table-component"
+import { ErrorMessage } from "@hookform/error-message"
+import AddCircleIcon from "@mui/icons-material/AddCircleOutline"
+import HighlightOffIcon from "@mui/icons-material/HighlightOff"
+import SendIcon from "@mui/icons-material/Send"
+import CircularProgress from "@mui/material/CircularProgress"
+import IconButton from "@mui/material/IconButton"
+import Table from "@mui/material/Table"
+import TableBody from "@mui/material/TableBody"
+import TableContainer from "@mui/material/TableContainer"
 import { useForm } from "react-hook-form"
-import { ToastContainer, toast } from "react-toastify"
+import { z } from "zod/mini"
 
-interface Days {
-  [key: number]: string
-}
+import { type IMeal, zIMeal } from "../../interfaces/IMeal"
+import Row from "../row"
+import { days, error, info } from "../shared"
 
-const days: Days = {
-  0: "Monday",
-  1: "Tuesday",
-  2: "Wednesday",
-  3: "Thursday",
-  4: "Friday",
-  5: "Saturday",
-  6: "Sunday"
-}
+const DEBUG: boolean = false
 
-interface IMeal {
-  day: number
-  description: string
-  disabled: boolean
-  expanded: boolean
-  id: number
-  title: string
-}
+z.config(z.locales.en())
 
-const API_URL: string = import.meta.env.VITE_API_URL || ""
+const u: z.core.util.SafeParseResult<string> = z.url().safeParse(import.meta.env.VITE_API_URL)
+const API_URL: string = u.success ? u.data : ""
 
 const Display = (): JSX.Element => {
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [meals, setMeals] = useState<IMeal[]>([])
-  const [expandAll, setExpandAll] = useState<boolean>(false)
-  const [showAdd, setShowAdd] = useState<boolean>(true)
-  const [showCancel, setShowCancel] = useState<boolean>(false)
+  const [isAdding, setIsAdding] = useState<boolean>(false)
   const [editing, setEditing] = useState<IMeal | null>(null)
   const [selectedDay, setSelectedDay] = useState<number>(-1)
-  const [pending, setPending] = useState<boolean>(true)
+  const [refreshState, refresh] = useState<number>(0)
 
   const {
     formState: { errors },
@@ -54,19 +38,33 @@ const Display = (): JSX.Element => {
     reset
   } = useForm<IMeal>()
 
+  const handleAdd = async (): Promise<void> => {
+    setIsAdding(true)
+  }
+
+  const handleCancel = async (): Promise<void> => {
+    setIsAdding(false)
+    setSelectedDay(-1)
+    setEditing(null)
+    reset()
+  }
+
   const onSubmit = async (meal: IMeal): Promise<void> => {
+    if (!meal) {
+      return
+    }
+    const m: IMeal | null = zIMeal.parse(meal) as unknown as IMeal
     if (editing) {
-      if (
-        meal.day == editing.day && // string(?) == number
-        meal.title === editing.title &&
-        meal.description === editing.description
-      ) {
-        cancel()
+      if (m.day == editing.day && m.title === editing.title && m.description === editing.description) {
+        if (DEBUG) {
+          info(`No update for meal ID ${editing.id}`)
+        }
+        handleCancel()
         return
       }
-      meal.id = editing.id
-      await fetch(API_URL + "/api/update/" + meal.id, {
-        body: JSON.stringify(meal),
+      m.id = editing.id
+      await fetch(API_URL + "/api/update/" + m.id, {
+        body: JSON.stringify(m),
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
@@ -80,16 +78,29 @@ const Display = (): JSX.Element => {
         })
         .then((meal: IMeal) => {
           if (!meal) {
-            console.error(editing)
-            throw new Error("Error editing meal")
+            throw new Error(`Error editing meal ID ${editing.id}`)
           }
-          getMeals()
+          let m: IMeal | null = zIMeal.parse(meal) as unknown as IMeal
+          try {
+            m = zIMeal.parse(meal) as unknown as IMeal
+            // biome-ignore lint/suspicious/noExplicitAny: catch everything
+          } catch (e: any) {
+            if (e instanceof z.core.$ZodError) {
+              error(z.prettifyError(e))
+            } else {
+              error(e)
+            }
+          }
+          if (DEBUG) {
+            info(`Updated meal ID ${meal.id}`, m)
+          }
+          refresh(Date.now())
         })
-        .catch(console.error)
+        .catch(error)
     } else {
-      meal.day = selectedDay
+      m.day = selectedDay
       await fetch(API_URL + "/api/add/", {
-        body: JSON.stringify(meal),
+        body: JSON.stringify(m),
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -103,183 +114,23 @@ const Display = (): JSX.Element => {
         })
         .then((meal: IMeal) => {
           if (!meal) {
-            console.error(meal)
-            throw new Error("Error adding meal")
+            throw new Error("Error adding meal", meal)
           }
-          getMeals()
+          try {
+            zIMeal.parse(meal) as unknown as IMeal
+            // biome-ignore lint/suspicious/noExplicitAny: catch everything
+          } catch (e: any) {
+            if (e instanceof z.core.$ZodError) {
+              error(z.prettifyError(e))
+            } else {
+              error(e)
+            }
+          }
+          refresh(Date.now())
         })
-        .catch(console.error)
+        .catch(error)
     }
-  }
-
-  const showError = async (): Promise<void> => {
-    toast.error("ID not found. This shouldn't happen, but it does sometimes. I'm working on it. Please try again.", {
-      toastId: "notFoundError"
-    })
-  }
-
-  const handleEdit = async (e: MouseEvent<SVGSVGElement>): Promise<void> => {
-    const id: string | undefined = (e.target as SVGElement).dataset.id
-    if (!id) {
-      await showError()
-      console.error(e)
-      throw new Error("ID not found for edit")
-    }
-    await fetch(API_URL + "/api/get/" + id)
-      .then((response: Response) => {
-        if (!response.ok) {
-          throw new Error(`Status: ${response.status}`)
-        }
-        return response.json()
-      })
-      .then((meal: IMeal) => {
-        if (!meal) {
-          throw new Error(`Error getting id: ${id}`)
-        }
-        show()
-        setSelectedDay(meal.day)
-        setEditing(meal)
-      })
-      .catch(console.error)
-  }
-
-  const handleDelete = async (e: MouseEvent<SVGSVGElement>): Promise<void> => {
-    const id: string | undefined = (e.target as SVGElement).dataset.id
-    if (!id) {
-      await showError()
-      console.error(e)
-      throw new Error("ID not found for delete")
-    }
-    await fetch(API_URL + "/api/delete/" + id, {
-      method: "DELETE"
-    })
-      .then((response: Response) => {
-        if (!response.ok) {
-          throw new Error(`Status: ${response.status}`)
-        }
-        return response.json()
-      })
-      .then((result: boolean) => {
-        if (!result) {
-          throw new Error(`Error deleting id: ${id}`)
-        }
-        getMeals()
-      })
-      .catch(console.error)
-  }
-
-  const cols: TableColumn<IMeal>[] = [
-    {
-      width: "120px",
-      selector: (meal: IMeal) => days[meal.day]
-    },
-    {
-      wrap: true,
-      selector: (meal: IMeal) => meal.title
-    },
-    {
-      button: true,
-      ignoreRowClick: true,
-      width: "30px",
-      cell: (meal: IMeal) => (
-        <PencilIcon className="size-4 text-yellow cursor-pointer" data-id={meal.id} onClick={handleEdit} title="Edit" />
-      )
-    },
-    {
-      button: true,
-      ignoreRowClick: true,
-      width: "30px",
-      cell: (meal: IMeal) => (
-        <TrashIcon
-          className="size-4 text-yellow cursor-pointer"
-          data-id={meal.id}
-          onClick={handleDelete}
-          title="Remove"
-        />
-      )
-    }
-  ]
-
-  // biome-ignore lint/nursery/useExplicitType: T is IMeal
-  const expanded: ExpandableRowsComponent<IMeal> = ({ data }) => <span>{data.description}</span>
-
-  const customStyles: TableStyles = {
-    expanderButton: {
-      style: {
-        color: "#c4751c" /* text-yellow */,
-        "&:disabled": {
-          display: "none"
-        }
-      }
-    },
-    expanderRow: {
-      style: {
-        backgroundColor: "#3f2723" /* bg-brown2 */,
-        color: "#eddfc5" /* text-yellow2 */,
-        fontSize: "12px",
-        fontWeight: "normal",
-        padding: "2px 5px",
-        textAlign: "left"
-      }
-    },
-    noData: {
-      style: {
-        backgroundColor: "#932c04" /* bg-red */,
-        color: "#eddfc5" /* text-yellow2 */,
-        fontSize: "14px",
-        fontWeight: "bold",
-        padding: "24px"
-      }
-    },
-    progress: {
-      style: {
-        backgroundColor: "#932c04" /* bg-red */,
-        border: "1px solid #c4751c" /* border-yellow */,
-        borderRadius: "6px" /* rounded-md */
-      }
-    },
-    rows: {
-      stripedStyle: {
-        backgroundColor: "#5d1902" /* bg-red2 */,
-        color: "#eddfc5" /* text-yellow2 */
-      },
-      style: {
-        backgroundColor: "#932c04" /* bg-red */,
-        color: "#eddfc5" /* text-yellow2 */,
-        fontSize: "14px",
-        fontWeight: "bold",
-        textAlign: "left"
-      }
-    }
-  }
-
-  const show = async (): Promise<void> => {
-    setShowAdd(false)
-    setShowCancel(true)
-    reset()
-  }
-
-  const cancel = async (): Promise<void> => {
-    setShowAdd(true)
-    setShowCancel(false)
-    reset()
-    setSelectedDay(-1)
-    setEditing(null)
-  }
-
-  const handleClick = async (): Promise<void> => {
-    if (showAdd) {
-      show()
-    } else {
-      cancel()
-    }
-  }
-
-  const handleExpand = async (e: MouseEvent<HTMLButtonElement>): Promise<void> => {
-    const obj = e.target as HTMLButtonElement
-    setExpandAll(!expandAll)
-    obj.title = obj.innerText = expandAll ? "Expand All" : "Collapse All"
-    meals.forEach((meal) => (meal.expanded = !meal.disabled ? !expandAll : false))
+    handleCancel()
   }
 
   const handleChange = async (e: ChangeEvent<HTMLSelectElement>): Promise<void> => {
@@ -287,7 +138,6 @@ const Display = (): JSX.Element => {
   }
 
   const getMeals = async (): Promise<void> => {
-    cancel()
     await fetch(API_URL + "/api/get")
       .then((response: Response) => {
         if (!response.ok) {
@@ -296,107 +146,126 @@ const Display = (): JSX.Element => {
         return response.json()
       })
       .then((meals: IMeal[]) => {
-        meals.forEach((meal: IMeal) => {
-          if (!meal.description.length) {
-            meal.disabled = true
+        if (!meals) {
+          if (DEBUG) {
+            info("No meals found")
           }
-        })
-        setMeals(meals)
-        setPending(false)
-        if (!meals.length) {
-          setExpandAll(false)
+          return
         }
+        const m: IMeal[] | null = z.array(zIMeal).parse(meals) as unknown[] as IMeal[]
+        if (DEBUG) {
+          info("Getting all meals", m)
+        }
+        setMeals(m)
+        setIsLoading(false)
       })
-      .catch(console.error)
+      .catch(error)
   }
 
   // biome-ignore lint/correctness/useExhaustiveDependencies(getMeals): not a dependency
-  useEffect(() => {
+  // biome-ignore lint/correctness/useExhaustiveDependencies(refreshState): is a dependency
+  useEffect((): void => {
+    if (DEBUG) {
+      info("useEffect() called")
+    }
+    setIsLoading(true)
     getMeals()
-  }, [])
+  }, [
+    refreshState
+  ])
 
   return (
     <>
-      <div className="text-center mt-10 mx-auto px-1 max-w-lg">
-        {meals.length ? (
-          <span className="float-end mb-1 mr-1 text-yellow2">
-            {expandAll ? (
-              <MinusIcon className="size-3 inline mr-1 text-yellow2 cursor-pointer" title="Collapse All" />
-            ) : (
-              <PlusIcon className="size-3 inline mr-1 text-yellow2 cursor-pointer" title="Expand All" />
-            )}
-            <button className="text-xs cursor-pointer" onClick={handleExpand} title="Expand All" type="button">
-              Expand All
-            </button>
-          </span>
-        ) : null}
-        <DataTable
-          ariaLabel="dtMenu"
-          className="border-yellow rounded-md"
-          columns={cols}
-          customStyles={customStyles}
-          data={meals}
-          expandableRowDisabled={(row: IMeal): boolean => row.disabled}
-          expandableRowExpanded={(row: IMeal): boolean => row.expanded}
-          expandableRows
-          expandableRowsComponent={expanded}
-          expandOnRowClicked
-          noDataComponent={<div>There are no meals to display</div>}
-          noTableHead
-          pointerOnHover
-          progressPending={pending}
-          striped
-        />
+      <div className="text-center mt-10 mx-auto px-1 max-w-xl">
+        {isLoading ? (
+          <CircularProgress
+            sx={{
+              color: "#c4751c"
+            }}
+          />
+        ) : meals.length ? (
+          <>
+            <TableContainer
+              sx={{
+                borderRadius: "6px"
+              }}>
+              <Table data-testid="table">
+                <TableBody
+                  sx={{
+                    backgroundColor: "#932c04"
+                  }}>
+                  {meals.map((meal: IMeal, i: number) => (
+                    <Row
+                      id={i}
+                      key={meal.id}
+                      meal={meal}
+                      refresh={refresh}
+                      setEditing={setEditing}
+                      setIsAdding={setIsAdding}
+                      setSelectedDay={setSelectedDay}
+                    />
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
+        ) : (
+          <div className="text-2xl font-bold italic">There are no meals to display</div>
+        )}
       </div>
-      {showAdd ? (
+      {isAdding ? (
         <div className="text-center mt-10">
-          <button
-            className="cursor-pointer border rounded-md border-yellow px-2 py-1 text-yellow2"
-            onClick={handleClick}
-            title="Add Meal"
-            type="button">
-            <PlusCircleIcon className="size-5 inline mr-1 text-yellow" />
-            Add Meal
-          </button>
-        </div>
-      ) : null}
-      {showCancel ? (
-        <>
-          <div className="text-center mt-10">
-            <button
-              className="cursor-pointer border rounded-md border-yellow px-2 py-1 text-yellow2"
-              onClick={handleClick}
-              title="Cancel"
-              type="button">
-              <XCircleIcon className="size-5 inline mr-1 text-red" />
-              Cancel
-            </button>
-          </div>
+          <IconButton
+            data-testid="cancel"
+            onClick={handleCancel}
+            size="small"
+            sx={{
+              border: "1px solid #c4751c",
+              borderRadius: "6px",
+              color: "#eddfc5",
+              cursor: "pointer",
+              width: "120px",
+              "& svg": {
+                marginRight: "5px"
+              }
+            }}
+            title="Cancel">
+            <HighlightOffIcon
+              sx={{
+                color: "#932c04",
+                height: "16px",
+                width: "16px"
+              }}
+            />
+            Cancel
+          </IconButton>
           <form
             className="text-center border border-brown2 size-fit mx-auto px-3 pt-3 my-5"
+            data-testid="form"
             onSubmit={handleSubmit(onSubmit)}>
             <select
+              title="Choose a day..."
               {...register("day", {
                 required: true,
-                validate: {
-                  validateValue: async (day: number) => {
-                    return day > -1
-                  }
+                valueAsNumber: true,
+                min: {
+                  message: "Day must be selected",
+                  value: 0
                 }
               })}
-              className="border text-yellow2 border-yellow rounded-md px-3 py-1.5 mr-3 mb-3"
+              className="border text-yellow2 border-yellow rounded-md px-3 py-1.5 mr-3 mb-3 cursor-pointer"
+              defaultValue={selectedDay}
               onChange={handleChange}
               style={
                 errors.day && {
-                  border: "3px double #932c04" /* text-red */
+                  border: "3px double #932c04"
                 }
-              }
-              value={selectedDay}>
+              }>
               <option className="bg-red2 font-bold" key="0" value="-1">
                 Choose a day...
               </option>
               {Object.keys(days)
-                .filter((i: string) => {
+                .filter((i: string): string | null => {
                   return editing && editing.day === parseInt(i)
                     ? i
                     : !meals.find((meal) => meal.day === parseInt(i))
@@ -411,39 +280,107 @@ const Display = (): JSX.Element => {
             </select>
             <input
               {...register("title", {
-                required: true
+                maxLength: {
+                  message: "Title exceeds the maximum length (255)",
+                  value: 255
+                },
+                required: {
+                  message: "Title is required",
+                  value: true
+                }
               })}
               className="rounded-md px-3 py-1.5 text-yellow2 border border-yellow placeholder:text-yellow inline mr-3 mb-3"
+              defaultValue={editing?.title}
               placeholder="Enter meal title..."
               style={
                 errors.title && {
-                  border: "3px double #932c04" /* text-red */
+                  border: "3px double #932c04"
                 }
               }
               title="Enter meal title..."
               type="text"
-              value={editing?.title}
             />
             <textarea
-              {...register("description")}
+              {...register("description", {
+                maxLength: {
+                  message: "Description exceeds the maximum length (255)",
+                  value: 255
+                }
+              })}
               className="resize-none rounded-md px-3 py-1.5 text-yellow2 border border-yellow placeholder:text-yellow inline mr-3 align-middle mb-3"
               cols={20}
+              defaultValue={editing?.description ?? undefined}
               placeholder="Enter meal description..."
               rows={2}
+              style={
+                errors.description && {
+                  border: "3px double #932c04"
+                }
+              }
               title="Enter meal description..."
-              value={editing?.description}
             />
-            <button
-              className="cursor-pointer border rounded-md border-yellow px-2 py-1 text-yellow2 inline mb-3"
+            <IconButton
+              size="small"
+              sx={{
+                border: "1px solid #c4751c",
+                borderRadius: "6px",
+                color: "#eddfc5",
+                cursor: "pointer",
+                width: "120px",
+                "& svg": {
+                  marginRight: "5px"
+                }
+              }}
               title="Submit"
               type="submit">
-              <PlayCircleIcon className="size-5 inline mr-1 text-yellow" />
+              <SendIcon
+                sx={{
+                  color: "#c4751c",
+                  height: "16px",
+                  width: "16px"
+                }}
+              />
               Submit
-            </button>
+            </IconButton>
           </form>
-        </>
-      ) : null}
-      <ToastContainer closeButton={false} closeOnClick pauseOnHover={false} position="top-center" theme="dark" />
+          <div className="font-bold italic">
+            <ErrorMessage errors={errors} name="day" />
+          </div>
+          <div className="font-bold italic">
+            <ErrorMessage errors={errors} name="title" />
+          </div>
+          <div className="font-bold italic">
+            <ErrorMessage errors={errors} name="description" />
+          </div>
+        </div>
+      ) : (
+        <div className="text-center mt-10">
+          <IconButton
+            data-testid="add"
+            onClick={handleAdd}
+            size="small"
+            sx={{
+              border: "1px solid #c4751c",
+              borderRadius: "6px",
+              color: "#eddfc5",
+              cursor: "pointer",
+              width: "120px",
+              "& svg": {
+                marginRight: "5px"
+              }
+            }}
+            title="Add Meal">
+            <AddCircleIcon
+              sx={{
+                color: "#c4751c",
+                height: "16px",
+                width: "16px"
+              }}
+            />
+            Add Meal
+          </IconButton>
+        </div>
+      )}
     </>
   )
 }

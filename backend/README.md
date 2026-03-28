@@ -58,7 +58,7 @@ port@{shape: brace, label: "&nbsp; FastAPI exposes port 5557"}
 
 |     📋 Task      |               🔧 Command               |
 |:----------------:|:--------------------------------------:|
-|  Check Updates   |          `uv run pip-review`           |
+|  Check Updates   |        `uv pip list --outdated`        |
 |   Upgrade All    |          `uv lock --upgrade`           |
 |       List       |             `uv pip list`              |
 |    List Tree     |               `uv tree`                |
@@ -70,10 +70,10 @@ port@{shape: brace, label: "&nbsp; FastAPI exposes port 5557"}
 
 #### Scripts:
 
- | 📜 Script |   🔧 Command (Full)    | 🔧 Command (Short) |
- |:---------:|:----------------------:|:------------------:|
- |   Lint    | `uv run pylint api.py` |    `./lint.sh`     |
- |   Test    | `uv run behave --stop` |    `./test.sh`     |
+ | 📜 Script |      🔧 Command (Full)      | 🔧 Command (Short) |
+ |:---------:|:---------------------------:|:------------------:|
+ |   Lint    | `uv run pylint --verbose .` |    `./lint.sh`     |
+ |   Test    |   `uv run behave --stop`    |    `./test.sh`     |
 
 #### API Deployment:
 

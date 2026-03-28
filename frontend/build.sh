@@ -14,18 +14,18 @@ clear
 
 echo -e "${_title} ${_red}Planrr FRONTEND${_nc} ${_title}\n"
 
-echo -e "${_task} ${_green}Installing dependencies${_nc}:\n"
+echo -e "${_task} ${_yellow}Installing dependencies${_nc}:\n"
 pnpm install --frozen-lockfile
 
-echo -e "\n${_lint} ${_green}Linting${_nc}:"
+echo -e "\n${_lint} ${_yellow}Linting${_nc}:"
 pnpm run lint
 
-echo -e "${_test} ${_green}Testing${_nc}:"
+echo -e "${_test} ${_yellow}Testing${_nc}:"
 pnpm run test
 
-source docker.sh
+./docker.sh
 
-echo -e "\n${_done} ${_yellow}Done${_nc}!\n"
+echo -e "\n${_done} ${_green}Done${_nc}!\n"
 
 unset _red
 unset _green

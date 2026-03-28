@@ -4,7 +4,13 @@
 
 ---
 
-### Docker Compose Flow: <!-- markdownlint-disable-line MD001 -->
+### 📷 Screenshot <!-- markdownlint-disable-line MD001 -->
+
+<img src="./images/screenshot.png" title="Screenshot" alt="Screenshot">
+
+---
+
+### Docker Compose Flow:
 
 ```mermaid
 flowchart LR

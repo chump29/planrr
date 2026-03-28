@@ -1,19 +1,30 @@
 import { StrictMode } from "react"
 
+import { ConfirmProvider } from "material-ui-confirm"
 import { createRoot } from "react-dom/client"
+import { z } from "zod/mini"
 
 import Display from "./components/display"
+import { error, info } from "./components/shared"
 
-const api_url: string = import.meta.env.VITE_API_URL || ""
+const DEBUG: boolean = false
+
+z.config(z.locales.en())
+
+const u: z.core.util.SafeParseResult<string> = z.url().safeParse(import.meta.env.VITE_API_URL)
+const API_URL: string = u.success ? u.data : ""
+if (DEBUG) {
+  info(`Got API URL: ${API_URL}`)
+}
 
 const getVersion = (version: string): string => {
-  return version.length ? `v${version}` : "N/A"
+  return version ? `v${version}` : "N/A"
 }
 
 document.getElementById("frontend")!.innerText = getVersion(import.meta.env.PACKAGE_VERSION)
 
 const obj: HTMLElement | null = document.getElementById("backend")
-fetch(api_url + "/api/version", {
+fetch(API_URL + "/api/version", {
   method: "GET",
   signal: AbortSignal.timeout(3000)
 })
@@ -24,22 +35,35 @@ fetch(api_url + "/api/version", {
     return response.text()
   })
   .then((text: string) => {
-    if (!text.length) {
-      throw new Error("Invalid response")
+    if (DEBUG) {
+      info(`Got version: ${text}`)
     }
-    obj!.innerText = getVersion(text.replaceAll('"', ""))
+    const t: z.core.util.SafeParseResult<string> = z
+      .string()
+      .check(z.regex(/^"\d+\.\d+\.\d+"$/))
+      .safeParse(text)
+    if (!t.success) {
+      throw new Error(t.error.message)
+    }
+    obj!.innerText = getVersion(t.data.replaceAll('"', ""))
   })
   .catch((e: Error) => {
-    console.error(e)
+    error("Could not get version", e)
     obj!.innerText = "N/A"
   })
 
 if (import.meta.env.DEV) {
-  createRoot(document.getElementById("root")!).render(<Display />)
+  createRoot(document.getElementById("root")!).render(
+    <ConfirmProvider>
+      <Display />
+    </ConfirmProvider>
+  )
 } else {
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
-      <Display />
+      <ConfirmProvider>
+        <Display />
+      </ConfirmProvider>
     </StrictMode>
   )
 }

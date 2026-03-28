@@ -10,11 +10,13 @@
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
   "git.autofetch": true,
-  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.typeCheckingMode": "standard",
   "python.defaultInterpreterPath": "${workspaceFolder}/backend/.venv/bin/python",
+  "python.envFile": "${workspaceFolder}/backend/.env",
   "python.terminal.activateEnvironment": true,
+  "python.terminal.useEnvFile": true,
   "terminal.integrated.scrollback": 10000,
-  "[css][dockercompose][javacript][javascriptreact][json][jsonc][typescript][typescriptreact]": {
+  "[css][dockercompose][javascript][javascriptreact][json][jsonc][typescript][typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
   "[dockercompose]": {
@@ -36,7 +38,11 @@
     "editor.defaultFormatter": "ahmadalli.vscode-nginx-conf"
   },
   "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter"
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
   },
   "[sh]": {
     "editor.defaultFormatter": "timonwong.shellcheck"
@@ -48,6 +54,15 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/*/**": true
+  },
+  "isort.args": [
+    "--profile",
+    "black"
+  ],
   "json.schemaDownload.trustedDomains": {
     "https://raw.githubusercontent.com/DavidAnson/markdownlint/": true
   },

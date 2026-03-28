@@ -1,6 +1,7 @@
 __pycache__/
+.coverage
+.ruff_cache/
 .venv/
 db/
 dist/
 node_modules/
-packages.rest
