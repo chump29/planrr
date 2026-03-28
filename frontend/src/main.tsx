@@ -21,15 +21,20 @@ const getVersion = (version: string): string => {
   return version ? `v${version}` : "N/A"
 }
 
-const v: z.core.util.SafeParseResult<string> = z
-  .string()
-  .check(z.regex(/^\d+\.\d+\.\d+$/))
-  .safeParse(import.meta.env.PACKAGE_VERSION)
-const UI_VERSION: string = v.success ? v.data : ""
-if (DEBUG) {
-  info(`Got UI version: ${UI_VERSION}`)
+let version: string = ""
+try {
+  version = z
+    .string()
+    .check(z.regex(/^\d+\.\d+\.\d+$/))
+    .parse(import.meta.env.PACKAGE_VERSION)
+  if (DEBUG) {
+    info(`Got UI version: ${version}`)
+  }
+  // biome-ignore lint/suspicious/noExplicitAny: catch everything
+} catch (e: any) {
+  error("Could not get UI version", e)
 }
-document.getElementById("frontend")!.innerText = getVersion(UI_VERSION)
+document.getElementById("frontend")!.innerText = getVersion(version)
 
 const obj: HTMLElement | null = document.getElementById("backend")
 fetch(API_URL + "/api/version", {
@@ -56,7 +61,7 @@ fetch(API_URL + "/api/version", {
     obj!.innerText = getVersion(u.data)
   })
   .catch((e: Error) => {
-    error("Could not get version", e)
+    error("Could not get API version", e)
     obj!.innerText = "N/A"
   })
 
