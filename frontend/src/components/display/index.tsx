@@ -20,9 +20,6 @@ const DEBUG: boolean = false
 
 z.config(z.locales.en())
 
-const u: z.core.util.SafeParseResult<string> = z.url().safeParse(import.meta.env.VITE_API_URL)
-const API_URL: string = u.success ? u.data : ""
-
 const Display = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [meals, setMeals] = useState<IMeal[]>([])
@@ -37,6 +34,9 @@ const Display = (): JSX.Element => {
     register,
     reset
   } = useForm<IMeal>()
+
+  const u: z.core.util.SafeParseResult<string> = z.url().safeParse(import.meta.env.VITE_API_URL)
+  const API_URL: string = u.success ? u.data : ""
 
   const handleAdd = async (): Promise<void> => {
     setIsAdding(true)

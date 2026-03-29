@@ -20,9 +20,6 @@ const DEBUG: boolean = false
 
 z.config(z.locales.en())
 
-const u: z.core.util.SafeParseResult<string> = z.url().safeParse(import.meta.env.VITE_API_URL)
-const API_URL: string = u.success ? u.data : ""
-
 const Row = ({
   meal,
   setSelectedDay,
@@ -39,6 +36,9 @@ const Row = ({
   id: number
 }): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
+
+  const u: z.core.util.SafeParseResult<string> = z.url().safeParse(import.meta.env.VITE_API_URL)
+  const API_URL: string = u.success ? u.data : ""
 
   const handleEdit = async (id: number | undefined): Promise<void> => {
     if (!id) {

@@ -36,9 +36,6 @@ DB_FILE: Final[str] = "planrr.db"
 console: Console = Console()
 catch_exceptions()
 
-if DEBUG:
-    console.print("🔎 Debug mode ON")
-
 
 class MealDTO(BaseModel):
     """Meal domain model"""
