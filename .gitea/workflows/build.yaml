@@ -71,7 +71,7 @@ jobs:
         run: uv cache prune --ci
 
       - name: Install dependencies
-        run: uv sync --extra dev
+        run: uv sync --extra dev --link-mode=copy
 
       - name: Linting
         run: ./lint.sh
