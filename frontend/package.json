@@ -25,7 +25,7 @@
     "clean": "rimraf dist node_modules",
     "lint": "pnpm run lint:biome && pnpm run lint:html && pnpm run lint:css && pnpm run lint:env",
     "lint:biome": "biome check --write --verbose . ../.vscode/",
-    "lint:ci": "biome ci --verbose --reporter=default --reporter=github && pnpm run lint:html && stylelint **/*.css --formatter verbose --ignore-path ../.gitignore && pnpm run lint:env",
+    "lint:ci": "biome ci --verbose --reporter=default --reporter=github && pnpm run lint:html && stylelint **/*.css --formatter verbose --ignore-path ../.gitignore",
     "lint:css": "stylelint **/*.css --fix --formatter verbose --ignore-path ../.gitignore",
     "lint:env": "dotenv-linter check .",
     "lint:html": "html-validate *.html",

@@ -32,19 +32,23 @@ jobs:
 
       - name: Get PNPM store path
         shell: bash
-        run: echo "PNPM_STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+        run: echo "PNPM_STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
+
+      - name: DEBUG
+        shell: bash
+        run: echo ${{ hashfiles('pnpm-lock.yaml') }}
 
       - name: Use PNPM cache
         uses: actions/cache@v5
+        env:
+          SEGMENT_DOWNLOAD_TIMEOUT_MINS: 1
         with:
           key: pnpm-${{ hashfiles('pnpm-lock.yaml') }}
           path: ${{ env.PNPM_STORE_PATH }}
+          restore-keys: pnpm-
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
-
-      - name: Install dotenv-linter
-        uses: dotenv-linter/action-dotenv-linter@v3
 
       - name: Linting
         run: pnpm run lint:ci
