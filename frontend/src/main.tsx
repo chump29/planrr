@@ -7,7 +7,7 @@ import { z } from "zod/mini"
 import Display from "./components/display"
 import { error, info } from "./components/shared"
 
-const DEBUG: boolean = true
+const DEBUG: boolean = false
 
 z.config(z.locales.en())
 
@@ -47,18 +47,18 @@ fetch(API_URL + "/api/version", {
     }
     return response.text()
   })
-  .then((url: string) => {
-    const u: z.core.util.SafeParseResult<string> = z
+  .then((version: string) => {
+    const v: z.core.util.SafeParseResult<string> = z
       .string()
       .check(z.regex(/^\d+\.\d+\.\d+$/))
-      .safeParse(url)
-    if (!u.success) {
-      throw new Error(u.error.message)
+      .safeParse(version.replaceAll('"', ""))
+    if (!v.success) {
+      throw new Error(v.error.message)
     }
     if (DEBUG) {
-      info(`Got API version: ${u.data}`)
+      info(`Got API version: ${v.data}`)
     }
-    obj!.innerText = getVersion(u.data)
+    obj!.innerText = getVersion(v.data)
   })
   .catch((e: Error) => {
     error("Could not get API version", e)

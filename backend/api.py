@@ -106,7 +106,7 @@ def get_version() -> str | None:
 
     try:
         with Path("pyproject.toml").open("rb") as pyproject:
-            version: str = str(Box(load(pyproject)).project.version).strip('"')
+            version: str = str(Box(load(pyproject)).project.version)
             if not Version.is_valid(version):
                 invalid_version(version)
             if DEBUG:
