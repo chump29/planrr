@@ -20,26 +20,17 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v6
 
-      - name: Install Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: ${{env.NODE_VERSION}}
-
       - name: Install PNPM
         uses: pnpm/action-setup@v5
         with:
           package_json_file: ./frontend/package.json
 
-      - name: Get PNPM store path
-        shell: bash
-        run: echo "PNPM_STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - name: Use PNPM cache
-        uses: actions/cache@v5
+      - name: Install Node.js
+        uses: actions/setup-node@v6
         with:
-          key: pnpm-${{ hashfiles('./frontend/pnpm-lock.yaml') }}
-          path: ${{ env.PNPM_STORE_PATH }}
-          restore-keys: pnpm-
+          node-version: ${{env.NODE_VERSION}}
+          cache: pnpm
+          cache-dependency-path: ./frontend/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
