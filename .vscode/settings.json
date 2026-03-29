@@ -64,6 +64,7 @@
     "black"
   ],
   "json.schemaDownload.trustedDomains": {
+    "https://html-validate.org/schemas/": true,
     "https://raw.githubusercontent.com/DavidAnson/markdownlint/": true
   },
   "markdownlint.config": {

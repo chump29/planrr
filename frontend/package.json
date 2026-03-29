@@ -28,7 +28,7 @@
     "lint:ci": "biome ci --verbose --reporter=default --reporter=github && pnpm run lint:html && stylelint **/*.css --formatter verbose --ignore-path ../.gitignore",
     "lint:css": "stylelint **/*.css --fix --formatter verbose --ignore-path ../.gitignore",
     "lint:env": "dotenv-linter check .",
-    "lint:html": "html-validator --exclude=dist --ignore-config=.htmlignore",
+    "lint:html": "html-validate *.html",
     "nolyfill": "nolyfill install",
     "preinstall": "npx only-allow pnpm",
     "prepare": "cd .. && husky frontend/.husky",
@@ -42,7 +42,7 @@
       "stylelint"
     ],
     "*.env*": "dotenv-linter check",
-    "*.html": "html-validator --ignore-config=.htmlignore"
+    "*.html": "html-validate"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -68,6 +68,7 @@
     "@vitejs/plugin-react": "^6.0.1",
     "@vitest/coverage-v8": "^4.1.2",
     "globals": "^17.4.0",
+    "html-validate": "^10.11.2",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
     "nolyfill": "^1.0.44",
@@ -82,8 +83,7 @@
     "vite-plugin-simple-html": "^1.1.0",
     "vite-plugin-webfont-dl": "^3.12.0",
     "vitest": "^4.1.2",
-    "vitest-fetch-mock": "^0.4.5",
-    "w3c-html-validator": "^2.2.0"
+    "vitest-fetch-mock": "^0.4.5"
   },
   "engineStrict": true,
   "engines": {
@@ -98,8 +98,7 @@
     "overrides": {
       "es-set-tostringtag": "npm:@nolyfill/es-set-tostringtag@^1",
       "hasown": "npm:@nolyfill/hasown@^1",
-      "is-core-module": "npm:@nolyfill/is-core-module@^1",
-      "side-channel": "npm:@nolyfill/side-channel@^1"
+      "is-core-module": "npm:@nolyfill/is-core-module@^1"
     }
   },
   "browserslist": [
