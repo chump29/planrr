@@ -42,20 +42,18 @@ describe("Row", (): void => {
 
   it("should expand row", async (): Promise<void> => {
     const user: UserEvent = userEvent.setup()
-    const button: HTMLButtonElement | null = screen.queryByTestId("KeyboardArrowUpIcon")
+    const button: HTMLButtonElement | null = screen.queryByTestId("KeyboardArrowDownIcon")
     expect(button, "Expand button not found")
-    if (button) {
-      await user.click(button)
-      expect(screen.queryByTestId("description"), "Row not expanded").toBeInTheDocument()
-    }
+    await user.click(button as HTMLButtonElement)
+    expect(screen.queryByTestId("description"), "Row not expanded").toBeInTheDocument()
+    expect(screen.queryByTestId("KeyboardArrowUpIcon"), "Collapse button not found").toBeInTheDocument()
   })
 
   it("should contain description", async (): Promise<void> => {
     const user: UserEvent = userEvent.setup()
-    const button: HTMLButtonElement | null = screen.queryByTestId("KeyboardArrowUpIcon")
-    if (button) {
-      await user.click(button)
-      expect(screen.queryByText(DESCRIPTION), "Description not found").toBeInTheDocument()
-    }
+    const button: HTMLButtonElement | null = screen.queryByTestId("KeyboardArrowDownIcon")
+    expect(button, "Expand button not found").toBeInTheDocument()
+    await user.click(button as HTMLButtonElement)
+    expect(screen.queryByText(DESCRIPTION), "Description not found").toBeInTheDocument()
   })
 })

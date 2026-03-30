@@ -40,25 +40,21 @@ describe("Display", (): void => {
   it("should display form", async (): Promise<void> => {
     const user: UserEvent = userEvent.setup()
     const button: HTMLButtonElement | null = screen.queryByTestId("AddCircleOutlineIcon")
-    if (button) {
-      await user.click(button)
-      expect(screen.queryByTestId("form"), "Form not found").toBeInTheDocument()
-    }
+    expect(button, "Add button not found").toBeInTheDocument()
+    await user.click(button as HTMLButtonElement)
+    expect(screen.queryByTestId("form"), "Form not found").toBeInTheDocument()
   })
 
   it("should cancel the form", async (): Promise<void> => {
     const user: UserEvent = userEvent.setup()
     let button: HTMLButtonElement | null = screen.queryByTestId("AddCircleOutlineIcon")
-    if (button) {
-      await user.click(button)
-      await waitFor(async (): Promise<void> => {
-        button = screen.queryByTestId("HighlightOffIcon")
-        expect(button, "Cancel button not found").toBeInTheDocument()
-        if (button) {
-          await user.click(button)
-          expect(screen.queryByTestId("AddCircleOutlineIcon"), "Did not cancel form").toBeInTheDocument()
-        }
-      })
-    }
+    expect(button, "Add button not found").toBeInTheDocument()
+    await user.click(button as HTMLButtonElement)
+    await waitFor(async (): Promise<void> => {
+      button = screen.queryByTestId("HighlightOffIcon")
+      expect(button, "Cancel button not found").toBeInTheDocument()
+      await user.click(button as HTMLButtonElement)
+      expect(screen.queryByTestId("AddCircleOutlineIcon"), "Did not cancel form").toBeInTheDocument()
+    })
   })
 })
