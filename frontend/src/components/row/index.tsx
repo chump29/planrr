@@ -172,7 +172,6 @@ const Row = ({
           width={30}>
           {meal.description ? (
             <IconButton
-              data-testid="expand"
               onClick={(): void => setIsOpen(!isOpen)}
               size="small"
               sx={{

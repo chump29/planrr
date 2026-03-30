@@ -42,7 +42,7 @@ describe("Row", (): void => {
 
   it("should expand row", async (): Promise<void> => {
     const user: UserEvent = userEvent.setup()
-    const button: HTMLButtonElement | null = screen.queryByTestId("expand")
+    const button: HTMLButtonElement | null = screen.queryByTestId("KeyboardArrowUpIcon")
     expect(button, "Expand button not found")
     if (button) {
       await user.click(button)
@@ -52,7 +52,7 @@ describe("Row", (): void => {
 
   it("should contain description", async (): Promise<void> => {
     const user: UserEvent = userEvent.setup()
-    const button: HTMLButtonElement | null = screen.queryByTestId("expand")
+    const button: HTMLButtonElement | null = screen.queryByTestId("KeyboardArrowUpIcon")
     if (button) {
       await user.click(button)
       expect(screen.queryByText(DESCRIPTION), "Description not found").toBeInTheDocument()

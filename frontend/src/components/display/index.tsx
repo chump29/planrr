@@ -216,7 +216,6 @@ const Display = (): JSX.Element => {
       {isAdding ? (
         <div className="text-center mt-10">
           <IconButton
-            data-testid="cancel"
             onClick={handleCancel}
             size="small"
             sx={{
@@ -356,7 +355,6 @@ const Display = (): JSX.Element => {
       ) : (
         <div className="text-center mt-10">
           <IconButton
-            data-testid="add"
             onClick={handleAdd}
             size="small"
             sx={{
