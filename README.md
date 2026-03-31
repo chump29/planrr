@@ -36,3 +36,7 @@ backend-->backendPort
 
 - [Frontend](./frontend/README.md "Frontend")
 - [Backend](./backend/README.md "Backend")
+
+---
+
+<img src="https://img.shields.io/badge/AI-FREE-green?style=plastic" title="AI FREE" alt="AI FREE">
