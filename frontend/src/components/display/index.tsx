@@ -1,4 +1,4 @@
-import { type ChangeEvent, type JSX, useEffect, useState } from "react"
+import { type ChangeEvent, type EffectCallback, type JSX, useEffect, useState } from "react"
 
 import { ErrorMessage } from "@hookform/error-message"
 import AddCircleIcon from "@mui/icons-material/AddCircleOutline"
@@ -164,7 +164,7 @@ const Display = (): JSX.Element => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies(getMeals): not a dependency
   // biome-ignore lint/correctness/useExhaustiveDependencies(refreshState): is a dependency
-  useEffect((): void => {
+  useEffect((): ReturnType<EffectCallback> => {
     if (DEBUG) {
       info("useEffect() called")
     }
