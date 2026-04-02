@@ -38,5 +38,12 @@ backend-->backendPort
 
 ### 📄 Documentation
 
+#### Building:
+
+```bash
+cd docs
+./README.sh
+```
+
 - [Frontend](./frontend/README.md "Frontend")
 - [Backend](./backend/README.md "Backend")

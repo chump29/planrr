@@ -102,16 +102,6 @@ port@{shape: brace, label: "&nbsp; Nginx exposes port 80"}
 
 ---
 
-### 📄 Documentation
-
-#### Building:
-
-|  📋 Task  | 🔧 Command (Full) | 🔧 Command (Short) |
-|:---------:|:-----------------:|:------------------:|
-| Build All |   `pnpm run md`   |     `pnpm md`      |
-
----
-
 ### 🛰️ Git & CI/CD
 
 - **Pre-Commit:** Staged files are automatically linted and tested
