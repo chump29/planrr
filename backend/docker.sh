@@ -12,7 +12,3 @@ echo -e "\n${_start} ${_yellow}Starting${_nc}:\n"
 docker container rm --force planrr-backend > /dev/null 2>&1
 docker container run --rm --name planrr-backend --publish 5557:5557 --env TZ=America/Chicago --detach --network=planrr_default planrr-backend
 
-unset _yellow
-unset _nc
-unset _build
-unset _start

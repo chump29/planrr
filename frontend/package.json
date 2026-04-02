@@ -29,6 +29,7 @@
     "lint:css": "stylelint **/*.css --fix --formatter verbose --ignore-path ../.gitignore",
     "lint:env": "dotenv-linter check .",
     "lint:html": "html-validate *.html",
+    "md": "cd .. && ./README.sh",
     "nolyfill": "nolyfill install",
     "preinstall": "npx only-allow pnpm",
     "prepare": "cd .. && husky frontend/.husky",

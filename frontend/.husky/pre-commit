@@ -2,6 +2,9 @@
 
 cd frontend || exit 1
 
+pnpm run md
+git add ../**/README.md
+
 pnpm exec lint-staged
 pnpm run test
 

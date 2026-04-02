@@ -6,9 +6,9 @@
 
 <img src="https://img.shields.io/badge/node-~24-green?style=plastic" title="Node" alt="Node">
 &nbsp;
-<img src="https://img.shields.io/python/required-version-toml?tomlFilePath=https://raw.githubusercontent.com/chump29/planrr/main/backend/pyproject.toml&style=plastic&color=green" title="Python" alt="Python"> <!-- markdownlint-disable-line MD013 -->
+<img src="https://img.shields.io/python/required-version-toml?tomlFilePath=https://raw.githubusercontent.com/$_user/$_repo/main/backend/pyproject.toml&style=plastic&color=green" title="Python" alt="Python"> <!-- markdownlint-disable-line MD013 -->
 &nbsp;
-<img src="https://img.shields.io/github/license/chump29/planrr?style=plastic&color=green" title="License" alt="License">
+<img src="https://img.shields.io/github/license/$_user/$_repo?style=plastic&color=green" title="License" alt="License">
 
 ---
 
@@ -22,10 +22,10 @@
 
 ```mermaid
 flowchart LR
-frontend@{shape: rounded, label: "planrr-frontend:80"}
-frontendPort@{shape: rounded, label: "http://localhost:91"}
-backend@{shape: rounded, label: "planrr-backend:5557"}
-backendPort@{shape: rounded, label: "http://localhost:5557"}
+frontend@{shape: rounded, label: "$_frontend"}
+frontendPort@{shape: rounded, label: "$_frontendPort"}
+backend@{shape: rounded, label: "$_backend"}
+backendPort@{shape: rounded, label: "$_backendPort"}
 frontend-->frontendPort
 backend-->backendPort
 ```

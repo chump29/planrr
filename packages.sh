@@ -37,6 +37,3 @@ done
 
 echo -e "✔️  Done"
 
-unset _frontend_url
-unset _backend_url
-unset _token

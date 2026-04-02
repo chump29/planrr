@@ -23,7 +23,7 @@ api-->get
 api-->get_one
 api-->update
 api-->version
-port@{shape: brace, label: "&nbsp; FastAPI exposes port 5557"}
+port@{shape: brace, label: "&nbsp; FastAPI exposes port $_port"}
 ```
 
 ---
@@ -80,8 +80,8 @@ port@{shape: brace, label: "&nbsp; FastAPI exposes port 5557"}
 | 📋 Task |            🔧 Command (Full)            | 🔧 Command (Short) |
 |:-------:|:---------------------------------------:|:------------------:|
 <!-- markdownlint-disable-next-line MD060 -->
-|   DEV   | `uv run fastapi dev api.py --port 5557` |     `./api.py`     |
-|  PROD   | `uv run fastapi run api.py --port 5557` |      &mdash;       |
+|   DEV   | `uv run fastapi dev api.py --port $_port` |     `./api.py`     |
+|  PROD   | `uv run fastapi run api.py --port $_port` |      &mdash;       |
 
 #### API Documentation:
 

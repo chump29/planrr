@@ -138,7 +138,11 @@ const Display = (): JSX.Element => {
   }
 
   const getMeals = async (): Promise<void> => {
-    await fetch(API_URL + "/api/get")
+    await fetch(API_URL + "/api/get", {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
       .then((response: Response) => {
         if (!response.ok) {
           throw new Error(`Status: ${response.status}`)

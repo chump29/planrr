@@ -196,7 +196,7 @@ wheels = [
 
 [[package]]
 name = "fastapi"
-version = "0.135.2"
+version = "0.135.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "annotated-doc" },
@@ -205,9 +205,9 @@ dependencies = [
     { name = "typing-extensions" },
     { name = "typing-inspection" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c4/73/5903c4b13beae98618d64eb9870c3fac4f605523dd0312ca5c80dadbd5b9/fastapi-0.135.2.tar.gz", hash = "sha256:88a832095359755527b7f63bb4c6bc9edb8329a026189eed83d6c1afcf419d56", size = 395833, upload-time = "2026-03-23T14:12:41.697Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f7/e6/7adb4c5fa231e82c35b8f5741a9f2d055f520c29af5546fd70d3e8e1cd2e/fastapi-0.135.3.tar.gz", hash = "sha256:bd6d7caf1a2bdd8d676843cdcd2287729572a1ef524fc4d65c17ae002a1be654", size = 396524, upload-time = "2026-04-01T16:23:58.188Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8f/ea/18f6d0457f9efb2fc6fa594857f92810cadb03024975726db6546b3d6fcf/fastapi-0.135.2-py3-none-any.whl", hash = "sha256:0af0447d541867e8db2a6a25c23a8c4bd80e2394ac5529bd87501bbb9e240ca5", size = 117407, upload-time = "2026-03-23T14:12:43.284Z" },
+    { url = "https://files.pythonhosted.org/packages/84/a4/5caa2de7f917a04ada20018eccf60d6cc6145b0199d55ca3711b0fc08312/fastapi-0.135.3-py3-none-any.whl", hash = "sha256:9b0f590c813acd13d0ab43dd8494138eb58e484bfac405db1f3187cfc5810d98", size = 117734, upload-time = "2026-04-01T16:23:59.328Z" },
 ]
 
 [package.optional-dependencies]
@@ -468,11 +468,11 @@ wheels = [
 
 [[package]]
 name = "peewee"
-version = "4.0.3"
+version = "4.0.4"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/20/50/1c269015e71612a6794cfccebced95561c8addf993075de61618f32db3b4/peewee-4.0.3.tar.gz", hash = "sha256:a3062505505e12cdf386066cda43d93a98f38a995dd9664cac0534378b2f6d1e", size = 717971, upload-time = "2026-03-26T22:41:50.992Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ad/8e/8fe6b93914ed40b9cb5162e45e1be4f8bb8cf7f5a49333aa1a2d383e4870/peewee-4.0.4.tar.gz", hash = "sha256:70e07c14a10bec8d663514bda5854e44ef15d5b03974b41f7218066b6fd3a065", size = 718021, upload-time = "2026-04-02T13:52:25.73Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2d/31/93950b2c7145ea10aa454397ffa308c9aadc98dcb4103b676396571bfadd/peewee-4.0.3-py3-none-any.whl", hash = "sha256:4bc50ccdd95bf3fb79957a79ec51e5d1f8f8cab238031f0d0bb14cb8694a2525", size = 144477, upload-time = "2026-03-26T22:41:49.453Z" },
+    { url = "https://files.pythonhosted.org/packages/c0/9b/bee274b72adc7c692bf7cb8d6b0cd4071acf2957e82dace45d3f2770470e/peewee-4.0.4-py3-none-any.whl", hash = "sha256:37ccd3f89e523c7b42eed023cd90b48d088753ddff1d74e854a9c6445e7bd797", size = 144487, upload-time = "2026-04-02T13:52:24.099Z" },
 ]
 
 [[package]]
@@ -821,11 +821,11 @@ wheels = [
 
 [[package]]
 name = "types-peewee"
-version = "4.0.0.20260223"
+version = "4.0.0.20260402"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/13/f6/6006506f35813719d269e761000d7250d651dd19d3db3cc2694a29c37b9b/types_peewee-4.0.0.20260223.tar.gz", hash = "sha256:67e3c67f181d697fe38912d910812b7306d39f62adf17ca8b8c187873c5102ef", size = 22012, upload-time = "2026-02-23T04:11:36.431Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2f/5d/a5b08e0ebfd96966d85f55881bce8caa8dc25e3c830d44cc69eca336b049/types_peewee-4.0.0.20260402.tar.gz", hash = "sha256:4df474d8f506013f8416b7a364f039f9706162be8c2dded20abd4432323bd1f7", size = 21988, upload-time = "2026-04-02T04:19:18.286Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d8/d6/e098745c89bdfe8d263fe07b2e2c35e8048dca1317bf6871719c53a3552a/types_peewee-4.0.0.20260223-py3-none-any.whl", hash = "sha256:8f90db80ea7568e4b44c6558b26d9790ed2e15bf48f799e46b27cb5ec0446dcc", size = 19971, upload-time = "2026-02-23T04:11:35.435Z" },
+    { url = "https://files.pythonhosted.org/packages/a8/59/a1b841aaae943e9f7e310d3edb7b003a6fb589241f33ee9df8063f011237/types_peewee-4.0.0.20260402-py3-none-any.whl", hash = "sha256:74b44dd46f67f75ecd02174339b76af5498989c6821baaa305528868d11d4948", size = 19963, upload-time = "2026-04-02T04:19:17.056Z" },
 ]
 
 [[package]]

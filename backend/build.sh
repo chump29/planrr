@@ -28,14 +28,3 @@ echo -e "${_test} ${_yellow}Testing${_nc}:\n"
 ./docker.sh
 
 echo -e "\n${_done} ${_green}Done${_nc}!\n"
-
-unset _red
-unset _green
-unset _yellow
-unset _cyan
-unset _nc
-unset _title
-unset _task
-unset _lint
-unset _test
-unset _done
