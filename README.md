@@ -1,18 +1,18 @@
-# <img src="./frontend/public/planrr.png" title="Planrr" alt="Planrr logo" width="64" height="64"> Planrr
+# ![Planrr](./frontend/public/planrr.png) Planrr
 
 > - Weekly meal planner
 
 ---
 
-<img src="https://img.shields.io/badge/node-~24-green?style=plastic" title="Node" alt="Node">
-<img src="https://img.shields.io/python/required-version-toml?tomlFilePath=https://raw.githubusercontent.com/chump29/planrr/main/backend/pyproject.toml&style=plastic&color=green" title="Python" alt="Python"> <!-- markdownlint-disable-line MD013 -->
-<img src="https://img.shields.io/github/license/chump29/planrr?style=plastic&color=green" title="License" alt="License">
+![Node](https://img.shields.io/badge/node-~24-green?style=plastic) &nbsp;
+![Python](https://img.shields.io/python/required-version-toml?tomlFilePath=https://raw.githubusercontent.com/chump29/planrr/main/backend/pyproject.toml&style=plastic&color=green) &nbsp; <!-- markdownlint-disable-line MD013 -->
+![License](https://img.shields.io/github/license/chump29/planrr?style=plastic&color=green)
 
 ---
 
 ### 📷 Screenshot <!-- markdownlint-disable-line MD001 -->
 
-<img src="./images/screenshot.png" title="Screenshot" alt="Screenshot">
+![Screenshot](./images/screenshot.png)
 
 ---
 

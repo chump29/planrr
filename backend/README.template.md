@@ -1,4 +1,4 @@
-# <img src="../frontend/public/planrr.png" title="Planrr" alt="Planrr logo" width="64" height="64"> Planrr (Backend)
+# ![Planrr (Backend)](../frontend/public/planrr.png) Planrr (Backend)
 
 > - Weekly meal planner
 
