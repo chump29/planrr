@@ -5,9 +5,7 @@
 ---
 
 <img src="https://img.shields.io/badge/node-~24-green?style=plastic" title="Node" alt="Node">
-&nbsp;
 <img src="https://img.shields.io/python/required-version-toml?tomlFilePath=https://raw.githubusercontent.com/chump29/planrr/main/backend/pyproject.toml&style=plastic&color=green" title="Python" alt="Python"> <!-- markdownlint-disable-line MD013 -->
-&nbsp;
 <img src="https://img.shields.io/github/license/chump29/planrr?style=plastic&color=green" title="License" alt="License">
 
 ---
