@@ -38,7 +38,6 @@ document.getElementById("frontend")!.innerText = getVersion(version)
 
 const obj: HTMLElement | null = document.getElementById("backend")
 fetch(`${API_URL}/version`, {
-  method: "GET",
   signal: AbortSignal.timeout(3000)
 })
   .then((response: Response) => {
