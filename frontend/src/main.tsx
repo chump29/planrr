@@ -50,7 +50,7 @@ fetch(`${API_URL}/version`, {
   .then((version: string) => {
     const v: z.core.util.SafeParseResult<string> = z
       .string()
-      .check(z.regex(/^"\d+\.\d+\.\d+"$/))
+      .check(z.regex(/^\d+\.\d+\.\d+$/))
       .safeParse(version.replaceAll('"', ""))
     if (!v.success) {
       throw new Error(v.error.message)
