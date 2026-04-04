@@ -10,7 +10,6 @@ on:
 env:
   NODE_VERSION: 24
   PRE_COMMIT_HOME: /tmp/.pre-commit-cache
-  PNPM_HOME: /tmp/.pnpm-cache
   RUFF_CACHE_DIR: /tmp/.ruff-cache
   UV_CACHE_DIR: /tmp/.uv-cache
 
@@ -29,6 +28,10 @@ jobs:
         with:
           package_json_file: ./frontend/package.json
 
+      - name: Get PNPM store
+        run: echo "PNPM_STORE=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+        id: pnpm-store
+
       - name: Install Node.js
         uses: actions/setup-node@v6
         with:
@@ -38,7 +41,7 @@ jobs:
         uses: actions/cache@v5
         with:
           key: pnpm-${{ github.event.repository.name }}-${{ hashFiles('./frontend/pnpm-lock.yaml') }}
-          path: ${{ env.PNPM_HOME }}
+          path: ${{ steps.pnpm-store.outputs.PNPM_STORE }}
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
