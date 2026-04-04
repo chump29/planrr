@@ -12,7 +12,7 @@ const DEBUG: boolean = false
 z.config(z.locales.en())
 
 const u: z.core.util.SafeParseResult<string> = z.url().safeParse(import.meta.env.VITE_API_URL)
-const API_URL: string = u.success ? u.data : ""
+const API_URL: string = u.success ? `${u.data}/api` : ""
 if (DEBUG) {
   info(`Got API URL: ${API_URL}`)
 }
@@ -37,7 +37,7 @@ try {
 document.getElementById("frontend")!.innerText = getVersion(version)
 
 const obj: HTMLElement | null = document.getElementById("backend")
-fetch(API_URL + "/api/version", {
+fetch(`${API_URL}/version`, {
   method: "GET",
   signal: AbortSignal.timeout(3000)
 })

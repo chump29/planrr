@@ -8,7 +8,7 @@
 
 from pathlib import Path
 from tomllib import load
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Final
 
 from api import PORT, get_version  # pylint: disable=import-error
 from behave import given, then, when
@@ -35,6 +35,11 @@ def step_impl(context: Context) -> None:
     assert context.failed is not True, "/version call failed"
 
 
+@then("port {port} is used")
+def step_impl(_: Context, port: str) -> None:
+    assert int(port.replace('"', "")) == PORT, f"Invalid port: {port}"
+
+
 @then("version is returned")
 def step_impl(context: Context) -> None:
     assert context.real_version == context.version, "Invalid version"
@@ -43,10 +48,5 @@ def step_impl(context: Context) -> None:
 @then("version is cached")
 def step_impl(_: Context) -> None:
     get_version()
-    cache: _CacheInfo = get_version.cache_info()
+    cache: Final[_CacheInfo] = get_version.cache_info()
     assert cache.hits == 1 and cache.misses == 1, "Version not cached"  # noqa: PT018
-
-
-@then("port {port} is used")
-def step_impl(_: Context, port: str) -> None:
-    assert int(port.replace('"', "")) == PORT, f"Invalid port: {port}"

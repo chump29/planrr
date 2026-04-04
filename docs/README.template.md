@@ -4,9 +4,21 @@
 
 ---
 
-![Node](https://img.shields.io/badge/node-~24-green?style=plastic) &nbsp;
-![Python](https://img.shields.io/python/required-version-toml?tomlFilePath=https://raw.githubusercontent.com/$_user/$_repo/main/backend/pyproject.toml&style=plastic&color=green) &nbsp; <!-- markdownlint-disable-line MD013 -->
-![License](https://img.shields.io/github/license/$_user/$_repo?style=plastic&color=green)
+![MUI](https://img.shields.io/badge/MUI-~7-informational?style=plastic&logo=mui) &nbsp;
+![Node](https://img.shields.io/badge/Node.js-~24-informational?style=plastic&logo=nodedotjs) &nbsp;
+![PNPM](https://img.shields.io/badge/PNPM-~10-informational?style=plastic&logo=pnpm) &nbsp;
+![React](https://img.shields.io/badge/React-~19-informational?style=plastic&logo=react) &nbsp;
+![TailwindCSS](https://img.shields.io/badge/Tailwind%20CSS-~4-informational?style=plastic&logo=tailwindcss) &nbsp;
+![Typescript](https://img.shields.io/badge/Typescript-~6-informational?style=plastic&logo=typescript) &nbsp;
+![Vite](https://img.shields.io/badge/Vite-~8-informational?style=plastic&logo=vite) &nbsp;
+![Zod](https://img.shields.io/badge/Zod-~4-informational?style=plastic&logo=zod)
+
+![FastAPI](https://img.shields.io/badge/FastAPI->=0.135-informational?style=plastic&logo=fastapi) &nbsp;
+![Pydantic](https://img.shields.io/badge/Pydantic->=2-informational?style=plastic&logo=pydantic) &nbsp;
+![Python](https://img.shields.io/python/required-version-toml?tomlFilePath=https://raw.githubusercontent.com/$_user/$_repo/main/backend/pyproject.toml&style=plastic&color=informational&label=Python&logo=python) &nbsp; <!-- markdownlint-disable-line MD013 -->
+![UV](https://img.shields.io/badge/UV->=0.11-informational?style=plastic&logo=uv)
+
+![License](https://img.shields.io/github/license/$_user/$_repo?style=plastic&color=informational&label=License&logo=gplv3)
 
 ---
 
@@ -41,8 +53,7 @@ backend-->backendPort
 #### Building:
 
 ```bash
-cd docs
-./README.sh
+./docs.sh
 ```
 
 - [Frontend](./frontend/README.md "Frontend")

@@ -38,13 +38,18 @@ const Row = ({
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const u: z.core.util.SafeParseResult<string> = z.url().safeParse(import.meta.env.VITE_API_URL)
-  const API_URL: string = u.success ? u.data : ""
+  const API_URL: string = u.success ? `${u.data}/api` : ""
 
   const handleEdit = async (id: number | undefined): Promise<void> => {
     if (!id) {
       return
     }
-    await fetch(API_URL + "/api/get/" + id)
+
+    await fetch(`${API_URL}/get/${id}`, {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
       .then((response: Response) => {
         if (!response.ok) {
           throw new Error(`Status: ${response.status}`)
@@ -129,7 +134,7 @@ const Row = ({
       }
     })
     if (confirmed) {
-      await fetch(API_URL + "/api/delete/" + id, {
+      await fetch(`${API_URL}/delete/${id}`, {
         method: "DELETE"
       })
         .then((response: Response) => {

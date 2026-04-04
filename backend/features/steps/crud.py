@@ -8,7 +8,7 @@
 
 from typing import TYPE_CHECKING
 
-from api import get, get_one, update  # pylint: disable=import-error
+from api import get_all_meals, get_one_meal, update_meal  # pylint: disable=import-error
 from behave import given, then, when
 
 if TYPE_CHECKING:
@@ -24,7 +24,7 @@ def step_impl(_: Context) -> None:
 
 @when("/get_one API endpoint is called with an ID")
 def step_impl(context: Context) -> None:
-    context.meal = get_one(context.meal.id)
+    context.meal = get_one_meal(context.meal.id)
     assert not context.failed, "/get_one call failed"
 
 
@@ -41,7 +41,7 @@ def step_impl(_: Context) -> None:
 @when("/update API endpoint is called with an ID")
 def step_impl(context: Context) -> None:
     context.meal.description = "TESTME2"
-    context.meal = update(pk=context.meal.id, meal=context.meal)
+    context.meal = update_meal(pk=context.meal.id, meal=context.meal)
     assert not context.failed, "/update call failed"
 
 
@@ -57,7 +57,7 @@ def step_impl(_: Context) -> None:
 
 @when("/get API endpoint is called")
 def step_impl(context: Context) -> None:
-    context.meals = get()
+    context.meals = get_all_meals()
     assert not context.failed, "/get call failed"
 
 

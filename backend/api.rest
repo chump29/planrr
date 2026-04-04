@@ -1,4 +1,4 @@
-@host = http://localhost:{{$dotenv API_PORT}}/api/
+@host = http://localhost:{{$dotenv API_PORT}}/api
 
 ###
 
@@ -9,32 +9,32 @@
 
 // Get API version
 
-GET {{host}}version
+GET {{host}}/version
 
 ###
 
 // Get all meals
 
-GET {{host}}get
+GET {{host}}/get
 
 ###
 
 // Get meal by ID
 // NOTE: meal ID does not exist
 
-GET {{host}}get/{{rnd_id}}
+GET {{host}}/get/{{rnd_id}}
 
 ###
 
 // Get meal by ID
 
-GET {{host}}get/1
+GET {{host}}/get/1
 
 ###
 
 // Add meal
 
-POST {{host}}add
+POST {{host}}/add
 Content-Type: application/json
 
 {
@@ -48,7 +48,7 @@ Content-Type: application/json
 // Update meal by ID
 // NOTE: meal ID does not exist
 
-PUT {{host}}update/{{rnd_id}}
+PUT {{host}}/update/{{rnd_id}}
 Content-Type: application/json
 
 {
@@ -60,7 +60,7 @@ Content-Type: application/json
 
 // Update meal by ID
 
-PUT {{host}}update/1
+PUT {{host}}/update/1
 Content-Type: application/json
 
 // NOTE: pass exisisting data elements
@@ -75,10 +75,10 @@ Content-Type: application/json
 // Delete meal by ID
 // Error: meal does not exist
 
-DELETE {{host}}delete/{{rnd_id}}
+DELETE {{host}}/delete/{{rnd_id}}
 
 ###
 
 // Delete meal by ID
 
-DELETE {{host}}delete/1
+DELETE {{host}}/delete/1

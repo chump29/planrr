@@ -138,6 +138,7 @@ select = [
 
 [tool.uv]
 python-downloads = "manual"
+required-version = ">=0.11"
 
 [tool.uv.build-backend]
 namespace = true

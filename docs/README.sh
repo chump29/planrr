@@ -8,17 +8,18 @@ export _backendPort=http://localhost:$_port
 export _user=chump29
 export _repo=planrr
 
-echo -e "\n🛠️  Creating README files..."
+clear
 
 mkdir dist
 
 for md in README README-frontend README-backend; do
+  echo "🛠️  Creating ${md/-/ } file"
   envsubst < $md.template.md > dist/$md.md
 done
 
-echo -e "⿻ Moving README files...\n"
-
 cd dist || exit 1
+
+echo "⿻ Moving README files"
 
 mv README.md ../..
 mv README-frontend.md ../../frontend/README.md

@@ -102,12 +102,12 @@ jobs:
 
       - name: Build and push frontend
         run: |
-          cd frontend
+          cd frontend || exit 1
           docker buildx build --platform linux/amd64 --tag git.postfmly.com/admin/planrr-frontend:amd64 --push .
 
       - name: Build and push backend
         run: |
-          cd backend
+          cd backend || exit 1
           docker buildx build --platform linux/amd64 --tag git.postfmly.com/admin/planrr-backend:amd64 --push .
 
   arm64:
@@ -126,12 +126,12 @@ jobs:
 
       - name: Build and push frontend
         run: |
-          cd frontend
+          cd frontend || exit 1
           docker buildx build --platform linux/arm64 --tag git.postfmly.com/admin/planrr-frontend:arm64 --push .
 
       - name: Build and push backend
         run: |
-          cd backend
+          cd backend || exit 1
           docker buildx build --platform linux/arm64 --tag git.postfmly.com/admin/planrr-backend:arm64 --push .
 
   manifest:

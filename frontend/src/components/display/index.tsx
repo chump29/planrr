@@ -36,7 +36,7 @@ const Display = (): JSX.Element => {
   } = useForm<IMeal>()
 
   const u: z.core.util.SafeParseResult<string> = z.url().safeParse(import.meta.env.VITE_API_URL)
-  const API_URL: string = u.success ? u.data : ""
+  const API_URL: string = u.success ? `${u.data}/api` : ""
 
   const handleAdd = async (): Promise<void> => {
     setIsAdding(true)
@@ -63,7 +63,7 @@ const Display = (): JSX.Element => {
         return
       }
       m.id = editing.id
-      await fetch(API_URL + "/api/update/" + m.id, {
+      await fetch(`${API_URL}/update/${m.id}`, {
         body: JSON.stringify(m),
         method: "PUT",
         headers: {
@@ -99,7 +99,7 @@ const Display = (): JSX.Element => {
         .catch(error)
     } else {
       m.day = selectedDay
-      await fetch(API_URL + "/api/add/", {
+      await fetch(`${API_URL}/add`, {
         body: JSON.stringify(m),
         method: "POST",
         headers: {
@@ -138,7 +138,7 @@ const Display = (): JSX.Element => {
   }
 
   const getMeals = async (): Promise<void> => {
-    await fetch(API_URL + "/api/get", {
+    await fetch(`${API_URL}/get`, {
       headers: {
         "Content-Type": "application/json"
       }

@@ -7,7 +7,7 @@
 
 from typing import TYPE_CHECKING
 
-from api import add, delete, MealDTO, Menu  # pylint: disable=import-error
+from api import MealDTO, Menu, add_meal, delete_meal  # pylint: disable=import-error
 
 if TYPE_CHECKING:
     from behave.model import Feature
@@ -23,8 +23,8 @@ def before_feature(context: Context, feature: Feature) -> None:
     for menu in (
         Menu.select().where(Menu.title == "TESTME").iterator()
     ):  # * clean up old data
-        delete(menu.id)
-    context.meal = add(MealDTO(day=-1, title="TESTME", description="TESTME"))
+        delete_meal(menu.id)
+    context.meal = add_meal(MealDTO(day=-1, title="TESTME", description="TESTME"))
     assert context.meal, "Could not add meal data"
 
 
@@ -33,4 +33,4 @@ def after_feature(context: Context, feature: Feature) -> None:
         return
     if not context.meal:
         return
-    assert delete(context.meal.id), "Could not delete meal data"
+    assert delete_meal(context.meal.id), "Could not delete meal data"

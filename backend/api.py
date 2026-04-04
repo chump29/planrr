@@ -11,7 +11,7 @@ from typing import Final
 
 from box import Box
 from dotenv import dotenv_values
-from fastapi import FastAPI
+from fastapi import APIRouter, FastAPI
 from nh3 import clean  # pylint: disable=no-name-in-module
 from peewee import (
     AutoField,
@@ -32,6 +32,7 @@ DEBUG: Final[bool] = False
 
 DB_PATH: Final[str] = "./db/"
 DB_FILE: Final[str] = "planrr.db"
+DB_STR: Final[str] = f"{DB_PATH}{DB_FILE}"
 
 console: Console = Console()
 catch_exceptions()
@@ -51,17 +52,17 @@ class MealDTO(BaseModel):
 class Menu(Model):
     """Planrr database model"""
 
-    id = AutoField()
-    day = IntegerField(unique=True)
-    title = CharField()
-    description = CharField(null=True)
+    id: AutoField = AutoField()
+    day: IntegerField = IntegerField(unique=True)
+    title: CharField = CharField()
+    description: CharField = CharField(null=True)
 
     @dataclass
     class Meta:
         """Metadata"""
 
         database: SqliteDatabase = SqliteDatabase(  # noqa: RUF009
-            DB_PATH + DB_FILE, pragmas={"journal_mode": "wal"}
+            DB_STR, pragmas={"journal_mode": "wal"}
         )
 
 
@@ -79,20 +80,18 @@ if not Path(DB_PATH).exists():
         log("Creating path", DB_PATH)
     Path(DB_PATH).mkdir(parents=True)
 
-if not Path(DB_PATH + DB_FILE).exists():
+if not Path(DB_STR).exists():
     if DEBUG:
         log("Creating database", DB_FILE)
     Menu.create_table()
 elif DEBUG:
-    log("Using database", DB_PATH + DB_FILE)
+    log("Using database", DB_STR)
 
-api: FastAPI = FastAPI(
-    docs_url="/api/docs", openapi_url="/api/openapi.json", redoc_url="/api/redoc"
-)
+router: APIRouter = APIRouter(prefix="/api")
 
 
 @cache
-@api.get("/api/version")
+@router.get("/version")
 def get_version() -> str | None:
     """Return version"""
 
@@ -114,8 +113,8 @@ def get_version() -> str | None:
         return None
 
 
-@api.get("/api/get", response_model=list[MealDTO])
-def get() -> list[MealDTO] | None:
+@router.get("/get", response_model=list[MealDTO])
+def get_all_meals() -> list[MealDTO] | None:
     """Get all meals"""
     try:
         if DEBUG:
@@ -126,8 +125,8 @@ def get() -> list[MealDTO] | None:
         return None
 
 
-@api.get("/api/get/{pk}", response_model=MealDTO | None)
-def get_one(pk: int) -> MealDTO | None:
+@router.get("/get/{pk}", response_model=MealDTO | None)
+def get_one_meal(pk: int) -> MealDTO | None:
     """Get meal by ID"""
     try:
         if DEBUG:
@@ -150,8 +149,8 @@ def sanitize(meal: MealDTO) -> MealDTO | None:
     return None if not meal.title else meal
 
 
-@api.post("/api/add", response_model=MealDTO | None)
-def add(meal: MealDTO) -> MealDTO | None:
+@router.post("/add", response_model=MealDTO | None)
+def add_meal(meal: MealDTO) -> MealDTO | None:
     """Add meal"""
     m: MealDTO | None = sanitize(meal)
     if not m:
@@ -176,8 +175,8 @@ def add(meal: MealDTO) -> MealDTO | None:
         return None
 
 
-@api.put("/api/update/{pk}", response_model=MealDTO | None)
-def update(pk: int, meal: MealDTO) -> MealDTO | None:
+@router.put("/update/{pk}", response_model=MealDTO | None)
+def update_meal(pk: int, meal: MealDTO) -> MealDTO | None:
     """Update meal by ID"""
     m: MealDTO | None = sanitize(meal)
     if not m:
@@ -189,7 +188,7 @@ def update(pk: int, meal: MealDTO) -> MealDTO | None:
         if DEBUG:
             log("Updating row id", str(pk))
         return (
-            get_one(pk)
+            get_one_meal(pk)
             if Menu.update(day=m.day, title=m.title, description=m.description)
             .where(Menu.id == pk)
             .execute()
@@ -201,8 +200,8 @@ def update(pk: int, meal: MealDTO) -> MealDTO | None:
         return None
 
 
-@api.delete("/api/delete/{pk}")
-def delete(pk: int) -> bool:
+@router.delete("/delete/{pk}")
+def delete_meal(pk: int) -> bool:
     """Delete meal by ID"""
     try:
         if DEBUG:
@@ -238,6 +237,11 @@ try:
 except Exception as e:  # pylint: disable=broad-exception-caught
     console.print_exception()
     raise SystemExit(1) from e
+
+api: FastAPI = FastAPI(
+    docs_url="/api/docs", openapi_url="/api/openapi.json", redoc_url="/api/redoc"
+)
+api.include_router(router)
 
 if __name__ == "__main__":
     console.print("✨ Running local server...")

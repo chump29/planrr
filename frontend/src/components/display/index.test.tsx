@@ -12,7 +12,7 @@ fetchMock.enableMocks()
 
 beforeEach((): void => {
   vi.clearAllMocks()
-  fetchMock.mockIf(import.meta.env.VITE_API_URL + "/api/get", (): Promise<string> => {
+  fetchMock.mockIf(`${import.meta.env.VITE_API_URL}/api/get`, (): Promise<string> => {
     return act((): string =>
       JSON.stringify([
         {
