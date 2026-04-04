@@ -5,17 +5,11 @@ import { createRoot } from "react-dom/client"
 import { z } from "zod/mini"
 
 import Display from "./components/display"
-import { error, info } from "./components/shared"
+import { error, getUrl, info } from "./components/shared"
 
 const DEBUG: boolean = false
 
 z.config(z.locales.en())
-
-const u: z.core.util.SafeParseResult<string> = z.url().safeParse(import.meta.env.VITE_API_URL)
-const API_URL: string = u.success ? `${u.data}/api` : ""
-if (DEBUG) {
-  info(`Got API URL: ${API_URL}`)
-}
 
 const getVersion = (version: string): string => {
   return version ? `v${version}` : "N/A"
@@ -35,6 +29,11 @@ try {
   error("Could not get UI version", e)
 }
 document.getElementById("frontend")!.innerText = getVersion(version)
+
+const API_URL: string = getUrl()
+if (DEBUG) {
+  info(`Got API URL: ${API_URL}`)
+}
 
 const obj: HTMLElement | null = document.getElementById("backend")
 fetch(`${API_URL}/version`, {

@@ -14,9 +14,15 @@ import { z } from "zod/mini"
 
 import { type IMeal, zIMeal } from "../../interfaces/IMeal"
 import Row from "../row"
-import { days, error, info } from "../shared"
+import { days, error, getUrl, info } from "../shared"
 
 const DEBUG: boolean = false
+
+const API_URL: string = getUrl()
+// v8 ignore if -- @preserve
+if (DEBUG) {
+  info(`Got API URL: ${API_URL}`)
+}
 
 z.config(z.locales.en())
 
@@ -34,9 +40,6 @@ const Display = (): JSX.Element => {
     register,
     reset
   } = useForm<IMeal>()
-
-  const u: z.core.util.SafeParseResult<string> = z.url().safeParse(import.meta.env.VITE_API_URL)
-  const API_URL: string = u.success ? `${u.data}/api` : ""
 
   const handleAdd = async (): Promise<void> => {
     setIsAdding(true)
@@ -56,6 +59,7 @@ const Display = (): JSX.Element => {
     const m: IMeal | null = zIMeal.parse(meal) as unknown as IMeal
     if (editing) {
       if (m.day == editing.day && m.title === editing.title && m.description === editing.description) {
+        // v8 ignore if -- @preserve
         if (DEBUG) {
           info(`No update for meal ID ${editing.id}`)
         }
@@ -91,6 +95,7 @@ const Display = (): JSX.Element => {
               error(e)
             }
           }
+          // v8 ignore if -- @preserve
           if (DEBUG) {
             info(`Updated meal ID ${meal.id}`, m)
           }
@@ -151,12 +156,14 @@ const Display = (): JSX.Element => {
       })
       .then((meals: IMeal[]) => {
         if (!meals) {
+          // v8 ignore if -- @preserve
           if (DEBUG) {
             info("No meals found")
           }
           return
         }
         const m: IMeal[] | null = z.array(zIMeal).parse(meals) as unknown[] as IMeal[]
+        // v8 ignore if -- @preserve
         if (DEBUG) {
           info("Getting all meals", m)
         }
@@ -169,6 +176,7 @@ const Display = (): JSX.Element => {
   // biome-ignore lint/correctness/useExhaustiveDependencies(getMeals): not a dependency
   // biome-ignore lint/correctness/useExhaustiveDependencies(refreshState): is a dependency
   useEffect((): ReturnType<EffectCallback> => {
+    // v8 ignore if -- @preserve
     if (DEBUG) {
       info("useEffect() called")
     }

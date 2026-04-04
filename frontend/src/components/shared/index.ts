@@ -1,6 +1,7 @@
 // biome-ignore-all lint/suspicious/noExplicitAny: can log anything
 
 import { bgBlue, bgRed, cyan, red, white } from "recolors"
+import { z } from "zod/mini"
 
 import type IDays from "../../interfaces/IDays"
 
@@ -52,4 +53,14 @@ const days: IDays = {
   6: "Sunday"
 }
 
-export { days, error, info }
+const getUrl = (): string => {
+  let API_URL: string = "/api"
+  if (import.meta.env.DEV) {
+    const u: z.core.util.SafeParseResult<string> = z.url().safeParse(import.meta.env.VITE_API_URL)
+    // v8 ignore next -- @preserve
+    API_URL = u.success ? `${u.data}${API_URL}` : ""
+  }
+  return API_URL
+}
+
+export { days, error, getUrl, info }

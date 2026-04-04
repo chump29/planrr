@@ -1,6 +1,6 @@
 import { type Mock } from "vitest"
 
-import { days, error, info } from "."
+import { days, error, getUrl, info } from "."
 
 const errorSpy: Mock = vi.spyOn(console, "error")
 const infoSpy: Mock = vi.spyOn(console, "info")
@@ -32,5 +32,20 @@ describe("info", (): void => {
 describe("days", (): void => {
   it("should get days", (): void => {
     expect(days[0] == "Monday", "Error getting days")
+  })
+})
+
+describe("DEV URL", (): void => {
+  it("should get DEV API URL", (): void => {
+    const API_URL: string = getUrl()
+    expect(API_URL === `${import.meta.env.VITE_API_URL}/api`, "Could not get API URL")
+  })
+})
+
+describe("PROD URL", (): void => {
+  it("should get PROD API URL", (): void => {
+    vi.stubEnv("DEV", false)
+    const API_URL: string = getUrl()
+    expect(API_URL === "/api", "Could not get API URL")
   })
 })

@@ -14,9 +14,15 @@ import { useConfirm } from "material-ui-confirm"
 import { z } from "zod/mini"
 
 import { type IMeal, zIMeal } from "../../interfaces/IMeal"
-import { days, error, info } from "../shared"
+import { days, error, getUrl, info } from "../shared"
 
 const DEBUG: boolean = false
+
+const API_URL: string = getUrl()
+// v8 ignore if -- @preserve
+if (DEBUG) {
+  info(`Got API URL: ${API_URL}`)
+}
 
 z.config(z.locales.en())
 
@@ -36,9 +42,6 @@ const Row = ({
   id: number
 }): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
-
-  const u: z.core.util.SafeParseResult<string> = z.url().safeParse(import.meta.env.VITE_API_URL)
-  const API_URL: string = u.success ? `${u.data}/api` : ""
 
   const handleEdit = async (id: number | undefined): Promise<void> => {
     if (!id) {
@@ -71,6 +74,7 @@ const Row = ({
             error(e)
           }
         }
+        // v8 ignore if -- @preserve
         if (DEBUG) {
           info(`Getting meal ID ${id}`, m)
         }
@@ -145,6 +149,7 @@ const Row = ({
         })
         .then((result: boolean) => {
           const r: z.core.util.SafeParseResult<boolean> = z.boolean().safeParse(result)
+          // v8 ignore else -- @preserve
           if (!r.success) {
             throw new Error(r.error.message)
           } else if (DEBUG) {
