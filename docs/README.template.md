@@ -4,6 +4,9 @@
 
 ---
 
+![API](https://img.shields.io/badge/API-v2.0.0-chocolate?style=plastic&logo=docker) &nbsp;
+![UI](https://img.shields.io/badge/UI-v2.0.0-chocolate?style=plastic&logo=docker)
+
 ![MUI](https://img.shields.io/badge/MUI-~7-informational?style=plastic&logo=mui) &nbsp;
 ![Node](https://img.shields.io/badge/Node.js-~24-informational?style=plastic&logo=nodedotjs) &nbsp;
 ![PNPM](https://img.shields.io/badge/PNPM-~10-informational?style=plastic&logo=pnpm) &nbsp;
@@ -18,7 +21,8 @@
 ![Python](https://img.shields.io/python/required-version-toml?tomlFilePath=https://raw.githubusercontent.com/$_user/$_repo/main/backend/pyproject.toml&style=plastic&color=informational&label=Python&logo=python) &nbsp; <!-- markdownlint-disable-line MD013 -->
 ![UV](https://img.shields.io/badge/UV->=0.11-informational?style=plastic&logo=uv)
 
-![License](https://img.shields.io/github/license/$_user/$_repo?style=plastic&color=informational&label=License&logo=gplv3)
+![CodeQL](https://github.com/chump29/planrr/workflows/CodeQL/badge.svg) &nbsp;
+![License](https://img.shields.io/github/license/$_user/$_repo?style=plastic&color=blueviolet&label=License&logo=gplv3)
 
 ---
 

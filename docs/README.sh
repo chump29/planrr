@@ -11,12 +11,26 @@ export _repo=planrr
 clear
 
 if [ -d dist ]; then
-  rm dist/*
+  rm -f dist/*
 else
   mkdir dist
 fi
 
 for md in README README-frontend README-backend; do
+
+: <<'TODO'
+  if [ $md == README ]; then
+    for dep in $(yq ".project.dependencies[]" ../backend/pyproject.toml); do
+      for d in fastapi pydantic; do
+        if [[ "$dep" == "$d"* ]]; then
+          echo "$dep" | awk -F">=" '{print $2}'
+        fi
+
+      done
+    done
+  fi
+TODO
+
   echo "🛠️  Creating ${md/-/ } file"
   _file=dist/$md.md
   envsubst < $md.template.md > $_file
