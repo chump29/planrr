@@ -24,7 +24,7 @@ def before_feature(context: Context, feature: Feature) -> None:
         Menu.select().where(Menu.title == "TESTME").iterator()
     ):  # * clean up old data
         delete_meal(menu.id)
-    context.meal = add_meal(MealDTO(day=-1, title="TESTME", description="TESTME"))
+    context.meal = add_meal(MealDTO(day=0, title="TESTME", description="TESTME"))
     assert context.meal, "Could not add meal data"
 
 

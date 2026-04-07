@@ -27,26 +27,31 @@ if (DEBUG) {
 z.config(z.locales.en())
 
 const Row = ({
+  handleCancel,
+  id,
   meal,
-  setSelectedDay,
+  refresh,
   setEditing,
   setIsAdding,
-  refresh,
-  id
+  setSelectedDay
 }: {
+  handleCancel: () => Promise<void>
+  id: number
   meal: IMeal
-  setSelectedDay: React.Dispatch<React.SetStateAction<number>>
+  refresh: React.Dispatch<React.SetStateAction<number>>
   setEditing: React.Dispatch<React.SetStateAction<IMeal | null>>
   setIsAdding: React.Dispatch<React.SetStateAction<boolean>>
-  refresh: React.Dispatch<React.SetStateAction<number>>
-  id: number
+  setSelectedDay: React.Dispatch<React.SetStateAction<number>>
 }): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const handleEdit = async (id: number | undefined): Promise<void> => {
+    // v8 ignore if -- @preserve
     if (!id) {
       return
     }
+
+    await handleCancel()
 
     await fetch(`${API_URL}/get/${id}`, {
       headers: {
@@ -54,12 +59,14 @@ const Row = ({
       }
     })
       .then((response: Response) => {
+        // v8 ignore if -- @preserve
         if (!response.ok) {
           throw new Error(`Status: ${response.status}`)
         }
         return response.json()
       })
       .then((meal: IMeal) => {
+        // v8 ignore if -- @preserve
         if (!meal) {
           throw new Error(`Error getting meal ID ${id}`)
         }
@@ -68,6 +75,7 @@ const Row = ({
           m = zIMeal.parse(meal) as unknown as IMeal
           // biome-ignore lint/suspicious/noExplicitAny: catch everything
         } catch (e: any) {
+          // v8 ignore next -- @preserve
           if (e instanceof z.core.$ZodError) {
             error(z.prettifyError(e))
           } else {
@@ -89,6 +97,7 @@ const Row = ({
   const confirm: any = useConfirm()
 
   const handleDelete = async (id: number | undefined, title: string): Promise<void> => {
+    // v8 ignore if -- @preserve
     if (!id || !title) {
       return
     }
@@ -142,6 +151,7 @@ const Row = ({
         method: "DELETE"
       })
         .then((response: Response) => {
+          // v8 ignore if -- @preserve
           if (!response.ok) {
             throw new Error(`Status: ${response.status}`)
           }
@@ -149,7 +159,7 @@ const Row = ({
         })
         .then((result: boolean) => {
           const r: z.core.util.SafeParseResult<boolean> = z.boolean().safeParse(result)
-          // v8 ignore else -- @preserve
+          // v8 ignore next -- @preserve
           if (!r.success) {
             throw new Error(r.error.message)
           } else if (DEBUG) {
@@ -158,6 +168,7 @@ const Row = ({
           refresh(Date.now())
         })
         .catch((e: Error) => {
+          // v8 ignore next -- @preserve
           error(`Error deleting meal ID ${id}`, e)
         })
     }

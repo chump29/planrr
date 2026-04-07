@@ -136,6 +136,10 @@ select = [
     "W"
 ]
 
+[tool.ruff.lint.isort]
+combine-as-imports = true
+force-single-line = false
+
 [tool.uv]
 python-downloads = "manual"
 required-version = ">=0.11"

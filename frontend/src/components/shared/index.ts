@@ -1,30 +1,15 @@
 // biome-ignore-all lint/suspicious/noExplicitAny: can log anything
 
+import { format } from "date-and-time"
+import days from "days"
 import { bgBlue, bgRed, cyan, red, white } from "recolors"
 import { z } from "zod/mini"
 
-import type IDays from "../../interfaces/IDays"
-
-const pad = (n: number): string => {
-  return n.toString().padStart(2, "0")
-}
-
-const getDate = (): [
-  string,
-  string,
-  string
-] => {
-  const d = new Date()
-  return [
-    pad(d.getHours()),
-    pad(d.getMinutes()),
-    pad(d.getSeconds())
-  ]
-}
+delete days.abbr
+delete days.short
 
 const getTime = (): string => {
-  const [h, m, s] = getDate()
-  return cyan(" [") + white(`${h}:${m}:${s}`) + cyan("] ")
+  return cyan(" [") + white(format(new Date(), "HH:mm:ss")) + cyan("] ")
 }
 
 const error = (...o: any[]): void => {
@@ -40,24 +25,13 @@ const info = (...o: any[]): void => {
     return
   }
   console.info(bgBlue(white(" INFO ")) + getTime())
-  o.forEach((x: any) => console.info(white(" ⤷"), x))
-}
-
-const days: IDays = {
-  0: "Monday",
-  1: "Tuesday",
-  2: "Wednesday",
-  3: "Thursday",
-  4: "Friday",
-  5: "Saturday",
-  6: "Sunday"
+  o.forEach((x: any) => console.info(cyan(" ⤷"), x))
 }
 
 const getUrl = (): string => {
   let API_URL: string = "/api"
   if (import.meta.env.DEV) {
     const u: z.core.util.SafeParseResult<string> = z.url().safeParse(import.meta.env.VITE_API_URL)
-    // v8 ignore next -- @preserve
     API_URL = u.success ? `${u.data}${API_URL}` : ""
   }
   return API_URL

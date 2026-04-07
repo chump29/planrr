@@ -2,15 +2,16 @@
 
 """API Service"""
 
-from calendar import day_name as days
+from calendar import day_name
 from dataclasses import dataclass
 from functools import cache
+from os import getenv
 from pathlib import Path
 from tomllib import load
 from typing import Final
 
 from box import Box
-from dotenv import dotenv_values
+from dotenv import load_dotenv
 from fastapi import APIRouter, FastAPI
 from nh3 import clean  # pylint: disable=no-name-in-module
 from peewee import (
@@ -22,7 +23,14 @@ from peewee import (
     SqliteDatabase,
 )
 from playhouse.shortcuts import model_to_dict
-from pydantic import BaseModel, ConfigDict, Field, PositiveInt, StrictInt, StrictStr
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    NonNegativeInt,
+    PositiveInt,
+    StrictStr,
+)
 from rich.console import Console
 from rich.traceback import install as catch_exceptions
 from semver import Version
@@ -30,8 +38,10 @@ from uvicorn import run
 
 DEBUG: Final[bool] = False
 
+load_dotenv()
+
 DB_PATH: Final[str] = "./db/"
-DB_FILE: Final[str] = "planrr.db"
+DB_FILE: Final[str] = getenv("DB_FILE", "planrr.db")
 DB_STR: Final[str] = f"{DB_PATH}{DB_FILE}"
 
 console: Console = Console()
@@ -42,7 +52,7 @@ class MealDTO(BaseModel):
     """Meal domain model"""
 
     id: PositiveInt | None = Field(strict=True, default=None)
-    day: StrictInt = Field(ge=-1, le=6)
+    day: NonNegativeInt = Field(le=6, strict=True)
     title: StrictStr = Field(max_length=255)
     description: StrictStr | None = Field(max_length=255, default=None)
 
@@ -137,16 +147,14 @@ def get_one_meal(pk: int) -> MealDTO | None:
         return None
 
 
-def get_day(day: int) -> str:
-    """Get day by number"""
-    return list(days)[day]
-
-
 def sanitize(meal: MealDTO) -> MealDTO | None:
     """Sanitize input"""
     meal.title = clean(meal.title, tags=set())
     meal.description = clean(meal.description, tags=set()) if meal.description else None
     return None if not meal.title else meal
+
+
+DAYS: Final[list[str]] = [day_name[d] for d in range(-1, 6)]  # Sunday-Saturday
 
 
 @router.post("/add", response_model=MealDTO | None)
@@ -162,13 +170,13 @@ def add_meal(meal: MealDTO) -> MealDTO | None:
         if DEBUG:
             log(
                 "Adding row",
-                f"day={get_day(m.day)}, title={m.title}, description={m.description}",
+                f"day={DAYS[m.day]}, title={m.title}, description={m.description}",
             )
         menu: Menu = Menu.create(day=m.day, title=m.title, description=m.description)
         return MealDTO.model_validate(model_to_dict(menu))
     except IntegrityError:
         if DEBUG:
-            log("Row already exists with day", get_day(m.day))
+            log("Row already exists with day", DAYS[m.day])
         return None
     except Exception:  # pylint: disable=broad-exception-caught
         console.print_exception()
@@ -229,7 +237,7 @@ def invalid_port(port: int) -> None:
 
 
 try:
-    PORT: Final[int] = int(Box(dotenv_values()).API_PORT)
+    PORT: Final[int] = int(getenv("API_PORT", "5557"))
     if not validate_port(PORT):
         invalid_port(PORT)
     elif DEBUG:

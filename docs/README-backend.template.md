@@ -70,18 +70,18 @@ port@{shape: brace, label: "&nbsp; FastAPI exposes port $_port"}
 
 #### Scripts:
 
- | 📜 Script |      🔧 Command (Full)      | 🔧 Command (Short) |
- |:---------:|:---------------------------:|:------------------:|
- |   Lint    | `uv run pylint --verbose .` |    `./lint.sh`     |
- |   Test    |   `uv run behave --stop`    |    `./test.sh`     |
+ | 📋 Task / 📜 Script |      🔧 Command (Full)      | 🔧 Command (Short) |
+ |:-------------------:|:---------------------------:|:------------------:|
+ |        Lint         | `uv run pylint --verbose .` |    `./lint.sh`     |
+ |        Test         |   `uv run behave --stop`    |    `./test.sh`     |
 
 #### API Deployment:
 
-| 📋 Task |            🔧 Command (Full)            | 🔧 Command (Short) |
-|:-------:|:---------------------------------------:|:------------------:|
+| 📋 Task / 📜 Script |            🔧 Command (Full)            | 🔧 Command (Short) |
+|:-------------------:|:---------------------------------------:|:------------------:|
 <!-- markdownlint-disable-next-line MD060 -->
-|   DEV   | `uv run fastapi dev api.py --port $_port` |     `./api.py`     |
-|  PROD   | `uv run fastapi run api.py --port $_port` |      &mdash;       |
+|         DEV         | `uv run fastapi dev api.py --port $_port` |     `./api.py`     |
+|        PROD         | `uv run fastapi run api.py --port $_port` |      &mdash;       |
 
 #### API Documentation:
 

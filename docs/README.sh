@@ -10,14 +10,22 @@ export _repo=planrr
 
 clear
 
-mkdir dist
+if [ -d dist ]; then
+  rm dist/*
+else
+  mkdir dist
+fi
 
 for md in README README-frontend README-backend; do
   echo "🛠️  Creating ${md/-/ } file"
-  envsubst < $md.template.md > dist/$md.md
+  _file=dist/$md.md
+  envsubst < $md.template.md > $_file
+  if [ $md == "README-backend" ]; then
+    sed -i "/MD060/d" $_file
+  fi
 done
 
-cd dist || exit 1
+pushd dist > /dev/null || exit 1
 
 echo "⿻ Moving README files"
 
@@ -25,6 +33,6 @@ mv README.md ../..
 mv README-frontend.md ../../frontend/README.md
 mv README-backend.md ../../backend/README.md
 
-cd .. || exit 1
+popd > /dev/null || exit 1
 
 rm -rf dist

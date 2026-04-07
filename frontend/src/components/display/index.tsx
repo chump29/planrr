@@ -53,13 +53,10 @@ const Display = (): JSX.Element => {
   }
 
   const onSubmit = async (meal: IMeal): Promise<void> => {
-    if (!meal) {
-      return
-    }
     const m: IMeal | null = zIMeal.parse(meal) as unknown as IMeal
     if (editing) {
+      // v8 ignore if -- @preserve
       if (m.day == editing.day && m.title === editing.title && m.description === editing.description) {
-        // v8 ignore if -- @preserve
         if (DEBUG) {
           info(`No update for meal ID ${editing.id}`)
         }
@@ -67,6 +64,7 @@ const Display = (): JSX.Element => {
         return
       }
       m.id = editing.id
+      m.description ||= undefined
       await fetch(`${API_URL}/update/${m.id}`, {
         body: JSON.stringify(m),
         method: "PUT",
@@ -75,12 +73,14 @@ const Display = (): JSX.Element => {
         }
       })
         .then((response: Response) => {
+          // v8 ignore if -- @preserve
           if (!response.ok) {
             throw new Error(`Status: ${response.status}`)
           }
           return response.json()
         })
         .then((meal: IMeal) => {
+          // v8 ignore if -- @preserve
           if (!meal) {
             throw new Error(`Error editing meal ID ${editing.id}`)
           }
@@ -89,6 +89,7 @@ const Display = (): JSX.Element => {
             m = zIMeal.parse(meal) as unknown as IMeal
             // biome-ignore lint/suspicious/noExplicitAny: catch everything
           } catch (e: any) {
+            // v8 ignore next -- @preserve
             if (e instanceof z.core.$ZodError) {
               error(z.prettifyError(e))
             } else {
@@ -104,6 +105,7 @@ const Display = (): JSX.Element => {
         .catch(error)
     } else {
       m.day = selectedDay
+      m.description ||= undefined
       await fetch(`${API_URL}/add`, {
         body: JSON.stringify(m),
         method: "POST",
@@ -112,12 +114,14 @@ const Display = (): JSX.Element => {
         }
       })
         .then((response: Response) => {
+          // v8 ignore if -- @preserve
           if (!response.ok) {
             throw new Error(`Status: ${response.status}`)
           }
           return response.json()
         })
         .then((meal: IMeal) => {
+          // v8 ignore if -- @preserve
           if (!meal) {
             throw new Error("Error adding meal", meal)
           }
@@ -125,6 +129,7 @@ const Display = (): JSX.Element => {
             zIMeal.parse(meal) as unknown as IMeal
             // biome-ignore lint/suspicious/noExplicitAny: catch everything
           } catch (e: any) {
+            // v8 ignore next -- @preserve
             if (e instanceof z.core.$ZodError) {
               error(z.prettifyError(e))
             } else {
@@ -149,14 +154,15 @@ const Display = (): JSX.Element => {
       }
     })
       .then((response: Response) => {
+        // v8 ignore if -- @preserve
         if (!response.ok) {
           throw new Error(`Status: ${response.status}`)
         }
         return response.json()
       })
       .then((meals: IMeal[]) => {
+        // v8 ignore if -- @preserve
         if (!meals) {
-          // v8 ignore if -- @preserve
           if (DEBUG) {
             info("No meals found")
           }
@@ -208,6 +214,7 @@ const Display = (): JSX.Element => {
                   }}>
                   {meals.map((meal: IMeal, i: number) => (
                     <Row
+                      handleCancel={handleCancel}
                       id={i}
                       key={meal.id}
                       meal={meal}
@@ -301,6 +308,7 @@ const Display = (): JSX.Element => {
                 }
               })}
               className="rounded-md px-3 py-1.5 text-yellow2 border border-yellow placeholder:text-yellow inline mr-3 mb-3"
+              data-testid="title"
               defaultValue={editing?.title}
               placeholder="Enter meal title..."
               style={
@@ -320,6 +328,7 @@ const Display = (): JSX.Element => {
               })}
               className="resize-none rounded-md px-3 py-1.5 text-yellow2 border border-yellow placeholder:text-yellow inline mr-3 align-middle mb-3"
               cols={20}
+              data-testid="description"
               defaultValue={editing?.description ?? undefined}
               placeholder="Enter meal description..."
               rows={2}

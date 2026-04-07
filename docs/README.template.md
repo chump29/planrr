@@ -28,7 +28,9 @@
 
 ---
 
-### 🔀 Docker Compose Flow:
+### 🐳 Docker
+
+#### Compose Flow:
 
 ```mermaid
 flowchart LR
@@ -55,6 +57,8 @@ backend-->backendPort
 ```bash
 ./docs.sh
 ```
+
+#### Links:
 
 - [Frontend](./frontend/README.md "Frontend")
 - [Backend](./backend/README.md "Backend")
