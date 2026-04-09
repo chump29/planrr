@@ -5,10 +5,10 @@ import { RandomWords } from "@wordlist/random"
 import randomInt from "random-int"
 import { titleCase } from "title-case"
 
-import { type IMeal } from "../../interfaces/IMeal"
-import { fetchMock } from "../../setup"
-import { days } from "../shared"
-import Display from "."
+import { type IMeal } from "../../interfaces/IMeal.ts"
+import { fetchMock } from "../../setup.ts"
+import { days } from "../shared/index.ts"
+import Display from "./index.tsx"
 
 const getTitle = async (): Promise<string> => {
   return await new RandomWords(short2)
@@ -31,6 +31,7 @@ const newMeal: IMeal = {
 
 beforeEach((): void => {
   fetchMock.resetMocks()
+  // biome-ignore lint/performance/useTopLevelRegex: test
   fetchMock.mockIf(/\/api/, async (req: Request): Promise<string> => {
     if (req.url.endsWith("/get")) {
       return await act((): string => JSON.stringify(meals))

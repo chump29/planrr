@@ -6,9 +6,9 @@ import { ConfirmProvider } from "material-ui-confirm"
 import randomInt from "random-int"
 import { titleCase } from "title-case"
 
-import { type IMeal } from "../../interfaces/IMeal"
-import { fetchMock } from "../../setup"
-import Row from "."
+import { type IMeal } from "../../interfaces/IMeal.ts"
+import { fetchMock } from "../../setup.ts"
+import Row from "./index.tsx"
 
 const getWords = async (): Promise<string> => {
   return await new RandomWords(short2)
@@ -25,6 +25,7 @@ const meal: IMeal = {
 
 beforeEach(async (): Promise<void> => {
   fetchMock.resetMocks()
+  // biome-ignore lint/performance/useTopLevelRegex: test
   fetchMock.mockIf(/\/api/, async (req: Request): Promise<string> => {
     if (req.url.endsWith("/get")) {
       return await act((): string =>

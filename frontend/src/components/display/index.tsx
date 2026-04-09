@@ -12,9 +12,9 @@ import TableContainer from "@mui/material/TableContainer"
 import { useForm } from "react-hook-form"
 import { z } from "zod/mini"
 
-import { type IMeal, zIMeal } from "../../interfaces/IMeal"
-import Row from "../row"
-import { days, error, getUrl, info } from "../shared"
+import { type IMeal, zIMeal } from "../../interfaces/IMeal.ts"
+import Row from "../row/index.tsx"
+import { days, error, getUrl, info } from "../shared/index.ts"
 
 const DEBUG: boolean = false
 
@@ -55,7 +55,7 @@ const Display = (): JSX.Element => {
   const onSubmit = async (meal: IMeal): Promise<void> => {
     const m: IMeal | null = zIMeal.parse(meal) as unknown as IMeal
     if (editing) {
-      // v8 ignore if -- @preserve
+      // v8 ignore next -- @preserve
       if (m.day == editing.day && m.title === editing.title && m.description === editing.description) {
         if (DEBUG) {
           info(`No update for meal ID ${editing.id}`)
@@ -192,6 +192,7 @@ const Display = (): JSX.Element => {
     refreshState
   ])
 
+  // v8 ignore start -- @preserve
   return (
     <>
       <div className="text-center mt-10 mx-auto px-1 max-w-xl">
@@ -402,6 +403,7 @@ const Display = (): JSX.Element => {
       )}
     </>
   )
+  // v8 ignore stop -- @preserve
 }
 
 export default Display

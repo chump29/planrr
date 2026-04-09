@@ -4,8 +4,8 @@ import { ConfirmProvider } from "material-ui-confirm"
 import { createRoot } from "react-dom/client"
 import { z } from "zod/mini"
 
-import Display from "./components/display"
-import { error, getUrl, info } from "./components/shared"
+import Display from "./components/display/index.tsx"
+import { error, getUrl, info } from "./components/shared/index.ts"
 
 const DEBUG: boolean = false
 
@@ -35,6 +35,8 @@ if (DEBUG) {
   info(`Got API URL: ${API_URL}`)
 }
 
+const VERSION_REGEX: RegExp = /^\d+\.\d+\.\d+$/
+
 const obj: HTMLElement | null = document.getElementById("backend")
 fetch(`${API_URL}/version`, {
   signal: AbortSignal.timeout(3000)
@@ -48,7 +50,7 @@ fetch(`${API_URL}/version`, {
   .then((version: string) => {
     const v: z.core.util.SafeParseResult<string> = z
       .string()
-      .check(z.regex(/^\d+\.\d+\.\d+$/))
+      .check(z.regex(VERSION_REGEX))
       .safeParse(version.replaceAll('"', ""))
     if (!v.success) {
       throw new Error(v.error.message)

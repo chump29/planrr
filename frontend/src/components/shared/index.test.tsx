@@ -1,6 +1,6 @@
 import { type Mock } from "vitest"
 
-import { days, error, getUrl, info } from "."
+import { days, error, getUrl, info } from "./index.ts"
 
 const TEST: string = "TEST"
 

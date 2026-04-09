@@ -2,7 +2,7 @@ import { short2 } from "@wordlist/english-eff/short2"
 import { RandomWords } from "@wordlist/random"
 import randomInt from "random-int"
 
-import { type IMeal, zIMeal } from "./IMeal"
+import { type IMeal, zIMeal } from "./IMeal.ts"
 
 describe("IMeal", (): void => {
   it("should validate object", async (): Promise<void> => {

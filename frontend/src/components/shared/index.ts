@@ -1,12 +1,14 @@
 // biome-ignore-all lint/suspicious/noExplicitAny: can log anything
 
 import { format } from "date-and-time"
-import days from "days"
+import en from "days"
 import { bgBlue, bgRed, cyan, red, white } from "recolors"
 import { z } from "zod/mini"
 
-delete days.abbr
-delete days.short
+// biome-ignore-start lint/performance/noDelete: do not want the extra properties
+delete en.abbr
+delete en.short
+// biome-ignore-end lint/performance/noDelete: do not want the extra properties
 
 const getTime = (): string => {
   return cyan(" [") + white(format(new Date(), "HH:mm:ss")) + cyan("] ")
@@ -37,4 +39,4 @@ const getUrl = (): string => {
   return API_URL
 }
 
-export { days, error, getUrl, info }
+export { en as days, error, getUrl, info }

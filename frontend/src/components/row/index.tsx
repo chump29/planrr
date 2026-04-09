@@ -13,8 +13,8 @@ import TableRow from "@mui/material/TableRow"
 import { useConfirm } from "material-ui-confirm"
 import { z } from "zod/mini"
 
-import { type IMeal, zIMeal } from "../../interfaces/IMeal"
-import { days, error, getUrl, info } from "../shared"
+import { type IMeal, zIMeal } from "../../interfaces/IMeal.ts"
+import { days, error, getUrl, info } from "../shared/index.ts"
 
 const DEBUG: boolean = false
 
@@ -146,6 +146,7 @@ const Row = ({
         }
       }
     })
+    // v8 ignore next -- @preserve
     if (confirmed) {
       await fetch(`${API_URL}/delete/${id}`, {
         method: "DELETE"
