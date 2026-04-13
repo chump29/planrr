@@ -7,7 +7,7 @@
 ![API](https://img.shields.io/badge/API-2.0.0-chocolate?style=plastic&logo=docker) &nbsp;
 ![UI](https://img.shields.io/badge/UI-2.0.0-chocolate?style=plastic&logo=docker)
 
-![MUI](https://img.shields.io/badge/MUI-~7-informational?style=plastic&logo=mui) &nbsp;
+![MUI](https://img.shields.io/badge/MUI-~9-informational?style=plastic&logo=mui) &nbsp;
 ![Nginx](https://img.shields.io/badge/Nginx-1.29.7-informational?style=plastic&logo=nginx) &nbsp;
 ![Node](https://img.shields.io/badge/Node.js-~24-informational?style=plastic&logo=nodedotjs) &nbsp;
 ![PNPM](https://img.shields.io/badge/PNPM-~10-informational?style=plastic&logo=pnpm) &nbsp;
