@@ -20,6 +20,9 @@
   "[css][dockercompose][javascript][javascriptreact][json][jsonc][typescript][typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
+  "[csv]": {
+    "editor.defaultFormatter": "csvlinter.csvlinter-vscode"
+  },
   "[dockercompose]": {
     "editor.defaultFormatter": "SashaBusinaro.yaml-compose-sorter"
   },
@@ -40,7 +43,6 @@
   },
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter",
-    "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit"
     }

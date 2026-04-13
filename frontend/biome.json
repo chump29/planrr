@@ -16,6 +16,8 @@
               ":BLANK_LINE:",
               "react",
               ":BLANK_LINE:",
+              ":BUN:",
+              ":BLANK_LINE:",
               ":PACKAGE:",
               ":BLANK_LINE:",
               ":PATH:"
@@ -40,6 +42,7 @@
     "ignoreUnknown": true,
     "includes": [
       "**",
+      "!!bun.lock",
       "!!.pnpm-store",
       "!!**/*.html",
       "!!coverage",
@@ -201,7 +204,8 @@
       "onpopstate",
       "onpagereveal",
       "onemptied",
-      "vi"
+      "vi",
+      "Bun"
     ]
   },
   "linter": {
@@ -276,7 +280,7 @@
   "overrides": [
     {
       "includes": [
-        "**/*.{js,ts,tsx}"
+        "**/*.{js,jsx,ts,tsx}"
       ],
       "linter": {
         "rules": {
