@@ -1,3 +1,4 @@
+// cSpell: ignore wordlist
 import { short2 } from "@wordlist/english-eff/short2"
 import { RandomWords } from "@wordlist/random"
 import randomInt from "random-int"

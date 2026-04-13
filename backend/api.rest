@@ -63,7 +63,7 @@ Content-Type: application/json
 PUT {{host}}/update/1
 Content-Type: application/json
 
-// NOTE: pass exisisting data elements
+// NOTE: pass existing data elements
 {
     "day": {{rnd_day}},
     "title": "MODIFIED {{rnd_id}}",

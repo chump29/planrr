@@ -48,6 +48,9 @@
   "[sh]": {
     "editor.defaultFormatter": "timonwong.shellcheck"
   },
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  },
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
     "source.formatDocument": "explicit"
@@ -74,11 +77,6 @@
     },
     "MD026": {
       "punctuation": ".,;!"
-    },
-    "MD033": {
-      "allowed_elements": [
-        "img"
-      ]
     }
   },
   "shellcheck.customArgs": [

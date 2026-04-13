@@ -1,7 +1,7 @@
 import { type ChangeEvent, type EffectCallback, type JSX, useEffect, useState } from "react"
 
 import { ErrorMessage } from "@hookform/error-message"
-import AddCircleIcon from "@mui/icons-material/AddCircleOutline"
+import AddCircleIcon from "@mui/icons-material/AddCircleOutlined"
 import HighlightOffIcon from "@mui/icons-material/HighlightOff"
 import SendIcon from "@mui/icons-material/Send"
 import CircularProgress from "@mui/material/CircularProgress"

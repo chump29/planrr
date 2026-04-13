@@ -1,3 +1,4 @@
+// cSpell: ignore wordlist
 import { act, render, screen, waitFor } from "@testing-library/react"
 import userEvent, { type UserEvent } from "@testing-library/user-event"
 import { short2 } from "@wordlist/english-eff/short2"
@@ -59,12 +60,12 @@ describe("Display", (): void => {
   })
 
   it("should display Add button", (): void => {
-    expect(screen.queryByTestId("AddCircleOutlineIcon"), "Add button not found").toBeInTheDocument()
+    expect(screen.queryByTestId("AddCircleOutlinedIcon"), "Add button not found").toBeInTheDocument()
   })
 
   const displayForm = async (): Promise<UserEvent> => {
     const user: UserEvent = userEvent.setup()
-    const button: HTMLButtonElement | null = screen.queryByTestId("AddCircleOutlineIcon")
+    const button: HTMLButtonElement | null = screen.queryByTestId("AddCircleOutlinedIcon")
     expect(button, "Add button not found").toBeInTheDocument()
     await user.click(button as HTMLButtonElement)
     return user
@@ -85,7 +86,7 @@ describe("Display", (): void => {
       const button = screen.queryByTestId("HighlightOffIcon")
       expect(button, "Cancel button not found").toBeInTheDocument()
       await user.click(button as HTMLButtonElement)
-      expect(screen.queryByTestId("AddCircleOutlineIcon"), "Did not cancel form").toBeInTheDocument()
+      expect(screen.queryByTestId("AddCircleOutlinedIcon"), "Did not cancel form").toBeInTheDocument()
     })
   })
 

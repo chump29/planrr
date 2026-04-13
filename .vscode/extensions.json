@@ -12,6 +12,8 @@
     "ms-python.isort",
     "ms-python.pylint",
     "redhat.vscode-yaml",
+    "streetsidesoftware.code-spell-checker",
+    "tamasfe.even-better-toml",
     "timonwong.shellcheck",
     "vitest.explorer"
   ]
